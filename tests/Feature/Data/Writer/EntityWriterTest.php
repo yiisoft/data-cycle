@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature\Data\Writer;
 
-use Cycle\ORM\EntityManagerInterface;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Cycle\Writer\EntityWriter;
 use Yiisoft\Data\Cycle\Tests\Feature\Data\BaseData;
