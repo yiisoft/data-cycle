@@ -1,12 +1,13 @@
 {
     "name": "yiisoft/data-cycle",
     "type": "library",
-    "description": "Cycle database query adapter for yiisoft/data data providers",
+    "description": "Cycle ORM query adapter for yiisoft/data data providers",
     "keywords": [
         "db",
         "data provider",
         "database",
-        "cycle"
+        "cycle",
+        "orm"
     ],
     "homepage": "https://www.yiiframework.com/",
     "license": "BSD-3-Clause",
@@ -28,12 +29,11 @@
             "url": "https://github.com/sponsors/yiisoft"
         }
     ],
-    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": "^8.1",
-        "yiisoft/data": "dev-master",
-        "yiisoft/db": "^1.0"
+        "cycle/orm": "^2.7.1",
+        "yiisoft/data": "^1.0.1"
     },
     "require-dev": {
         "maglnet/composer-require-checker": "^4.7",
