@@ -12,14 +12,8 @@ use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Cycle\Reader\FilterHandler;
 use Yiisoft\Data\Cycle\Tests\Feature\Data\BaseData;
 
-/**
- * @coversDefaultClass \Yiisoft\Data\Cycle\Reader\EntityReader
- */
 final class EntityReaderTest extends BaseData
 {
-    /**
-     * @covers ::readOne
-     */
     public function testReadOne(): void
     {
         $this->fillFixtures();
@@ -29,9 +23,6 @@ final class EntityReaderTest extends BaseData
         self::assertEquals(self::FIXTURES_USER[0], (array)$reader->readOne());
     }
 
-    /**
-     * @covers ::readOne
-     */
     public function testReadOneFromItemsCache(): void
     {
         $this->fillFixtures();
@@ -50,9 +41,6 @@ final class EntityReaderTest extends BaseData
         self::assertEquals($ref->getValue($reader)->getCollection()[0], $reader->readOne());
     }
 
-    /**
-     * @covers ::getIterator
-     */
     public function testGetIterator(): void
     {
         $this->fillFixtures();
@@ -70,9 +58,6 @@ final class EntityReaderTest extends BaseData
         self::assertSame(['foo' => 'bar'], (array) \iterator_to_array($reader->getIterator())[0]);
     }
 
-    /**
-     * @covers ::read
-     */
     public function testRead(): void
     {
         $this->fillFixtures();
@@ -86,9 +71,6 @@ final class EntityReaderTest extends BaseData
         );
     }
 
-    /**
-     * @covers ::withSort
-     */
     public function testWithSort(): void
     {
         $this->fillFixtures();
@@ -107,9 +89,6 @@ final class EntityReaderTest extends BaseData
         self::assertSame('-id', $reader->getSort()->getOrderAsString());
     }
 
-    /**
-     * @covers ::getSort
-     */
     public function testGetSort(): void
     {
         $this->fillFixtures();
@@ -124,9 +103,6 @@ final class EntityReaderTest extends BaseData
         self::assertSame($sort, $reader->getSort());
     }
 
-    /**
-     * @covers ::count
-     */
     public function testCount(): void
     {
         $this->fillFixtures();
@@ -137,7 +113,6 @@ final class EntityReaderTest extends BaseData
     }
 
     /**
-     * @covers ::count
      * The limit option mustn't affect the count result.
      */
     public function testCountWithLimit(): void
@@ -151,9 +126,6 @@ final class EntityReaderTest extends BaseData
         self::assertSame(count(self::FIXTURES_USER), $reader->count());
     }
 
-    /**
-     * @covers ::count
-     */
     public function testCountWithFilter(): void
     {
         $this->fillFixtures();
@@ -163,9 +135,6 @@ final class EntityReaderTest extends BaseData
         self::assertSame(1, $reader->count());
     }
 
-    /**
-     * @covers ::withLimit
-     */
     public function testLimit(): void
     {
         $this->fillFixtures();
@@ -181,19 +150,12 @@ final class EntityReaderTest extends BaseData
         );
     }
 
-    /**
-     * @covers ::withLimit
-     */
     public function testLimitException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         (new EntityReader($this->select('user')))->withLimit(-1);
     }
 
-    /**
-     * @covers ::withLimit
-     * @covers ::withOffset
-     */
     public function testLimitOffset(): void
     {
         $this->fillFixtures();
@@ -209,9 +171,6 @@ final class EntityReaderTest extends BaseData
         );
     }
 
-    /**
-     * @covers ::withFilter
-     */
     public function testFilter(): void
     {
         $this->fillFixtures();
@@ -221,9 +180,6 @@ final class EntityReaderTest extends BaseData
         self::assertEquals([(object)self::FIXTURES_USER[1]], $reader->read());
     }
 
-    /**
-     * @covers ::withFilterHandlers
-     */
     public function testFilterHandlers(): void
     {
         $default = [
@@ -249,9 +205,6 @@ final class EntityReaderTest extends BaseData
         self::assertEquals($default + ['custom' => $custom], $ref->getValue($reader));
     }
 
-    /**
-     * @covers ::getSql
-     */
     public function testGetSql(): void
     {
         $expected = 'SELECT "user"."id" AS "c0", "user"."email" AS "c1", "user"."balance" AS "c2"

@@ -9,9 +9,6 @@ use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Cycle\Writer\EntityWriter;
 use Yiisoft\Data\Cycle\Tests\Feature\Data\BaseData;
 
-/**
- * @covers \Yiisoft\Data\Cycle\Writer\EntityWriter
- */
 final class EntityWriterTest extends BaseData
 {
     public function testWrite(): void
