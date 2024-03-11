@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Yii\Cycle\Tests\Feature\Data\Reader;
+namespace Yiisoft\Data\Cycle\Tests\Feature\Data\Reader;
 
 use Yiisoft\Data\Reader\Filter\All;
 use Yiisoft\Data\Reader\Filter\Equals;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\Data\Reader\Cache\CachedCollection;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
-use Yiisoft\Yii\Cycle\Data\Reader\FilterHandler;
-use Yiisoft\Yii\Cycle\Tests\Feature\Data\BaseData;
+use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
+use Yiisoft\Data\Cycle\Reader\EntityReader;
+use Yiisoft\Data\Cycle\Reader\FilterHandler;
+use Yiisoft\Data\Cycle\Tests\Feature\Data\BaseData;
 
 /**
- * @coversDefaultClass \Yiisoft\Yii\Cycle\Data\Reader\EntityReader
+ * @coversDefaultClass \Yiisoft\Data\Cycle\Reader\EntityReader
  */
 final class EntityReaderTest extends BaseData
 {

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Yii\Cycle\Tests\Feature\Data\Writer;
+namespace Yiisoft\Data\Cycle\Tests\Feature\Data\Writer;
 
 use Cycle\ORM\EntityManagerInterface;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
-use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
-use Yiisoft\Yii\Cycle\Tests\Feature\Data\BaseData;
+use Yiisoft\Data\Cycle\Reader\EntityReader;
+use Yiisoft\Data\Cycle\Writer\EntityWriter;
+use Yiisoft\Data\Cycle\Tests\Feature\Data\BaseData;
 
 /**
- * @covers \Yiisoft\Yii\Cycle\Data\Writer\EntityWriter
+ * @covers \Yiisoft\Data\Cycle\Writer\EntityWriter
  */
 final class EntityWriterTest extends BaseData
 {

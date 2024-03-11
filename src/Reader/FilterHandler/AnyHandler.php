@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Yii\Cycle\Data\Reader\FilterHandler;
+namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
 use Cycle\ORM\Select\QueryBuilder;
 use Yiisoft\Data\Reader\Filter\Any;
-use Yiisoft\Yii\Cycle\Data\Reader\QueryBuilderFilterHandler;
+use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 
 final class AnyHandler extends GroupHandler
 {

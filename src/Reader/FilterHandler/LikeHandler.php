@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Yii\Cycle\Data\Reader\FilterHandler;
+namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
 use InvalidArgumentException;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
-use Yiisoft\Yii\Cycle\Data\Reader\QueryBuilderFilterHandler;
+use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 
 final class LikeHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {

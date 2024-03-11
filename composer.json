@@ -41,7 +41,9 @@
         "rector/rector": "^1.0",
         "roave/infection-static-analysis-plugin": "^1.34",
         "spatie/phpunit-watcher": "^1.23",
-        "vimeo/psalm": "^5.21"
+        "vimeo/psalm": "^5.21",
+        "yiisoft/injector": "^1.2",
+        "yiisoft/test-support": "^3.0"
     },
     "autoload": {
         "psr-4": {

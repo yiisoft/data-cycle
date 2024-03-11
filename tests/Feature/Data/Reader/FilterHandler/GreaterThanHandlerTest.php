@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Yii\Cycle\Tests\Feature\Data\Reader\FilterHandler;
+namespace Yiisoft\Data\Cycle\Tests\Feature\Data\Reader\FilterHandler;
 
 use Yiisoft\Data\Reader\Filter\GreaterThan;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
-use Yiisoft\Yii\Cycle\Tests\Feature\Data\BaseData;
+use Yiisoft\Data\Cycle\Reader\EntityReader;
+use Yiisoft\Data\Cycle\Tests\Feature\Data\BaseData;
 
 final class GreaterThanHandlerTest extends BaseData
 {

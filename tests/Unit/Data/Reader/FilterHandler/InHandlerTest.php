@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Yii\Cycle\Tests\Unit\Data\Reader\FilterHandler;
+namespace Yiisoft\Data\Cycle\Tests\Unit\Data\Reader\FilterHandler;
 
-use Yiisoft\Yii\Cycle\Data\Reader\FilterHandler\InHandler;
+use Yiisoft\Data\Cycle\Reader\FilterHandler\InHandler;
 use PHPUnit\Framework\TestCase;
 
 final class InHandlerTest extends TestCase

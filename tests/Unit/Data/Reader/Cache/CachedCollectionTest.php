@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Yii\Cycle\Tests\Unit\Data\Reader\Cache;
+namespace Yiisoft\Data\Cycle\Tests\Unit\Data\Reader\Cache;
 
 use PHPUnit\Framework\TestCase;
-use Yiisoft\Yii\Cycle\Data\Reader\Cache\CachedCollection;
+use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
 
 final class CachedCollectionTest extends TestCase
 {

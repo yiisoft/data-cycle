@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Yii\Cycle\Data\Reader;
+namespace Yiisoft\Data\Cycle\Reader;
 
 use Closure;
 use Cycle\Database\Query\SelectQuery;
@@ -15,8 +15,8 @@ use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\Data\Reader\Cache\CachedCollection;
-use Yiisoft\Yii\Cycle\Data\Reader\Cache\CachedCount;
+use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
+use Yiisoft\Data\Cycle\Reader\Cache\CachedCount;
 
 /**
  * @template TKey as array-key

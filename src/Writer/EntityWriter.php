@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Yii\Cycle\Data\Writer;
+namespace Yiisoft\Data\Cycle\Writer;
 
 use Cycle\ORM\EntityManagerInterface;
 use Throwable;
