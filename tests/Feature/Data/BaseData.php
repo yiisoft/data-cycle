@@ -61,7 +61,7 @@ class BaseData extends TestCase
         $db = $this->dbal->database();
 
         $user = $db->table('user')->getSchema();
-        $user->column('id')->bigInteger()->primary(true);
+        $user->column('id')->bigInteger()->primary();
         $user->column('email')->string(255)->nullable(false);
         $user->column('balance')->float()->nullable(false)->defaultValue(0.0);
         $user->save();
