@@ -19,9 +19,7 @@ final class EntityWriterTest extends BaseData
         $this->fillFixtures();
         $orm = $this->getOrm();
 
-        $writer = new EntityWriter(
-            $this->container->get(EntityManagerInterface::class)
-        );
+        $writer = new EntityWriter($this->createEntityManager());
         $writer->write($users = [
             $orm->make('user', ['id' => 99998, 'email' => 'super@test1.com', 'balance' => 1000.0]),
             $orm->make('user', ['id' => 99999, 'email' => 'super@test2.com', 'balance' => 999.0]),
@@ -37,9 +35,8 @@ final class EntityWriterTest extends BaseData
     public function testDelete(): void
     {
         $this->fillFixtures();
-        $orm = $this->getOrm();
 
-        $writer = new EntityWriter($this->container->get(EntityManagerInterface::class));
+        $writer = new EntityWriter($this->createEntityManager());
         $reader = new EntityReader($this->select('user')->where('id', 'in', [1, 2, 3]));
         // Iterator doesn't use cache
         $entities = \iterator_to_array($reader->getIterator());

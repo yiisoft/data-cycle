@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature\Data;
 
+use Cycle\Database\Config\DatabaseConfig;
 use Cycle\Database\Database;
 use Cycle\Database\DatabaseManager;
 use Cycle\Database\DatabaseProviderInterface;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\EntityManagerInterface;
+use Cycle\ORM\Factory;
 use Cycle\ORM\Mapper\StdMapper;
 use Cycle\ORM\ORM;
 use Cycle\ORM\ORMInterface;
@@ -16,12 +18,7 @@ use Cycle\ORM\Schema;
 use Cycle\ORM\SchemaInterface;
 use Cycle\ORM\Select;
 use PHPUnit\Framework\TestCase;
-use Spiral\Core\FactoryInterface;
-use Yiisoft\Injector\Injector;
 use Yiisoft\Test\Support\Container\SimpleContainer;
-use Yiisoft\Yii\Cycle\Factory\CycleDynamicFactory;
-use Yiisoft\Yii\Cycle\Factory\DbalFactory;
-use Yiisoft\Yii\Cycle\Factory\OrmFactory;
 
 class BaseData extends TestCase
 {
@@ -40,14 +37,13 @@ class BaseData extends TestCase
 
     public function testDefinitions(): void
     {
-        self::assertInstanceOf(Injector::class, $this->container->get(Injector::class));
-        self::assertInstanceOf(FactoryInterface::class, $this->container->get(FactoryInterface::class));
-        self::assertInstanceOf(ORMInterface::class, $this->container->get(ORM::class));
+        self::assertInstanceOf(ORMInterface::class, $this->getOrm());
     }
 
     protected function setUp(): void
     {
-        $this->prepareContainer();
+        $this->dbal ??= $this->createDbal();
+        $this->orm ??= $this->createOrm();
         parent::setUp();
     }
 
@@ -62,7 +58,7 @@ class BaseData extends TestCase
     protected function fillFixtures(): void
     {
         /** @var Database $db */
-        $db = $this->container->get(DatabaseProviderInterface::class)->database();
+        $db = $this->dbal->database();
 
         $user = $db->table('user')->getSchema();
         $user->column('id')->bigInteger()->primary(true);
@@ -102,42 +98,12 @@ class BaseData extends TestCase
 
     protected function getOrm(): ORMInterface
     {
-        return $this->container->get(ORMInterface::class);
-    }
-
-    private function prepareContainer(): void
-    {
-        $this->container = new SimpleContainer([
-            FactoryInterface::class => &$factory,
-            CycleDynamicFactory::class => &$factory,
-            Injector::class => &$injector,
-            SchemaInterface::class => $this->createSchema(),
-        ], fn (string $id) => match ($id) {
-            DatabaseProviderInterface::class, DatabaseManager::class =>
-                $this->dbal ??= (new DbalFactory($this->dbalConfig()))($this->container),
-            ORMInterface::class, ORM::class, => $this->orm ??= $this->createOrm(),
-            EntityManagerInterface::class, EntityManager::class =>
-                new EntityManager($this->container->get(ORMInterface::class)),
-            default => throw new \RuntimeException("Unknown service ID: $id"),
-        });
-
-        $injector = new Injector($this->container);
-        $factory = new CycleDynamicFactory($injector);
+        return $this->orm;
     }
 
     private function createOrm(): ORMInterface
     {
-        $this->container->get(DatabaseProviderInterface::class);
-        $factory = (new OrmFactory([]))(
-            $this->container->get(DatabaseProviderInterface::class),
-            $this->container->get(FactoryInterface::class),
-            $this->container->get(Injector::class),
-        );
-
-        return new ORM(
-            $factory,
-            $this->container->get(SchemaInterface::class),
-        );
+        return new ORM(factory: new Factory($this->dbal), schema: $this->createSchema());
     }
 
     /**
@@ -164,5 +130,15 @@ class BaseData extends TestCase
                 SchemaInterface::RELATIONS => [],
             ],
         ]);
+    }
+
+    private function createDbal(): DatabaseProviderInterface
+    {
+        return new DatabaseManager(new DatabaseConfig($this->dbalConfig()));
+    }
+
+    protected function createEntityManager(): EntityManagerInterface
+    {
+        return new EntityManager($this->orm);
     }
 }
