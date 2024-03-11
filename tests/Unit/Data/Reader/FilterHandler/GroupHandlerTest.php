@@ -30,7 +30,7 @@ final class GroupHandlerTest extends TestCase
         $handler->getAsWhereArguments($arguments, []);
     }
 
-    public function invalidArgumentsDataProvider(): \Traversable
+    public static function invalidArgumentsDataProvider(): \Traversable
     {
         yield [[], 'At least one argument should be provided.'];
         yield [['foo'], 'Sub filters is not an array.'];
