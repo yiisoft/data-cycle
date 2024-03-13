@@ -27,8 +27,8 @@ Let's implement a repository to work with articles table. We want a method to ge
 it would not return ready articles collection or select query. Instead, it will return `EntityReader`:
 
 ```php
+use Yiisoft\Data\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Data\Reader\DataReaderInterface;
-use \Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 class ArticleRepository extends \Cycle\ORM\Select\Repository
 {
@@ -47,7 +47,7 @@ Now we can use `EntityReader` for pagination like the following:
 ```php
 /**
  * @var ArticleRepository $repository
- * @var \Yiisoft\Yii\Cycle\Data\Reader\EntityReader $articles
+ * @var \Yiisoft\Data\Cycle\Reader\EntityReade $articles
  */
 $articles = $repository->findPublic();
 
@@ -79,7 +79,7 @@ Now we'll query for 20 latest published articles, then for 20 first articles.
 
 ```php
 /**
- * @var \Yiisoft\Yii\Cycle\Data\Reader\EntityReader $articles
+ * @var \Yiisoft\Data\Cycle\Data\Reader\EntityReader $articles
  */
 
 // The order of specifying parameters is not important so let's start with limit
@@ -125,9 +125,9 @@ If you need to set default sorting in a repository method but want to be able to
 can do it like the following:
 
 ```php
+use Yiisoft\Data\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 class ArticleRepository extends \Cycle\ORM\Select\Repository
 {
@@ -155,9 +155,9 @@ function index(ArticleRepository $repository)
 You may refine query conditions with filters. This filtering conditions are adding to original select query conditions, but NOT replace them.
 
 ```php
+use Yiisoft\Data\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Filter\Equals;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 class ArticleRepository extends \Cycle\ORM\Select\Repository
 {

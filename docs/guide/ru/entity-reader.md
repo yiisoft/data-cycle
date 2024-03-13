@@ -8,7 +8,7 @@
 Что нужно знать о `EntityReader`:
 
 * Класс `EntityReader` реализует интерфейс `IteratorAggregate`.
- Это позволяет использовать объект `EntityReader` в цикле `foreach`.
+  Это позволяет использовать объект `EntityReader` в цикле `foreach`.
 * С помощью `EntityReader` вы можете корректировать переданный select-запрос:
   - Выставлять `Limit` и `Offset` вручную или с помощью `OffsetPaginator`.
   - Задавать сортировку. Но учтите, что сортировка `EntityReader`
@@ -34,8 +34,8 @@
 Вместо этого будет возвращаться `EntityReader` с select-запросом внутри:
 
 ```php
+use Yiisoft\Data\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Data\Reader\DataReaderInterface;
-use \Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 class ArticleRepository extends \Cycle\ORM\Select\Repository
 {
@@ -50,7 +50,7 @@ class ArticleRepository extends \Cycle\ORM\Select\Repository
 ```php
 /**
  * @var ArticleRepository $repository
- * @var \Yiisoft\Yii\Cycle\Data\Reader\EntityReader $articles
+ * @var \Yiisoft\Data\Cycle\Data\Reader\EntityReader $articles
  */
 $articles = $repository->findPublic();
 
@@ -83,7 +83,7 @@ foreach ($paginator->read() as $article) {
 
 ```php
 /**
- * @var \Yiisoft\Yii\Cycle\Data\Reader\EntityReader $articles
+ * @var \Yiisoft\Data\Cycle\Data\Reader\EntityReader $articles
  */
 
 // Порядок указания параметров не важен, так что начнём с установки лимита
@@ -130,9 +130,9 @@ foreach ($lastPublicReader->read() as $article) {
 иметь возможность изменить её в коде контроллера. Добиться этого можно следующим образом:
 
 ```php
+use Yiisoft\Data\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 class ArticleRepository extends \Cycle\ORM\Select\Repository
 {
@@ -159,9 +159,9 @@ function index(ArticleRepository $repository)
 Уточнить условия выборки можно с помощью фильтров. Они также дополняют условия выборки запроса, а не заменяют их.
 
 ```php
+use Yiisoft\Data\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Filter\Equals;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 class ArticleRepository extends \Cycle\ORM\Select\Repository
 {

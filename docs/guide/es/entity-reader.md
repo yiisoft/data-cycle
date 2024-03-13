@@ -22,8 +22,8 @@ Vamos a implementar un repositorio para trabajar con la tabla de artículos. Que
 pero no devolverá la colección de artículos ni la consulta de selección. En su lugar, devolverá una nueva instancia de `EntityReader`:
 
 ```php
+use Yiisoft\Data\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Data\Reader\DataReaderInterface;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 class ArticleRepository extends \Cycle\ORM\Select\Repository
 {
@@ -39,7 +39,7 @@ Ahora podemos utilizar `EntityReader` para la paginación como el siguiente ejem
 ```php
 /**
  * @var ArticleRepository $repository
- * @var \Yiisoft\Yii\Cycle\Data\Reader\EntityReader $articles
+ * @var \Yiisoft\Data\Cycle\Data\Reader\EntityReader $articles
  */
 $articles = $repository->findPublic();
 
@@ -71,7 +71,7 @@ Ahora buscaremos los 20 últimos artículos publicados y luego los 20 primeros.
 
 ```php
 /**
- * @var \Yiisoft\Yii\Cycle\Data\Reader\EntityReader $articles
+ * @var \Yiisoft\Data\Cycle\Data\Reader\EntityReader $articles
  */
 
 // El orden de especificación de los parámetros no es importante, así que empecemos por el límite
@@ -116,9 +116,9 @@ La ordenación a través de `EntityReader` no sustituye la ordenación en la con
 Si necesitas establecer la ordenación por defecto en un método del repositorio, pero quieres poder cambiarla en un controlador, puedes puede hacerlo de la siguiente manera:
 
 ```php
+use Yiisoft\Data\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 class ArticleRepository extends \Cycle\ORM\Select\Repository
 {
@@ -146,9 +146,9 @@ function index(ArticleRepository $repository)
 Puede ajustar las condiciones de consulta con filtros. Estas condiciones de filtrado se añaden a las condiciones de consulta de selección originales, pero no las sustituyen.
 
 ```php
+use Yiisoft\Data\Cycle\Data\Reader\EntityReader;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Filter\Equals;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 
 class ArticleRepository extends \Cycle\ORM\Select\Repository
 {
