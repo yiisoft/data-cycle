@@ -2,20 +2,21 @@
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://yiisoft.github.io/docs/images/yii_logo.svg" height="100px">
     </a>
-    <h1 align="center">Yii _____</h1>
+    <h1 align="center">Yii Data Cycle</h1>
     <br>
 </p>
 
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/_____/v/stable.png)](https://packagist.org/packages/yiisoft/_____)
-[![Total Downloads](https://poser.pugx.org/yiisoft/_____/downloads.png)](https://packagist.org/packages/yiisoft/_____)
-[![Build status](https://github.com/yiisoft/_____/workflows/build/badge.svg)](https://github.com/yiisoft/_____/actions?query=workflow%3Abuild)
-[![Code Coverage](https://codecov.io/gh/yiisoft/_____/branch/master/graph/badge.svg)](https://codecov.io/gh/yiisoft/_____)
-[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fyiisoft%2F_____%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/yiisoft/_____/master)
-[![static analysis](https://github.com/yiisoft/_____/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/_____/actions?query=workflow%3A%22static+analysis%22)
-[![type-coverage](https://shepherd.dev/github/yiisoft/_____/coverage.svg)](https://shepherd.dev/github/yiisoft/_____)
-[![psalm-level](https://shepherd.dev/github/yiisoft/_____/level.svg)](https://shepherd.dev/github/yiisoft/_____)
+[![Latest Stable Version](https://poser.pugx.org/yiisoft/data-cycle/v/stable.png)](https://packagist.org/packages/yiisoft/data-cycle)
+[![Total Downloads](https://poser.pugx.org/yiisoft/data-cycle/downloads.png)](https://packagist.org/packages/yiisoft/data-cycle)
+[![Build status](https://github.com/yiisoft/data-cycle/workflows/build/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Abuild)
+[![Code Coverage](https://codecov.io/gh/yiisoft/data-cycle/branch/master/graph/badge.svg)](https://codecov.io/gh/yiisoft/data-cycle)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fyiisoft%2Frequest-provider%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/yiisoft/data-cycle/master)
+[![static analysis](https://github.com/yiisoft/data-cycle/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3A%22static+analysis%22)
+[![type-coverage](https://shepherd.dev/github/yiisoft/data-cycle/coverage.svg)](https://shepherd.dev/github/yiisoft/data-cycle)
+[![psalm-level](https://shepherd.dev/github/yiisoft/data-cycle/level.svg)](https://shepherd.dev/github/yiisoft/data-cycle)
 
-The package ...
+There package provides [Cycle ORM](https://github.com/cycle/orm) query adapter for[Yii Data](https://github.com/yiisoft/data). For other 
+integrations of Cycle ORM with Yii framework see [Yii Cycle](https://github.com/yiisoft/yii-cycle) package.
 
 ## Requirements
 
@@ -26,55 +27,17 @@ The package ...
 The package could be installed with composer:
 
 ```shell
-composer require yiisoft/_____
+composer require yiisoft/data-cycle
 ```
 
-## General usage
+## Documentation
 
-## Testing
-
-### Unit testing
-
-The package is tested with [PHPUnit](https://phpunit.de/). To run tests:
-
-```shell
-./vendor/bin/phpunit
-```
-
-### Mutation testing
-
-The package tests are checked with [Infection](https://infection.github.io/) mutation framework with
-[Infection Static Analysis Plugin](https://github.com/Roave/infection-static-analysis-plugin). To run it:
-
-```shell
-./vendor/bin/roave-infection-static-analysis-plugin
-```
-
-### Static analysis
-
-The code is statically analyzed with [Psalm](https://psalm.dev/). To run static analysis:
-
-```shell
-./vendor/bin/psalm
-```
-
-### Code style
-
-Use [Rector](https://github.com/rectorphp/rector) to make codebase follow some specific rules or 
-use either newest or any specific version of PHP: 
-
-```shell
-./vendor/bin/rector
-```
-
-### Dependencies
-
-Use [ComposerRequireChecker](https://github.com/maglnet/ComposerRequireChecker) to detect transitive 
-[Composer](https://getcomposer.org/) dependencies.
+- Guide: [English](docs/guide/en), [Russian](docs/guide/ru), [Spanish](docs/guide/es)
+- [Internals](docs/internals.md)
 
 ## License
 
-The Yii _____ is free software. It is released under the terms of the BSD License.
+The Yii Data Cycle is free software. It is released under the terms of the BSD License.
 Please see [`LICENSE`](./LICENSE.md) for more information.
 
 Maintained by [Yii Software](https://www.yiiframework.com/).
