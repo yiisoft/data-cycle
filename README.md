@@ -33,9 +33,7 @@ composer require yiisoft/data-cycle
 
 ## Documentation
 
-- [English](docs/guide/en)
-- [Russian](docs/guide/ru)
-- [Spanish](docs/guide/es)
+- Guide: [English](docs/guide/en), [Russian](docs/guide/ru), [Spanish](docs/guide/es)
 
 ## License
 
