@@ -15,9 +15,8 @@
 [![type-coverage](https://shepherd.dev/github/yiisoft/data-cycle/coverage.svg)](https://shepherd.dev/github/yiisoft/data-cycle)
 [![psalm-level](https://shepherd.dev/github/yiisoft/data-cycle/level.svg)](https://shepherd.dev/github/yiisoft/data-cycle)
 
-There package provides [Cycle ORM](https://github.com/cycle/orm) query adapter for 
-[Yii Data](https://github.com/yiisoft/data) data providers - [Yii Data Cycle](https://github.com/yiisoft/data-cycle). 
-For other integrations of Cycle ORM with Yii framework see [Yii Cycle](https://github.com/yiisoft/yii-cycle) package.
+There package provides [Cycle ORM](https://github.com/cycle/orm) query adapter for[Yii Data](https://github.com/yiisoft/data). For other 
+integrations of Cycle ORM with Yii framework see [Yii Cycle](https://github.com/yiisoft/yii-cycle) package.
 
 ## Requirements
 
