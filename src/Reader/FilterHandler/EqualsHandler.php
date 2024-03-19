@@ -8,9 +8,9 @@ use Yiisoft\Data\Reader\Filter\Equals;
 
 final class EqualsHandler extends CompareHandler
 {
-    public function getOperator(): string
+    public function getFilterClass(): string
     {
-        return Equals::getOperator();
+        return Equals::class;
     }
 
     protected function getSymbol(): string

@@ -8,22 +8,24 @@ use InvalidArgumentException;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
+use Yiisoft\Data\Reader\FilterInterface;
 
 final class LikeHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
-    public function getOperator(): string
+    public function getFilterClass(): string
     {
-        return Like::getOperator();
+        return Like::class;
     }
 
-    public function getAsWhereArguments(array $arguments, array $handlers): array
+    /**
+     * @psalm-param Like $filter
+     */
+    public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-        if (count($arguments) !== 2) {
-            throw new InvalidArgumentException('$arguments should contain exactly two elements.');
-        }
+//        if (count($arguments) !== 2) {
+//            throw new InvalidArgumentException('$arguments should contain exactly two elements.');
+//        }
 
-        [$field, $value] = $arguments;
-
-        return [$field, 'like', $value];
+        return [$filter->getField(), 'like', $filter->getValue()];
     }
 }

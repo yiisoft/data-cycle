@@ -8,9 +8,9 @@ use Yiisoft\Data\Reader\Filter\LessThan;
 
 final class LessThanHandler extends CompareHandler
 {
-    public function getOperator(): string
+    public function getFilterClass(): string
     {
-        return LessThan::getOperator();
+        return LessThan::class;
     }
 
     protected function getSymbol(): string

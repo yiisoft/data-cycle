@@ -8,9 +8,9 @@ use Yiisoft\Data\Reader\Filter\GreaterThanOrEqual;
 
 final class GreaterThanOrEqualHandler extends CompareHandler
 {
-    public function getOperator(): string
+    public function getFilterClass(): string
     {
-        return GreaterThanOrEqual::getOperator();
+        return GreaterThanOrEqual::class;
     }
 
     protected function getSymbol(): string

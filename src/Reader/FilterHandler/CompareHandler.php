@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
 use InvalidArgumentException;
+use Yiisoft\Data\Reader\Filter\Compare;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
+use Yiisoft\Data\Reader\FilterInterface;
 
 abstract class CompareHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
@@ -19,11 +21,13 @@ abstract class CompareHandler implements QueryBuilderFilterHandler, FilterHandle
         }
     }
 
-    public function getAsWhereArguments(array $arguments, array $handlers): array
+    /**
+     * @psalm-param Compare $filter
+     */
+    public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-        $this->validateArguments($arguments);
-        [$field, $value] = $arguments;
+        // $this->validateArguments($arguments);
 
-        return [$field, $this->getSymbol(), $value];
+        return [$filter->getField(), $this->getSymbol(), $filter->getValue()];
     }
 }

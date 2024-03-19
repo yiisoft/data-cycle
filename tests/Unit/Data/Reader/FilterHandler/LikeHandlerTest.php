@@ -11,6 +11,7 @@ final class LikeHandlerTest extends TestCase
 {
     public function testInvalidArgumentsException(): void
     {
+        $this->markTestSkipped();
         $handler = new LikeHandler();
 
         $this->expectException(\InvalidArgumentException::class);

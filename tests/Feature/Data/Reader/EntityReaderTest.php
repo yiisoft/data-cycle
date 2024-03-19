@@ -4,8 +4,16 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature\Data\Reader;
 
+use Yiisoft\Data\Cycle\Tests\Unit\Data\Reader\Filter\NotSupportedFilter;
 use Yiisoft\Data\Reader\Filter\All;
+use Yiisoft\Data\Reader\Filter\Any;
 use Yiisoft\Data\Reader\Filter\Equals;
+use Yiisoft\Data\Reader\Filter\GreaterThan;
+use Yiisoft\Data\Reader\Filter\GreaterThanOrEqual;
+use Yiisoft\Data\Reader\Filter\In;
+use Yiisoft\Data\Reader\Filter\LessThan;
+use Yiisoft\Data\Reader\Filter\LessThanOrEqual;
+use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
@@ -183,18 +191,18 @@ final class EntityReaderTest extends BaseData
     public function testFilterHandlers(): void
     {
         $default = [
-            'and' => new FilterHandler\AllHandler(),
-            'or' => new FilterHandler\AnyHandler(),
-            '=' => new FilterHandler\EqualsHandler(),
-            '>' => new FilterHandler\GreaterThanHandler(),
-            '>=' => new FilterHandler\GreaterThanOrEqualHandler(),
-            'in' => new FilterHandler\InHandler(),
-            '<' => new FilterHandler\LessThanHandler(),
-            '<=' => new FilterHandler\LessThanOrEqualHandler(),
-            'like' => new FilterHandler\LikeHandler(),
+            All::class => new FilterHandler\AllHandler(),
+            Any::class => new FilterHandler\AnyHandler(),
+            Equals::class => new FilterHandler\EqualsHandler(),
+            GreaterThan::class => new FilterHandler\GreaterThanHandler(),
+            GreaterThanOrEqual::class => new FilterHandler\GreaterThanOrEqualHandler(),
+            In::class => new FilterHandler\InHandler(),
+            LessThan::class => new FilterHandler\LessThanHandler(),
+            LessThanOrEqual::class => new FilterHandler\LessThanOrEqualHandler(),
+            Like::class => new FilterHandler\LikeHandler(),
         ];
         $custom = $this->createMock(FilterHandler\CompareHandler::class);
-        $custom->method('getOperator')->willReturn('custom');
+        $custom->method('getFilterClass')->willReturn('custom');
 
         $reader = new EntityReader($this->select('user'));
         $ref = new \ReflectionProperty(EntityReader::class, 'filterHandlers');
@@ -221,10 +229,10 @@ final class EntityReaderTest extends BaseData
     public function testMakeFilterClosureException(): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Filter operator "?" is not supported.');
-        (new EntityReader($this->select('user')))->withFilter((new All())->withCriteriaArray([
-            ['?', 'balance', '100.0'],
-            ['=', 'email', 'seed@beat'],
-        ]))->getSql();
+        $filterClassName = NotSupportedFilter::class;
+        $this->expectExceptionMessage("Filter \"$filterClassName\" is not supported.");
+        (new EntityReader($this->select('user')))
+            ->withFilter((new All(new Equals('email', 'seed@beat'), new NotSupportedFilter())))
+            ->getSql();
     }
 }

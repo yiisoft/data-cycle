@@ -8,9 +8,9 @@ use Yiisoft\Data\Reader\Filter\LessThanOrEqual;
 
 final class LessThanOrEqualHandler extends CompareHandler
 {
-    public function getOperator(): string
+    public function getFilterClass(): string
     {
-        return LessThanOrEqual::getOperator();
+        return LessThanOrEqual::class;
     }
 
     protected function getSymbol(): string
