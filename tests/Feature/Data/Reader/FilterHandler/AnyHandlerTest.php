@@ -21,7 +21,7 @@ final class AnyHandlerTest extends BaseData
         $this->assertEquals([(object)self::FIXTURES_USER[1], (object)self::FIXTURES_USER[2]], $reader->read());
     }
 
-    public function testInvalidOperatorException(): void
+    public function testInvalidOperatorException(): never
     {
         $this->markTestSkipped();
         $this->expectException(\RuntimeException::class);

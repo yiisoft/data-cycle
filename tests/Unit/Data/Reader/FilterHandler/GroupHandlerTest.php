@@ -12,7 +12,7 @@ final class GroupHandlerTest extends TestCase
     /**
      * @dataProvider invalidArgumentsDataProvider
      */
-    public function testInvalidArgumentsException(array $arguments, string $error): void
+    public function testInvalidArgumentsException(array $arguments, string $error): never
     {
         $this->markTestSkipped();
         $handler = new class () extends GroupHandler {

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 final class InHandlerTest extends TestCase
 {
-    public function testInvalidArgumentsException(): void
+    public function testInvalidArgumentsException(): never
     {
         $this->markTestSkipped();
         $handler = new InHandler();

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 final class CompareHandlerTest extends TestCase
 {
-    public function testValidateArgumentsException(): void
+    public function testValidateArgumentsException(): never
     {
         $this->markTestSkipped();
         $handler = new class () extends CompareHandler {
