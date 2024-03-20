@@ -10,7 +10,7 @@ use Cycle\ORM\Select;
 use Cycle\ORM\Select\QueryBuilder;
 use Generator;
 use InvalidArgumentException;
-use RuntimeException;
+use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
@@ -212,7 +212,7 @@ final class EntityReader implements DataReaderInterface
     {
         return function (QueryBuilder $select) use ($filter) {
             if (!array_key_exists($filter::class, $this->filterHandlers)) {
-                throw new RuntimeException(sprintf('Filter "%s" is not supported.', $filter::class));
+                throw new NotSupportedFilterException($filter::class);
             }
             $handler = $this->filterHandlers[$filter::class];
             $select->where(...$handler->getAsWhereArguments($filter, $this->filterHandlers));
