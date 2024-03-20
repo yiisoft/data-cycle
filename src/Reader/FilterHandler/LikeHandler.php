@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
-use InvalidArgumentException;
+use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
@@ -17,14 +17,11 @@ final class LikeHandler implements QueryBuilderFilterHandler, FilterHandlerInter
         return Like::class;
     }
 
-    /**
-     * @psalm-param Like $filter
-     */
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-//        if (count($arguments) !== 2) {
-//            throw new InvalidArgumentException('$arguments should contain exactly two elements.');
-//        }
+        if (!$filter instanceof Like) {
+            throw new UnexpectedFilterException(Like::class, $filter::class);
+        }
 
         return [$filter->getField(), 'like', $filter->getValue()];
     }

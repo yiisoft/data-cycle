@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Data\Cycle\Tests\Unit\Data\Reader\Filter;
+namespace Yiisoft\Data\Cycle\Tests\Support;
 
 use Yiisoft\Data\Reader\FilterInterface;
 

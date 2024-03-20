@@ -20,14 +20,4 @@ final class AllHandlerTest extends BaseData
 
         $this->assertEquals([(object)self::FIXTURES_USER[2]], $reader->read());
     }
-
-    public function testInvalidOperatorException(): void
-    {
-        $this->markTestSkipped();
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Filter operator "?" is not supported.');
-        (new EntityReader($this->select('user')))->withFilter((new All())->withCriteriaArray([
-            ['?', 'email', 'seed@beat'],
-        ]));
-    }
 }

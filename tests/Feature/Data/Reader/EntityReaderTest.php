@@ -4,7 +4,14 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature\Data\Reader;
 
-use Yiisoft\Data\Cycle\Tests\Unit\Data\Reader\Filter\NotSupportedFilter;
+use Cycle\Database\Exception\StatementException;
+use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
+use Yiisoft\Data\Cycle\Reader\EntityReader;
+use Yiisoft\Data\Cycle\Reader\FilterHandler;
+use Yiisoft\Data\Cycle\Tests\Feature\Data\BaseData;
+use Yiisoft\Data\Cycle\Tests\Support\NotSupportedFilter;
+use Yiisoft\Data\Cycle\Tests\Support\StubFilter;
+use Yiisoft\Data\Cycle\Tests\Support\StubFilterHandler;
 use Yiisoft\Data\Reader\Filter\All;
 use Yiisoft\Data\Reader\Filter\Any;
 use Yiisoft\Data\Reader\Filter\Equals;
@@ -15,10 +22,6 @@ use Yiisoft\Data\Reader\Filter\LessThan;
 use Yiisoft\Data\Reader\Filter\LessThanOrEqual;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
-use Yiisoft\Data\Cycle\Reader\EntityReader;
-use Yiisoft\Data\Cycle\Reader\FilterHandler;
-use Yiisoft\Data\Cycle\Tests\Feature\Data\BaseData;
 
 final class EntityReaderTest extends BaseData
 {
@@ -190,27 +193,17 @@ final class EntityReaderTest extends BaseData
 
     public function testFilterHandlers(): void
     {
-        $default = [
-            All::class => new FilterHandler\AllHandler(),
-            Any::class => new FilterHandler\AnyHandler(),
-            Equals::class => new FilterHandler\EqualsHandler(),
-            GreaterThan::class => new FilterHandler\GreaterThanHandler(),
-            GreaterThanOrEqual::class => new FilterHandler\GreaterThanOrEqualHandler(),
-            In::class => new FilterHandler\InHandler(),
-            LessThan::class => new FilterHandler\LessThanHandler(),
-            LessThanOrEqual::class => new FilterHandler\LessThanOrEqualHandler(),
-            Like::class => new FilterHandler\LikeHandler(),
-        ];
-        $custom = $this->createMock(FilterHandler\CompareHandler::class);
-        $custom->method('getFilterClass')->willReturn('custom');
+        $this->fillFixtures();
 
-        $reader = new EntityReader($this->select('user'));
-        $ref = new \ReflectionProperty(EntityReader::class, 'filterHandlers');
-        $ref->setAccessible(true);
+        $baseReader = (new EntityReader($this->select('user')))->withFilterHandlers(new StubFilterHandler());
 
-        self::assertEquals($default, $ref->getValue($reader));
-        $reader = $reader->withFilterHandlers($custom);
-        self::assertEquals($default + ['custom' => $custom], $ref->getValue($reader));
+        $reader = $baseReader->withFilter(new Equals('id', 2));
+        $this->assertEquals([(object) self::FIXTURES_USER[1]], $reader->read());
+
+        $reader = $reader->withFilter(new StubFilter());
+        $this->expectException(StatementException::class);
+        $this->expectExceptionMessageMatches('/symbol/i');
+        $reader->read();
     }
 
     public function testGetSql(): void

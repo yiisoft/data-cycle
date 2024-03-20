@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Unit\Data\Reader\FilterHandler;
 
-use Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
 use PHPUnit\Framework\TestCase;
+use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
+use Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
+use Yiisoft\Data\Reader\Filter\Equals;
+use Yiisoft\Data\Reader\Filter\Like;
 
 final class LikeHandlerTest extends TestCase
 {
-    public function testInvalidArgumentsException(): void
+    public function testUnexpectedFilterException(): void
     {
-        $this->markTestSkipped();
         $handler = new LikeHandler();
+        $filter = new Equals('id', 2);
 
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('$arguments should contain exactly two elements.');
-        $handler->getAsWhereArguments([], []);
+        $this->expectException(UnexpectedFilterException::class);
+        $this->expectExceptionMessage(sprintf('Expected "%s", but "%s" given.', Like::class, Equals::class));
+        $handler->getAsWhereArguments($filter, []);
     }
 }

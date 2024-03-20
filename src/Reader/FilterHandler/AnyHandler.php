@@ -5,23 +5,25 @@ declare(strict_types=1);
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
 use Cycle\ORM\Select\QueryBuilder;
+use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Reader\Filter\Any;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
+use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 
-final class AnyHandler extends GroupHandler
+final class AnyHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
     public function getFilterClass(): string
     {
         return Any::class;
     }
 
-    /**
-     * @psalm-param Any $filter
-     */
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-        // $this->validateArguments($arguments);
+        if (!$filter instanceof Any) {
+            throw new UnexpectedFilterException(Any::class, $filter::class);
+        }
+
         return [
             static function (QueryBuilder $select) use ($filter, $handlers) {
                 foreach ($filter->getFilters() as $subFilter) {
