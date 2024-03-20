@@ -222,11 +222,10 @@ final class EntityReaderTest extends BaseData
 
     public function testMakeFilterClosureException(): void
     {
+        $reader = (new EntityReader($this->select('user')));
+
         $this->expectException(NotSupportedFilterException::class);
-        $filterClassName = NotSupportedFilter::class;
-        $this->expectExceptionMessage("Filter \"$filterClassName\" is not supported.");
-        (new EntityReader($this->select('user')))
-            ->withFilter((new All(new Equals('email', 'seed@beat'), new NotSupportedFilter())))
-            ->getSql();
+        $this->expectExceptionMessage(sprintf("Filter \"%s\" is not supported.", NotSupportedFilter::class));
+        $reader->withFilter(new NotSupportedFilter());
     }
 }

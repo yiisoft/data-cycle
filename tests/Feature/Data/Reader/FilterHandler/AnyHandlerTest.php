@@ -24,7 +24,7 @@ final class AnyHandlerTest extends BaseData
         $this->assertEquals([(object)self::FIXTURES_USER[1], (object)self::FIXTURES_USER[2]], $reader->read());
     }
 
-    public function testUnsupportedFilterException(): void
+    public function testNotsupportedFilterException(): void
     {
         $reader = (new EntityReader($this->select('user')));
 
