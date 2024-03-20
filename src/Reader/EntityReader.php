@@ -34,7 +34,9 @@ final class EntityReader implements DataReaderInterface
     private CachedCount $countCache;
     private CachedCollection $itemsCache;
     private CachedCollection $oneItemCache;
-    /** @var FilterHandlerInterface[]|QueryBuilderFilterHandler[] */
+    /**
+     * @psalm-var array<class-string, FilterHandlerInterface & QueryBuilderFilterHandler> $handlers
+     */
     private array $filterHandlers = [];
 
     public function __construct(Select|SelectQuery $query)
@@ -212,7 +214,6 @@ final class EntityReader implements DataReaderInterface
             if (!array_key_exists($filter::class, $this->filterHandlers)) {
                 throw new RuntimeException(sprintf('Filter "%s" is not supported.', $filter::class));
             }
-            /** @var QueryBuilderFilterHandler $handler */
             $handler = $this->filterHandlers[$filter::class];
             $select->where(...$handler->getAsWhereArguments($filter, $this->filterHandlers));
         };

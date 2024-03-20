@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Data\Cycle\Tests\Feature\Data\Reader;
 
 use Cycle\Database\Exception\StatementException;
+use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Cycle\Reader\FilterHandler;
@@ -221,7 +222,7 @@ final class EntityReaderTest extends BaseData
 
     public function testMakeFilterClosureException(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(NotSupportedFilterException::class);
         $filterClassName = NotSupportedFilter::class;
         $this->expectExceptionMessage("Filter \"$filterClassName\" is not supported.");
         (new EntityReader($this->select('user')))

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
 use Cycle\ORM\Select\QueryBuilder;
+use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Reader\Filter\Any;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
@@ -29,9 +30,8 @@ final class AnyHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
                 foreach ($filter->getFilters() as $subFilter) {
                     $handler = $handlers[$subFilter::class] ?? null;
                     if ($handler === null) {
-                        throw new \RuntimeException(sprintf('Filter "%s" is not supported.', $subFilter::class));
+                        throw new NotSupportedFilterException($subFilter::class);
                     }
-                    /** @var QueryBuilderFilterHandler $handler */
                     $select->orWhere(...$handler->getAsWhereArguments($subFilter, $handlers));
                 }
             },
