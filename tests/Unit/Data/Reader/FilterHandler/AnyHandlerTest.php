@@ -6,19 +6,19 @@ namespace Yiisoft\Data\Cycle\Tests\Unit\Data\Reader\FilterHandler;
 
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
-use Yiisoft\Data\Cycle\Reader\FilterHandler\InHandler;
+use Yiisoft\Data\Cycle\Reader\FilterHandler\AnyHandler;
+use Yiisoft\Data\Reader\Filter\Any;
 use Yiisoft\Data\Reader\Filter\Equals;
-use Yiisoft\Data\Reader\Filter\In;
 
-final class InHandlerTest extends TestCase
+final class AnyHandlerTest extends TestCase
 {
     public function testUnexpectedFilterException(): void
     {
-        $handler = new InHandler();
+        $handler = new AnyHandler();
         $filter = new Equals('id', 2);
 
         $this->expectException(UnexpectedFilterException::class);
-        $this->expectExceptionMessage(sprintf('Expected "%s", but "%s" given.', In::class, Equals::class));
+        $this->expectExceptionMessage(sprintf('Expected "%s", but "%s" given.', Any::class, Equals::class));
         $handler->getAsWhereArguments($filter, []);
     }
 }

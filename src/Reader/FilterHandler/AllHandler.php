@@ -5,28 +5,33 @@ declare(strict_types=1);
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
 use Cycle\ORM\Select\QueryBuilder;
+use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
+use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Reader\Filter\All;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
+use Yiisoft\Data\Reader\FilterHandlerInterface;
+use Yiisoft\Data\Reader\FilterInterface;
 
-final class AllHandler extends GroupHandler
+final class AllHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
-    public function getOperator(): string
+    public function getFilterClass(): string
     {
-        return All::getOperator();
+        return All::class;
     }
 
-    public function getAsWhereArguments(array $arguments, array $handlers): array
+    public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-        $this->validateArguments($arguments);
+        if (!$filter instanceof All) {
+            throw new UnexpectedFilterException(All::class, $filter::class);
+        }
+
         return [
-            static function (QueryBuilder $select) use ($arguments, $handlers) {
-                foreach ($arguments[0] as $subFilter) {
-                    $operation = array_shift($subFilter);
-                    $handler = $handlers[$operation] ?? null;
+            static function (QueryBuilder $select) use ($filter, $handlers) {
+                foreach ($filter->getFilters() as $subFilter) {
+                    $handler = $handlers[$subFilter::class] ?? null;
                     if ($handler === null) {
-                        throw new \RuntimeException(sprintf('Filter operator "%s" is not supported.', $operation));
+                        throw new NotSupportedFilterException($subFilter::class);
                     }
-                    /** @var QueryBuilderFilterHandler $handler */
                     $select->where(...$handler->getAsWhereArguments($subFilter, $handlers));
                 }
             },

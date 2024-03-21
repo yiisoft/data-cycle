@@ -10,7 +10,7 @@ use Cycle\ORM\Select;
 use Cycle\ORM\Select\QueryBuilder;
 use Generator;
 use InvalidArgumentException;
-use RuntimeException;
+use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
@@ -34,7 +34,9 @@ final class EntityReader implements DataReaderInterface
     private CachedCount $countCache;
     private CachedCollection $itemsCache;
     private CachedCollection $oneItemCache;
-    /** @var FilterHandlerInterface[]|QueryBuilderFilterHandler[] */
+    /**
+     * @psalm-var array<class-string, FilterHandlerInterface & QueryBuilderFilterHandler> $handlers
+     */
     private array $filterHandlers = [];
 
     public function __construct(Select|SelectQuery $query)
@@ -53,7 +55,6 @@ final class EntityReader implements DataReaderInterface
             new FilterHandler\LessThanHandler(),
             new FilterHandler\LessThanOrEqualHandler(),
             new FilterHandler\LikeHandler(),
-            // new Processor\Not()
         );
     }
 
@@ -183,7 +184,7 @@ final class EntityReader implements DataReaderInterface
         $handlers = [];
         foreach ($filterHandlers as $filterHandler) {
             if ($filterHandler instanceof QueryBuilderFilterHandler) {
-                $handlers[$filterHandler->getOperator()] = $filterHandler;
+                $handlers[$filterHandler->getFilterClass()] = $filterHandler;
             }
         }
         $this->filterHandlers = array_merge($this->filterHandlers, $handlers);
@@ -210,16 +211,11 @@ final class EntityReader implements DataReaderInterface
     private function makeFilterClosure(FilterInterface $filter): Closure
     {
         return function (QueryBuilder $select) use ($filter) {
-            $filterArray = $filter->toCriteriaArray();
-            $operation = array_shift($filterArray);
-            $arguments = $filterArray;
-
-            if (!array_key_exists($operation, $this->filterHandlers)) {
-                throw new RuntimeException(sprintf('Filter operator "%s" is not supported.', $operation));
+            if (!array_key_exists($filter::class, $this->filterHandlers)) {
+                throw new NotSupportedFilterException($filter::class);
             }
-            /** @var QueryBuilderFilterHandler $handler */
-            $handler = $this->filterHandlers[$operation];
-            $select->where(...$handler->getAsWhereArguments($arguments, $this->filterHandlers));
+            $handler = $this->filterHandlers[$filter::class];
+            $select->where(...$handler->getAsWhereArguments($filter, $this->filterHandlers));
         };
     }
 

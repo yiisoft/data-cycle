@@ -4,13 +4,25 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature\Data\Reader;
 
-use Yiisoft\Data\Reader\Filter\All;
-use Yiisoft\Data\Reader\Filter\Equals;
-use Yiisoft\Data\Reader\Sort;
+use Cycle\Database\Exception\StatementException;
+use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Cycle\Reader\FilterHandler;
 use Yiisoft\Data\Cycle\Tests\Feature\Data\BaseData;
+use Yiisoft\Data\Cycle\Tests\Support\NotSupportedFilter;
+use Yiisoft\Data\Cycle\Tests\Support\StubFilter;
+use Yiisoft\Data\Cycle\Tests\Support\StubFilterHandler;
+use Yiisoft\Data\Reader\Filter\All;
+use Yiisoft\Data\Reader\Filter\Any;
+use Yiisoft\Data\Reader\Filter\Equals;
+use Yiisoft\Data\Reader\Filter\GreaterThan;
+use Yiisoft\Data\Reader\Filter\GreaterThanOrEqual;
+use Yiisoft\Data\Reader\Filter\In;
+use Yiisoft\Data\Reader\Filter\LessThan;
+use Yiisoft\Data\Reader\Filter\LessThanOrEqual;
+use Yiisoft\Data\Reader\Filter\Like;
+use Yiisoft\Data\Reader\Sort;
 
 final class EntityReaderTest extends BaseData
 {
@@ -182,27 +194,17 @@ final class EntityReaderTest extends BaseData
 
     public function testFilterHandlers(): void
     {
-        $default = [
-            'and' => new FilterHandler\AllHandler(),
-            'or' => new FilterHandler\AnyHandler(),
-            '=' => new FilterHandler\EqualsHandler(),
-            '>' => new FilterHandler\GreaterThanHandler(),
-            '>=' => new FilterHandler\GreaterThanOrEqualHandler(),
-            'in' => new FilterHandler\InHandler(),
-            '<' => new FilterHandler\LessThanHandler(),
-            '<=' => new FilterHandler\LessThanOrEqualHandler(),
-            'like' => new FilterHandler\LikeHandler(),
-        ];
-        $custom = $this->createMock(FilterHandler\CompareHandler::class);
-        $custom->method('getOperator')->willReturn('custom');
+        $this->fillFixtures();
 
-        $reader = new EntityReader($this->select('user'));
-        $ref = new \ReflectionProperty(EntityReader::class, 'filterHandlers');
-        $ref->setAccessible(true);
+        $baseReader = (new EntityReader($this->select('user')))->withFilterHandlers(new StubFilterHandler());
 
-        self::assertEquals($default, $ref->getValue($reader));
-        $reader = $reader->withFilterHandlers($custom);
-        self::assertEquals($default + ['custom' => $custom], $ref->getValue($reader));
+        $reader = $baseReader->withFilter(new Equals('id', 2));
+        $this->assertEquals([(object) self::FIXTURES_USER[1]], $reader->read());
+
+        $reader = $reader->withFilter(new StubFilter());
+        $this->expectException(StatementException::class);
+        $this->expectExceptionMessageMatches('/symbol/i');
+        $reader->read();
     }
 
     public function testGetSql(): void
@@ -220,11 +222,10 @@ final class EntityReaderTest extends BaseData
 
     public function testMakeFilterClosureException(): void
     {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Filter operator "?" is not supported.');
-        (new EntityReader($this->select('user')))->withFilter((new All())->withCriteriaArray([
-            ['?', 'balance', '100.0'],
-            ['=', 'email', 'seed@beat'],
-        ]))->getSql();
+        $reader = (new EntityReader($this->select('user')));
+
+        $this->expectException(NotSupportedFilterException::class);
+        $this->expectExceptionMessage(sprintf("Filter \"%s\" is not supported.", NotSupportedFilter::class));
+        $reader->withFilter(new NotSupportedFilter());
     }
 }
