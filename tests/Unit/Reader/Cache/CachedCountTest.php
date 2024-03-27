@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Data\Cycle\Tests\Unit\Data\Reader\Cache;
+namespace Yiisoft\Data\Cycle\Tests\Unit\Reader\Cache;
 
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Reader\Cache\CachedCount;

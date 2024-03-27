@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Data\Cycle\Tests\Unit\Data\Reader\FilterHandler;
+namespace Yiisoft\Data\Cycle\Tests\Unit\Reader\FilterHandler;
 
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
-use Yiisoft\Data\Cycle\Reader\FilterHandler\InHandler;
+use Yiisoft\Data\Cycle\Reader\FilterHandler\LessThanHandler;
 use Yiisoft\Data\Reader\Filter\Equals;
-use Yiisoft\Data\Reader\Filter\In;
+use Yiisoft\Data\Reader\Filter\LessThan;
 
-final class InHandlerTest extends TestCase
+final class LessThanHandlerTest extends TestCase
 {
     public function testUnexpectedFilterException(): void
     {
-        $handler = new InHandler();
+        $handler = new LessThanHandler();
         $filter = new Equals('id', 2);
 
         $this->expectException(UnexpectedFilterException::class);
-        $this->expectExceptionMessage(sprintf('Expected "%s", but "%s" given.', In::class, Equals::class));
+        $this->expectExceptionMessage(sprintf('Expected "%s", but "%s" given.', LessThan::class, Equals::class));
         $handler->getAsWhereArguments($filter, []);
     }
 }

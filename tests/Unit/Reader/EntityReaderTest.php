@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Data\Cycle\Tests\Unit\Data\Reader;
+namespace Yiisoft\Data\Cycle\Tests\Unit\Reader;
 
 use Cycle\Database\Query\SelectQuery;
 use PHPUnit\Framework\TestCase;
-use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
+use Yiisoft\Data\Reader\Sort;
 
 final class EntityReaderTest extends TestCase
 {

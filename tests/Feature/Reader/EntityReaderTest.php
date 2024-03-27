@@ -2,26 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Data\Cycle\Tests\Feature\Data\Reader;
+namespace Yiisoft\Data\Cycle\Tests\Feature\Reader;
 
 use Cycle\Database\Exception\StatementException;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
-use Yiisoft\Data\Cycle\Reader\FilterHandler;
-use Yiisoft\Data\Cycle\Tests\Feature\Data\BaseData;
+use Yiisoft\Data\Cycle\Tests\Feature\BaseData;
 use Yiisoft\Data\Cycle\Tests\Support\NotSupportedFilter;
 use Yiisoft\Data\Cycle\Tests\Support\StubFilter;
 use Yiisoft\Data\Cycle\Tests\Support\StubFilterHandler;
-use Yiisoft\Data\Reader\Filter\All;
-use Yiisoft\Data\Reader\Filter\Any;
 use Yiisoft\Data\Reader\Filter\Equals;
-use Yiisoft\Data\Reader\Filter\GreaterThan;
-use Yiisoft\Data\Reader\Filter\GreaterThanOrEqual;
-use Yiisoft\Data\Reader\Filter\In;
-use Yiisoft\Data\Reader\Filter\LessThan;
-use Yiisoft\Data\Reader\Filter\LessThanOrEqual;
-use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\Sort;
 
 final class EntityReaderTest extends BaseData
