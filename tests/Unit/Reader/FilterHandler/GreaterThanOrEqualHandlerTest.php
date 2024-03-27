@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Data\Cycle\Tests\Unit\Data\Reader\FilterHandler;
+namespace Yiisoft\Data\Cycle\Tests\Unit\Reader\FilterHandler;
 
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;

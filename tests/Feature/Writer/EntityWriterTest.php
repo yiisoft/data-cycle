@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Data\Cycle\Tests\Feature\Data\Writer;
+namespace Yiisoft\Data\Cycle\Tests\Feature\Writer;
 
 use Yiisoft\Data\Cycle\Reader\EntityReader;
+use Yiisoft\Data\Cycle\Tests\Feature\BaseData;
 use Yiisoft\Data\Cycle\Writer\EntityWriter;
-use Yiisoft\Data\Cycle\Tests\Feature\Data\BaseData;
 
 final class EntityWriterTest extends BaseData
 {

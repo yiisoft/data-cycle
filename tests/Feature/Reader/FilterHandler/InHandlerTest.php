@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Data\Cycle\Tests\Feature\Data\Reader\FilterHandler;
+namespace Yiisoft\Data\Cycle\Tests\Feature\Reader\FilterHandler;
 
-use Yiisoft\Data\Reader\Filter\In;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
-use Yiisoft\Data\Cycle\Tests\Feature\Data\BaseData;
+use Yiisoft\Data\Cycle\Tests\Feature\BaseData;
+use Yiisoft\Data\Reader\Filter\In;
 
 final class InHandlerTest extends BaseData
 {

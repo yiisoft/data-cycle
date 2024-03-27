@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Data\Cycle\Tests\Feature\Data;
+namespace Yiisoft\Data\Cycle\Tests\Feature;
 
 use Cycle\Database\Config\DatabaseConfig;
 use Cycle\Database\Database;
