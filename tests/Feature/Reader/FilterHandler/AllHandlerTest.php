@@ -28,7 +28,7 @@ final class AllHandlerTest extends BaseData
         $reader = (new EntityReader($this->select('user')));
 
         $this->expectException(NotSupportedFilterException::class);
-        $this->expectExceptionMessage(sprintf('Filter "%s" is not supported', NotSupportedFilter::class));
+        $this->expectExceptionMessage(sprintf('Filter "%s" is not supported.', NotSupportedFilter::class));
         $reader->withFilter(
             (new All(new Equals('balance', '100.0'), new NotSupportedFilter(), new Equals('email', 'seed@beat'))),
         );

@@ -45,22 +45,16 @@ final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
         }
 
         $where = $handler->getAsWhereArguments($handledFilter, $handlers);
-        if (!array_key_exists(1, $where)) {
-            return $where;
-        }
-
         if (!$convertedFilter instanceof Not) {
             return $where;
         }
 
         $operator = $where[1];
-        $convertedOperator = match ($operator) {
+        $where[1] = match ($operator) {
             'between', 'in', 'like' => "not $operator",
             '=' => '!=',
             default => $operator,
         };
-
-        $where[1] = $convertedOperator;
 
         return $where;
     }
@@ -88,7 +82,7 @@ final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
             LessThanOrEqual::class => new GreaterThanOrEqual($filter->getField(), $filter->getValue()),
             Between::class, Equals::class, EqualsNull::class, In::class, Like::class => new Not($filter),
             Not::class => $this->convertNot($filter, $notCount),
-            default => throw new NotSupportedFilterException($filter::class),
+            default => $filter,
         };
     }
 
