@@ -21,13 +21,16 @@ final class NotHandlerTest extends BaseData
         $this->fillFixtures();
     }
 
-    public function dataBase(): array
+    public static function dataBase(): array
     {
         return [
             'equals' => [new Not(new Equals('id', 1)), range(2, 5)],
             'all' => [new Not(new All(new Equals('id', 1), new Equals('id', 2))), range(1, 5)],
             'any' => [new Not(new Any(new Equals('id', 1), new Equals('id', 2))), range(3, 5)],
-            // 'not, double' => [new Not(new Not(new Equals('id', 1))), [1]],
+            'not, even, 2' => [new Not(new Not(new Equals('id', 1))), [1]],
+            'not, even, 4' => [new Not(new Not(new Not(new Not(new Equals('id', 1))))), [1]],
+            'not, odd, 3' => [new Not(new Not(new Not(new Equals('id', 1)))), range(2, 5)],
+            'not, odd, 5' => [new Not(new Not(new Not(new Not(new Not(new Equals('id', 1)))))), range(2, 5)],
         ];
     }
 

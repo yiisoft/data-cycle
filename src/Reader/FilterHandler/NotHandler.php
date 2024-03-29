@@ -45,14 +45,19 @@ final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
         }
 
         $where = $handler->getAsWhereArguments($handledFilter, $handlers);
-        if (!is_array($where) || !array_key_exists(1, $where)) {
+        if (!array_key_exists(1, $where)) {
+            return $where;
+        }
+
+        if (!$convertedFilter instanceof Not) {
             return $where;
         }
 
         $operator = $where[1];
         $convertedOperator = match ($operator) {
-            'between', 'like' => "not $operator",
+            'between', 'in', 'like' => "not $operator",
             '=' => '!=',
+            default => $operator,
         };
 
         $where[1] = $convertedOperator;
@@ -60,7 +65,7 @@ final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
         return $where;
     }
 
-    private function convertFilter(FilterInterface $filter): FilterInterface
+    private function convertFilter(FilterInterface $filter, int $notCount = 1): FilterInterface
     {
         $handler = $this;
 
@@ -82,8 +87,19 @@ final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
             LessThan::class => new GreaterThan($filter->getField(), $filter->getValue()),
             LessThanOrEqual::class => new GreaterThanOrEqual($filter->getField(), $filter->getValue()),
             Between::class, Equals::class, EqualsNull::class, In::class, Like::class => new Not($filter),
-            Not::class => $this->convertFilter($filter->getFilter()),
+            Not::class => $this->convertNot($filter, $notCount),
             default => throw new NotSupportedFilterException($filter::class),
         };
+    }
+
+    private function convertNot(Not $filter, int $notCount): FilterInterface
+    {
+        $notCount++;
+
+        if ($filter->getFilter() instanceof Not) {
+            return $this->convertFilter($filter->getFilter(), $notCount);
+        }
+
+        return $notCount % 2 === 1 ? new Not($filter->getFilter()) : $filter->getFilter();
     }
 }
