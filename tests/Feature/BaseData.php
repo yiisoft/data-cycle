@@ -23,11 +23,11 @@ use Yiisoft\Test\Support\Container\SimpleContainer;
 class BaseData extends TestCase
 {
     protected const FIXTURES_USER = [
-        ['id' => 1, 'email' => 'foo@bar', 'balance' => '10.25'],
-        ['id' => 2, 'email' => 'bar@foo', 'balance' => '1.0'],
-        ['id' => 3, 'email' => 'seed@beat', 'balance' => '100.0'],
-        ['id' => 4, 'email' => 'the@best', 'balance' => '500.0'],
-        ['id' => 5, 'email' => 'test@test', 'balance' => '42.0'],
+        ['id' => 1, 'email' => 'foo@bar', 'balance' => '10.25', 'born_at' => null],
+        ['id' => 2, 'email' => 'bar@foo', 'balance' => '1.0', 'born_at' => null],
+        ['id' => 3, 'email' => 'seed@beat', 'balance' => '100.0', 'born_at' => null],
+        ['id' => 4, 'email' => 'the@best', 'balance' => '500.0', 'born_at' => null],
+        ['id' => 5, 'email' => 'test@test', 'balance' => '42.0', 'born_at' => '631152000'],
     ];
 
     protected ?SimpleContainer $container = null;
@@ -62,12 +62,13 @@ class BaseData extends TestCase
 
         $user = $db->table('user')->getSchema();
         $user->column('id')->bigInteger()->primary();
-        $user->column('email')->string(255)->nullable(false);
+        $user->column('email')->string()->nullable(false);
         $user->column('balance')->float()->nullable(false)->defaultValue(0.0);
+        $user->column('born_at')->timestamp()->nullable();
         $user->save();
 
         $db->insert('user')
-            ->columns(['id', 'email', 'balance'])
+            ->columns(['id', 'email', 'balance', 'born_at'])
             ->values(static::FIXTURES_USER)
             ->run();
     }
@@ -122,6 +123,7 @@ class BaseData extends TestCase
                     'id' => 'id',
                     'email' => 'email',
                     'balance' => 'balance',
+                    'born_at' => 'born_at',
                 ],
                 SchemaInterface::TYPECAST => [
                     'id' => 'int',
