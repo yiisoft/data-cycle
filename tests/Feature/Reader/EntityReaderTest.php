@@ -200,8 +200,10 @@ final class EntityReaderTest extends BaseData
 
     public function testGetSql(): void
     {
-        $expected = 'SELECT "user"."id" AS "c0", "user"."email" AS "c1", "user"."balance" AS "c2"
-            FROM "user" AS "user" LIMIT 2 OFFSET 1';
+        $expected = <<<SQL
+            SELECT "user"."id" AS "c0", "user"."email" AS "c1", "user"."balance" AS "c2", "user"."born_at" AS "c3"
+            FROM "user" AS "user" LIMIT 2 OFFSET 1
+SQL;
 
         $reader = (new EntityReader($this->select('user')))->withLimit(2)->withOffset(1);
 

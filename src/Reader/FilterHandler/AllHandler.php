@@ -32,7 +32,7 @@ final class AllHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
                     if ($handler === null) {
                         throw new NotSupportedFilterException($subFilter::class);
                     }
-                    $select->where(...$handler->getAsWhereArguments($subFilter, $handlers));
+                    $select->andWhere(...$handler->getAsWhereArguments($subFilter, $handlers));
                 }
             },
         ];

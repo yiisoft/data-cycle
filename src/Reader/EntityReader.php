@@ -48,13 +48,16 @@ final class EntityReader implements DataReaderInterface
         $this->setFilterHandlers(
             new FilterHandler\AllHandler(),
             new FilterHandler\AnyHandler(),
+            new FilterHandler\BetweenHandler(),
             new FilterHandler\EqualsHandler(),
+            new FilterHandler\EqualsNullHandler(),
             new FilterHandler\GreaterThanHandler(),
             new FilterHandler\GreaterThanOrEqualHandler(),
             new FilterHandler\InHandler(),
             new FilterHandler\LessThanHandler(),
             new FilterHandler\LessThanOrEqualHandler(),
             new FilterHandler\LikeHandler(),
+            new FilterHandler\NotHandler(),
         );
     }
 
