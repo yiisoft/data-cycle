@@ -10,7 +10,7 @@
 [![Total Downloads](https://poser.pugx.org/yiisoft/data-cycle/downloads.png)](https://packagist.org/packages/yiisoft/data-cycle)
 [![Build status](https://github.com/yiisoft/data-cycle/workflows/build/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Abuild)
 [![Code Coverage](https://codecov.io/gh/yiisoft/data-cycle/branch/master/graph/badge.svg)](https://codecov.io/gh/yiisoft/data-cycle)
-[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fyiisoft%2Frequest-provider%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/yiisoft/data-cycle/master)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fyiisoft%2Fdata%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/yiisoft/data-cycle/master)
 [![static analysis](https://github.com/yiisoft/data-cycle/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3A%22static+analysis%22)
 [![type-coverage](https://shepherd.dev/github/yiisoft/data-cycle/coverage.svg)](https://shepherd.dev/github/yiisoft/data-cycle)
 [![psalm-level](https://shepherd.dev/github/yiisoft/data-cycle/level.svg)](https://shepherd.dev/github/yiisoft/data-cycle)
