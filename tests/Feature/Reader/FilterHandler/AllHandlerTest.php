@@ -18,7 +18,7 @@ final class AllHandlerTest extends BaseData
         $this->fillFixtures();
 
         $reader = (new EntityReader($this->select('user')))
-            ->withFilter((new All(new Equals('balance', '100.0'), new Equals('email', 'seed@beat'))));
+            ->withFilter(new All(new Equals('balance', '100.0'), new Equals('email', 'seed@beat')));
 
         $this->assertEquals([(object)self::FIXTURES_USER[2]], $reader->read());
     }
@@ -30,7 +30,7 @@ final class AllHandlerTest extends BaseData
         $this->expectException(NotSupportedFilterException::class);
         $this->expectExceptionMessage(sprintf('Filter "%s" is not supported.', NotSupportedFilter::class));
         $reader->withFilter(
-            (new All(new Equals('balance', '100.0'), new NotSupportedFilter(), new Equals('email', 'seed@beat'))),
+            new All(new Equals('balance', '100.0'), new NotSupportedFilter(), new Equals('email', 'seed@beat')),
         );
     }
 }

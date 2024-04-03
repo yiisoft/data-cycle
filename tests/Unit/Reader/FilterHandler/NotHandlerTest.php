@@ -7,7 +7,6 @@ namespace Yiisoft\Data\Cycle\Tests\Unit\Reader\FilterHandler;
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Cycle\Reader\FilterHandler\NotHandler;
-use Yiisoft\Data\Reader\Filter\EqualsNull;
 use Yiisoft\Data\Reader\Filter\GreaterThan;
 use Yiisoft\Data\Reader\Filter\Not;
 

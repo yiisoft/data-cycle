@@ -218,7 +218,7 @@ SQL;
         $reader = (new EntityReader($this->select('user')));
 
         $this->expectException(NotSupportedFilterException::class);
-        $this->expectExceptionMessage(sprintf("Filter \"%s\" is not supported.", NotSupportedFilter::class));
+        $this->expectExceptionMessage(sprintf('Filter "%s" is not supported.', NotSupportedFilter::class));
         $reader->withFilter(new NotSupportedFilter());
     }
 }

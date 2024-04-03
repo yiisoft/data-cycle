@@ -14,7 +14,7 @@ final class NotSupportedFilterExceptionTest extends TestCase
     {
         $exception = new NotSupportedFilterException(All::class);
 
-        $this->assertSame(sprintf("Filter \"%s\" is not supported.", All::class), $exception->getMessage());
+        $this->assertSame(sprintf('Filter "%s" is not supported.', All::class), $exception->getMessage());
         $this->assertSame(0, $exception->getCode());
         $this->assertNull($exception->getPrevious());
     }

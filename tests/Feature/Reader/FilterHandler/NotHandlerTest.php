@@ -20,7 +20,6 @@ use Yiisoft\Data\Reader\Filter\LessThan;
 use Yiisoft\Data\Reader\Filter\LessThanOrEqual;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\Filter\Not;
-use Yiisoft\Data\Reader\FilterInterface;
 
 final class NotHandlerTest extends BaseData
 {

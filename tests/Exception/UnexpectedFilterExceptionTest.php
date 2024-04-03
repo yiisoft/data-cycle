@@ -16,7 +16,7 @@ final class UnexpectedFilterExceptionTest extends TestCase
         $exception = new UnexpectedFilterException(All::class, Equals::class);
 
         $this->assertSame(
-            sprintf("Expected \"%s\", but \"%s\" given.", All::class, Equals::class),
+            sprintf('Expected "%s", but "%s" given.', All::class, Equals::class),
             $exception->getMessage(),
         );
         $this->assertSame(0, $exception->getCode());

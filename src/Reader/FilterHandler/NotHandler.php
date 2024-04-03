@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
-use Cycle\Database\Injection\Parameter;
-use RuntimeException;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
