@@ -54,6 +54,7 @@ final class EntityReader implements DataReaderInterface
             new FilterHandler\GreaterThanHandler(),
             new FilterHandler\GreaterThanOrEqualHandler(),
             new FilterHandler\InHandler(),
+            new FilterHandler\ILikeHandler(),
             new FilterHandler\LessThanHandler(),
             new FilterHandler\LessThanOrEqualHandler(),
             new FilterHandler\LikeHandler(),
