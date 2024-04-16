@@ -4,10 +4,22 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature;
 
+use Cycle\Database\Config\ConnectionConfig;
 use Cycle\Database\Config\DatabaseConfig;
+use Cycle\Database\Config\DriverConfig;
+use Cycle\Database\Config\MySQL\TcpConnectionConfig as MySQLTcpConnectionConfig;
+use Cycle\Database\Config\MySQLDriverConfig;
+use Cycle\Database\Config\Postgres\TcpConnectionConfig as PostgresTcpConnectionConfig;
+use Cycle\Database\Config\PostgresDriverConfig;
+use Cycle\Database\Config\SQLite\MemoryConnectionConfig;
+use Cycle\Database\Config\SQLiteDriverConfig;
+use Cycle\Database\Config\SQLServer\TcpConnectionConfig as SQLServerTcpConnectionConfig;
+use Cycle\Database\Config\SQLServerDriverConfig;
 use Cycle\Database\Database;
+use Cycle\Database\DatabaseInterface;
 use Cycle\Database\DatabaseManager;
 use Cycle\Database\DatabaseProviderInterface;
+use Cycle\Database\Driver\Handler;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\EntityManagerInterface;
 use Cycle\ORM\Factory;
@@ -18,19 +30,19 @@ use Cycle\ORM\Schema;
 use Cycle\ORM\SchemaInterface;
 use Cycle\ORM\Select;
 use PHPUnit\Framework\TestCase;
-use Yiisoft\Test\Support\Container\SimpleContainer;
 
 class BaseData extends TestCase
 {
+    public const DRIVER = null;
+
     protected const FIXTURES_USER = [
         ['id' => 1, 'email' => 'foo@bar', 'balance' => '10.25', 'born_at' => null],
         ['id' => 2, 'email' => 'bar@foo', 'balance' => '1.0', 'born_at' => null],
         ['id' => 3, 'email' => 'seed@beat', 'balance' => '100.0', 'born_at' => null],
         ['id' => 4, 'email' => 'the@best', 'balance' => '500.0', 'born_at' => null],
-        ['id' => 5, 'email' => 'test@test', 'balance' => '42.0', 'born_at' => '631152000'],
+        ['id' => 5, 'email' => 'test@test', 'balance' => '42.0', 'born_at' => '1990-01-01'],
     ];
 
-    protected ?SimpleContainer $container = null;
     // cache
     private ?ORMInterface $orm = null;
     private ?DatabaseProviderInterface $dbal = null;
@@ -44,15 +56,86 @@ class BaseData extends TestCase
     {
         $this->dbal ??= $this->createDbal();
         $this->orm ??= $this->createOrm();
-        parent::setUp();
     }
 
     protected function tearDown(): void
     {
-        parent::tearDown();
+        $this->dropDatabase($this->dbal->database());
         $this->orm = null;
         $this->dbal = null;
-        $this->container = null;
+    }
+
+    private function createDbal(): DatabaseProviderInterface
+    {
+        return new DatabaseManager(new DatabaseConfig([
+            'databases' => [
+                'default' => ['connection' => static::DRIVER ?? 'sqlite'],
+                'sqlite' => ['connection' => 'sqlite'],
+                'mysql' => ['connection' => 'mysql'],
+                'pgsql' => ['connection' => 'pgsql'],
+                'mssql' => ['connection' => 'mssql']
+            ],
+            'connections' => [
+                'sqlite' => new SQLiteDriverConfig(
+                    connection: new MemoryConnectionConfig(),
+                    queryCache: true,
+                ),
+                'mysql' => new MySQLDriverConfig(
+                    connection: new MySQLTcpConnectionConfig(
+                        database: 'spiral',
+                        host: '127.0.0.1',
+                        port: 13306,
+                        user: 'root',
+                        password: 'root',
+                    ),
+                    queryCache: true
+                ),
+                'pgsql' => new PostgresDriverConfig(
+                    connection: new PostgresTcpConnectionConfig(
+                        database: 'spiral',
+                        host: '127.0.0.1',
+                        port: 15432,
+                        user: 'postgres',
+                        password: 'postgres',
+                    ),
+                    schema: 'public',
+                    queryCache: true,
+                ),
+                'mssql' => new SQLServerDriverConfig(
+                    connection: new SQLServerTcpConnectionConfig(
+                        database: 'tempdb',
+                        host: '127.0.0.1',
+                        port: 11433,
+                        user: 'SA',
+                        password: 'SSpaSS__1'
+                    ),
+                    queryCache: true,
+                ),
+            ],
+        ]));
+    }
+
+    protected function dropDatabase(?DatabaseInterface $database = null): void
+    {
+        if ($database === null) {
+            return;
+        }
+
+        foreach ($database->getTables() as $table) {
+            $schema = $table->getSchema();
+
+            foreach ($schema->getForeignKeys() as $foreign) {
+                $schema->dropForeignKey($foreign->getColumns());
+            }
+
+            $schema->save(Handler::DROP_FOREIGN_KEYS);
+        }
+
+        foreach ($database->getTables() as $table) {
+            $schema = $table->getSchema();
+            $schema->declareDropped();
+            $schema->save();
+        }
     }
 
     protected function fillFixtures(): void
@@ -64,32 +147,13 @@ class BaseData extends TestCase
         $user->column('id')->bigInteger()->primary();
         $user->column('email')->string()->nullable(false);
         $user->column('balance')->float()->nullable(false)->defaultValue(0.0);
-        $user->column('born_at')->timestamp()->nullable();
+        $user->column('born_at')->date()->nullable();
         $user->save();
 
         $db->insert('user')
             ->columns(['id', 'email', 'balance', 'born_at'])
             ->values(static::FIXTURES_USER)
             ->run();
-    }
-
-    protected function dbalConfig(): array
-    {
-        return [
-            // SQL query logger. Definition of Psr\Log\LoggerInterface
-            'query-logger' => null,
-            // Default database
-            'default' => 'default',
-            'aliases' => [],
-            'databases' => [
-                'default' => ['connection' => 'sqlite'],
-            ],
-            'connections' => [
-                'sqlite' => new \Cycle\Database\Config\SQLiteDriverConfig(
-                    connection: new \Cycle\Database\Config\SQLite\MemoryConnectionConfig()
-                ),
-            ],
-        ];
     }
 
     protected function select(string $role): Select
@@ -132,11 +196,6 @@ class BaseData extends TestCase
                 SchemaInterface::RELATIONS => [],
             ],
         ]);
-    }
-
-    private function createDbal(): DatabaseProviderInterface
-    {
-        return new DatabaseManager(new DatabaseConfig($this->dbalConfig()));
     }
 
     protected function createEntityManager(): EntityManagerInterface

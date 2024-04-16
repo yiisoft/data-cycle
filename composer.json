@@ -33,7 +33,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^8.1",
-        "cycle/database": "^2.8.1",
+        "cycle/database": "^2.10",
         "cycle/orm": "^2.7.1",
         "yiisoft/data": "dev-master"
     },
@@ -53,7 +53,8 @@
     "autoload-dev": {
         "psr-4": {
             "Yiisoft\\Data\\Cycle\\Tests\\": "tests"
-        }
+        },
+        "files": ["tests/bootstrap.php"]
     },
     "config": {
         "sort-packages": true,
