@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use Cycle\Database;
-use Yiisoft\Data\Cycle\Tests\Feature\BaseData;
 
 /**
  * @link https://github.com/krakjoe/uopz/issues/172

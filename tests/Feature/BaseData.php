@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature;
 
-use Cycle\Database\Config\ConnectionConfig;
 use Cycle\Database\Config\DatabaseConfig;
-use Cycle\Database\Config\DriverConfig;
 use Cycle\Database\Config\MySQL\TcpConnectionConfig as MySQLTcpConnectionConfig;
 use Cycle\Database\Config\MySQLDriverConfig;
 use Cycle\Database\Config\Postgres\TcpConnectionConfig as PostgresTcpConnectionConfig;
@@ -73,7 +71,7 @@ class BaseData extends TestCase
                 'sqlite' => ['connection' => 'sqlite'],
                 'mysql' => ['connection' => 'mysql'],
                 'pgsql' => ['connection' => 'pgsql'],
-                'mssql' => ['connection' => 'mssql']
+                'mssql' => ['connection' => 'mssql'],
             ],
             'connections' => [
                 'sqlite' => new SQLiteDriverConfig(
