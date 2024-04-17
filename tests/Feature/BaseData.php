@@ -80,32 +80,32 @@ class BaseData extends TestCase
                 ),
                 'mysql' => new MySQLDriverConfig(
                     connection: new MySQLTcpConnectionConfig(
-                        database: 'spiral',
-                        host: '127.0.0.1',
-                        port: 13306,
-                        user: 'root',
-                        password: 'root',
+                        database: getenv('MYSQL_DATABASE'),
+                        host: getenv('MYSQL_HOST'),
+                        port: (int) getenv('MYSQL_PORT'),
+                        user: getenv('MYSQL_USER'),
+                        password: getenv('MYSQL_PASSWORD'),
                     ),
                     queryCache: true
                 ),
                 'pgsql' => new PostgresDriverConfig(
                     connection: new PostgresTcpConnectionConfig(
-                        database: 'spiral',
-                        host: '127.0.0.1',
-                        port: 15432,
-                        user: 'postgres',
-                        password: 'postgres',
+                        database: getenv('PGSQL_DATABASE'),
+                        host: getenv('PGSQL_HOST'),
+                        port: (int) getenv('PGSQL_PORT'),
+                        user: getenv('PGSQL_USER'),
+                        password: getenv('PGSQL_PASSWORD'),
                     ),
                     schema: 'public',
                     queryCache: true,
                 ),
                 'mssql' => new SQLServerDriverConfig(
                     connection: new SQLServerTcpConnectionConfig(
-                        database: 'tempdb',
-                        host: '127.0.0.1',
-                        port: 11433,
-                        user: 'SA',
-                        password: 'SSpaSS__1'
+                        database: getenv('MSSQL_DATABASE'),
+                        host: getenv('MSSQL_HOST'),
+                        port: (int) getenv('MSSQL_PORT'),
+                        user: getenv('MSSQL_USER'),
+                        password: getenv('MSSQL_PASSWORD'),
                     ),
                     queryCache: true,
                 ),

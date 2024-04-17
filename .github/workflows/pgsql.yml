@@ -27,7 +27,12 @@ jobs:
     name: PHP ${{ matrix.php }}-pgsql-${{ matrix.pgsql }}
 
     env:
-      extensions: pdo, pdo_pgsql, uopz
+      extensions: pdo, pdo_pgsql
+      PGSQL_DATABASE: "yiitest",
+      PGSQL_HOST: "127.0.0.1",
+      PGSQL_PORT: "5432",
+      PGSQL_USER: "root",
+      PGSQL_PASSWORD: "root"
 
     runs-on: ${{ matrix.os }}
 
@@ -38,6 +43,8 @@ jobs:
 
         php:
           - 8.1
+          - 8.2
+          - 8.3
 
         pgsql:
           - 9

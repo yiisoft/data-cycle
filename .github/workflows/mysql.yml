@@ -27,7 +27,12 @@ jobs:
     name: PHP ${{ matrix.php }}-mysql-${{ matrix.mysql }}
 
     env:
-      extensions: pdo, pdo_mysql, uopz
+      extensions: pdo, pdo_mysql
+      MYSQL_DATABASE: "yiitest",
+      MYSQL_HOST: "127.0.0.1",
+      MYSQL_PORT: "3306",
+      MYSQL_USER: "root",
+      MYSQL_PASSWORD: ""
 
     runs-on: ${{ matrix.os }}
 
@@ -38,6 +43,8 @@ jobs:
 
         php:
           - 8.1
+          - 8.2
+          - 8.3
 
         mysql:
           - 5.7
