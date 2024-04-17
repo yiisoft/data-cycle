@@ -28,10 +28,10 @@ jobs:
 
     env:
       extensions: pdo, pdo_sqlsrv-5.11.1
-      MSSQL_DATABASE: "yiitest",
-      MSSQL_HOST: "127.0.0.1",
-      MSSQL_PORT: "1433",
-      MSSQL_USER: "SA",
+      MSSQL_DATABASE: "yiitest"
+      MSSQL_HOST: "127.0.0.1"
+      MSSQL_PORT: "1433"
+      MSSQL_USER: "SA"
       MSSQL_PASSWORD: "YourStrong!Passw0rd"
 
     runs-on: ${{ matrix.os }}
