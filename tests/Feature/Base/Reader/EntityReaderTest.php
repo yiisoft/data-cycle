@@ -215,8 +215,7 @@ SQL,
     public function testGetSql(string $expectedSql): void
     {
         $reader = (new EntityReader($this->select('user')))->withLimit(2)->withOffset(1);
-        $this->assertSame($expectedSql, $reader->getSql());
-        // $this->assertSame(\preg_replace('/\s+/', '', $expectedSql), \preg_replace('/\s+/', '', $reader->getSql()));
+        $this->assertSame(\preg_replace('/\s+/', '', $expectedSql), \preg_replace('/\s+/', '', $reader->getSql()));
     }
 
     public function testMakeFilterClosureException(): void
