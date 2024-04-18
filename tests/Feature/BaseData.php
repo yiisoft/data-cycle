@@ -65,52 +65,61 @@ class BaseData extends TestCase
 
     private function createDbal(): DatabaseProviderInterface
     {
-        return new DatabaseManager(new DatabaseConfig([
-            'databases' => [
-                'default' => ['connection' => static::DRIVER ?? 'sqlite'],
-                'sqlite' => ['connection' => 'sqlite'],
-                'mysql' => ['connection' => 'mysql'],
-                //                'pgsql' => ['connection' => 'pgsql'],
-                //                'mssql' => ['connection' => 'mssql'],
-            ],
-            'connections' => [
-                'sqlite' => new SQLiteDriverConfig(
-                    connection: new MemoryConnectionConfig(),
-                    queryCache: true,
+        $databases = [
+            'default' => ['connection' => static::DRIVER ?? 'sqlite'],
+            'sqlite' => ['connection' => 'sqlite'],
+        ];
+        $connections = [
+            'sqlite' => new SQLiteDriverConfig(
+                connection: new MemoryConnectionConfig(),
+                queryCache: true,
+            ),
+        ];
+
+        if (isset($_ENV['CYCLE_MYSQL_DATABASE'])) {
+            $databases['mysql'] = ['connection' => 'mysql'];
+            $connections['mysql'] = new MySQLDriverConfig(
+                connection: new MySQLTcpConnectionConfig(
+                    database: $_ENV['CYCLE_MYSQL_DATABASE'],
+                    host: $_ENV['CYCLE_MYSQL_HOST'],
+                    port: (int) $_ENV['CYCLE_MYSQL_PORT'],
+                    user: $_ENV['CYCLE_MYSQL_USER'],
+                    password: $_ENV['CYCLE_MYSQL_PASSWORD'],
                 ),
-                'mysql' => new MySQLDriverConfig(
-                    connection: new MySQLTcpConnectionConfig(
-                        database: getenv('CYCLE_MYSQL_DATABASE'),
-                        host: getenv('CYCLE_MYSQL_HOST'),
-                        port: (int) getenv('CYCLE_MYSQL_PORT'),
-                        user: getenv('CYCLE_MYSQL_USER'),
-                        password: getenv('CYCLE_MYSQL_PASSWORD'),
-                    ),
-                    queryCache: true,
+                queryCache: true,
+            );
+        }
+
+        if (isset($_ENV['CYCLE_PGSQL_DATABASE'])) {
+            $databases['pgsql'] = ['connection' => 'pgsql'];
+            $connections['pgsql'] = new PostgresDriverConfig(
+                connection: new PostgresTcpConnectionConfig(
+                    database: $_ENV['CYCLE_PGSQL_DATABASE'],
+                    host: $_ENV['CYCLE_PGSQL_HOST'],
+                    port: (int) $_ENV['CYCLE_PGSQL_PORT'],
+                    user: $_ENV['CYCLE_PGSQL_USER'],
+                    password: $_ENV['CYCLE_PGSQL_PASSWORD'],
                 ),
-                'pgsql' => new PostgresDriverConfig(
-                    connection: new PostgresTcpConnectionConfig(
-                        database: getenv('CYCLE_PGSQL_DATABASE'),
-                        host: getenv('CYCLE_PGSQL_HOST'),
-                        port: (int) getenv('CYCLE_PGSQL_PORT'),
-                        user: getenv('CYCLE_PGSQL_USER'),
-                        password: getenv('CYCLE_PGSQL_PASSWORD'),
-                    ),
-                    schema: 'public',
-                    queryCache: true,
+                schema: 'public',
+                queryCache: true,
+            );
+        }
+
+        if (isset($_ENV['CYCLE_MSSQL_DATABASE'])) {
+            $databases['mssql'] = ['connection' => 'mssql'];
+            $connections['mssql'] = new SQLServerDriverConfig(
+                connection: new SQLServerTcpConnectionConfig(
+                    database: $_ENV['CYCLE_MSSQL_DATABASE'],
+                    host: $_ENV['CYCLE_MSSQL_HOST'],
+                    port: (int) $_ENV['CYCLE_MSSQL_PORT'],
+                    user: $_ENV['CYCLE_MSSQL_USER'],
+                    password: $_ENV['CYCLE_MSSQL_PASSWORD'],
                 ),
-                'mssql' => new SQLServerDriverConfig(
-                    connection: new SQLServerTcpConnectionConfig(
-                        database: getenv('CYCLE_MSSQL_DATABASE'),
-                        host: getenv('CYCLE_MSSQL_HOST'),
-                        port: (int) getenv('CYCLE_MSSQL_PORT'),
-                        user: getenv('CYCLE_MSSQL_USER'),
-                        password: getenv('CYCLE_MSSQL_PASSWORD'),
-                    ),
-                    queryCache: true,
-                ),
-            ],
-        ]));
+                queryCache: true,
+            );
+        }
+
+        return new DatabaseManager(new DatabaseConfig(['databases' => $databases, 'connections' => $connections]));
     }
 
     protected function dropDatabase(?DatabaseInterface $database = null): void
