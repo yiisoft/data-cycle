@@ -70,8 +70,8 @@ class BaseData extends TestCase
                 'default' => ['connection' => static::DRIVER ?? 'sqlite'],
                 'sqlite' => ['connection' => 'sqlite'],
                 'mysql' => ['connection' => 'mysql'],
-//                'pgsql' => ['connection' => 'pgsql'],
-//                'mssql' => ['connection' => 'mssql'],
+                //                'pgsql' => ['connection' => 'pgsql'],
+                //                'mssql' => ['connection' => 'mssql'],
             ],
             'connections' => [
                 'sqlite' => new SQLiteDriverConfig(
@@ -88,27 +88,27 @@ class BaseData extends TestCase
                     ),
                     queryCache: true,
                 ),
-//                'pgsql' => new PostgresDriverConfig(
-//                    connection: new PostgresTcpConnectionConfig(
-//                        database: $_ENV['CYCLE_PGSQL_DATABASE'],
-//                        host: $_ENV['CYCLE_PGSQL_HOST'],
-//                        port: (int) $_ENV['CYCLE_PGSQL_PORT'],
-//                        user: $_ENV['CYCLE_PGSQL_USER'],
-//                        password: $_ENV['CYCLE_PGSQL_PASSWORD'],
-//                    ),
-//                    schema: 'public',
-//                    queryCache: true,
-//                ),
-//                'mssql' => new SQLServerDriverConfig(
-//                    connection: new SQLServerTcpConnectionConfig(
-//                        database: $_ENV['CYCLE_MSSQL_DATABASE'],
-//                        host: $_ENV['CYCLE_MSSQL_HOST'],
-//                        port: (int) $_ENV['CYCLE_MSSQL_PORT'],
-//                        user: $_ENV['CYCLE_MSSQL_USER'],
-//                        password: $_ENV['CYCLE_MSSQL_PASSWORD'],
-//                    ),
-//                    queryCache: true,
-//                ),
+                //                'pgsql' => new PostgresDriverConfig(
+                //                    connection: new PostgresTcpConnectionConfig(
+                //                        database: $_ENV['CYCLE_PGSQL_DATABASE'],
+                //                        host: $_ENV['CYCLE_PGSQL_HOST'],
+                //                        port: (int) $_ENV['CYCLE_PGSQL_PORT'],
+                //                        user: $_ENV['CYCLE_PGSQL_USER'],
+                //                        password: $_ENV['CYCLE_PGSQL_PASSWORD'],
+                //                    ),
+                //                    schema: 'public',
+                //                    queryCache: true,
+                //                ),
+                //                'mssql' => new SQLServerDriverConfig(
+                //                    connection: new SQLServerTcpConnectionConfig(
+                //                        database: $_ENV['CYCLE_MSSQL_DATABASE'],
+                //                        host: $_ENV['CYCLE_MSSQL_HOST'],
+                //                        port: (int) $_ENV['CYCLE_MSSQL_PORT'],
+                //                        user: $_ENV['CYCLE_MSSQL_USER'],
+                //                        password: $_ENV['CYCLE_MSSQL_PASSWORD'],
+                //                    ),
+                //                    queryCache: true,
+                //                ),
             ],
         ]));
     }
