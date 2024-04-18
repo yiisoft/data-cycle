@@ -157,19 +157,16 @@ class BaseData extends TestCase
         $user->column('born_at')->date()->nullable();
         $user->save();
 
-        if (static::DRIVER === 'mssql') {
-            $db->execute('SET IDENTITY_INSERT [user] ON');
-        }
-
+        $columns = ['email', 'balance', 'born_at'];
+        $fixtures = array_map(
+            static fn (array $fixture): array => array_intersect_key($fixture, array_flip($columns)),
+            static::FIXTURES_USER,
+        );
         $db
             ->insert('user')
-            ->columns(['id', 'email', 'balance', 'born_at'])
-            ->values(static::FIXTURES_USER)
+            ->columns($columns)
+            ->values($fixtures)
             ->run();
-
-        if (static::DRIVER === 'mssql') {
-            $db->execute('SET IDENTITY_INSERT [user] OFF');
-        }
     }
 
     protected function select(string $role): Select
