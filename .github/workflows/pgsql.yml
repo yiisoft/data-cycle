@@ -93,12 +93,12 @@ jobs:
 
       - name: Run tests with phpunit
         run: >
-          ENVIRONMENT=production
-          CYCLE_PGSQL_DATABASD=yiitest
-          CYCLE_PGSQL_HOSD=127.0.0.1
-          CYCLE_PGSQL_PORD=5432
-          CYCLE_PGSQL_USED=root
-          CYCLE_PGSQL_PASSWORD=root
+          export ENVIRONMENT=production
+          export CYCLE_PGSQL_DATABASE=yiitest
+          export CYCLE_PGSQL_HOST=127.0.0.1
+          export CYCLE_PGSQL_PORT=5432
+          export CYCLE_PGSQL_USER=root
+          export CYCLE_PGSQL_PASSWORD=root
           vendor/bin/phpunit --testsuite Pgsql --coverage-clover=coverage.xml --colors=always
 
       - name: Upload coverage to Codecov

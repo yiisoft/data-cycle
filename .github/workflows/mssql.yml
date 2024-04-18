@@ -92,12 +92,12 @@ jobs:
 
       - name: Run tests with phpunit
         run: >
-          ENVIRONMENT=production
-          CYCLE_MSSQL_DATABASE=yiitest
-          CYCLE_MSSQL_HOST=127.0.0.1
-          CYCLE_MSSQL_PORT=1433
-          CYCLE_MSSQL_USER=SA
-          CYCLE_MSSQL_PASSWORD=YourStrong!Passw0rd
+          export ENVIRONMENT=production
+          export CYCLE_MSSQL_DATABASE=yiitest
+          export CYCLE_MSSQL_HOST=127.0.0.1
+          export CYCLE_MSSQL_PORT=1433
+          export CYCLE_MSSQL_USER=SA
+          export CYCLE_MSSQL_PASSWORD=YourStrong!Passw0rd
           vendor/bin/phpunit --testsuite Mssql --coverage-clover=coverage.xml --colors=always
 
       - name: Upload coverage to Codecov
