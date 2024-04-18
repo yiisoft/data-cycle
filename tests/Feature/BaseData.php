@@ -158,7 +158,7 @@ class BaseData extends TestCase
         $user->save();
 
         if (static::DRIVER === 'mssql') {
-            $db->execute('SET IDENTITY_INSERT user ON');
+            $db->execute('SET IDENTITY_INSERT [user] ON');
         }
 
         $db
@@ -168,7 +168,7 @@ class BaseData extends TestCase
             ->run();
 
         if (static::DRIVER === 'mssql') {
-            $db->execute('SET IDENTITY_INSERT user OFF');
+            $db->execute('SET IDENTITY_INSERT [user] OFF');
         }
     }
 
