@@ -58,7 +58,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - run: cat ./tests/.env >> $GITHUB_ENV
+      - run: cat ./tests/.env.prod >> $GITHUB_ENV
 
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
