@@ -2,5 +2,7 @@
 
 declare(strict_types=1);
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+if ($_ENV['environment'] ?? null !== 'production') {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+}
