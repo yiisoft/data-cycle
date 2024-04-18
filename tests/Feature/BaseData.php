@@ -157,9 +157,15 @@ class BaseData extends TestCase
         $user->column('born_at')->date()->nullable();
         $user->save();
 
-        $db->insert('user')
-            ->columns(['id', 'email', 'balance', 'born_at'])
-            ->values(static::FIXTURES_USER)
+        $columns = ['email', 'balance', 'born_at'];
+        $fixtures = array_map(
+            static fn (array $fixture): array => array_intersect_key($fixture, array_flip($columns)),
+            static::FIXTURES_USER,
+        );
+        $db
+            ->insert('user')
+            ->columns($columns)
+            ->values($fixtures)
             ->run();
     }
 
@@ -176,21 +182,6 @@ class BaseData extends TestCase
     private function createOrm(): ORMInterface
     {
         return new ORM(factory: new Factory($this->dbal), schema: $this->createSchema());
-    }
-
-    /**
-     * Send sample query in a form where all quotation symbols replaced with { and }.
-     */
-    protected function assertSameQuery(string $expectedQuery, string $actialQuery): void
-    {
-        // Preparing query
-        $expectedQuery = str_replace(
-            ['{', '}'],
-            explode('\a', $this->dbal->database()->getDriver()->identifier('\a')),
-            $expectedQuery,
-        );
-
-        $this->assertSame(preg_replace('/\s+/', '', $expectedQuery), preg_replace('/\s+/', '', $actialQuery));
     }
 
     /**

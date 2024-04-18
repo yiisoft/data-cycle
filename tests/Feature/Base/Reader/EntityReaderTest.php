@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Data\Cycle\Tests\Feature\Base\Reader;
 
 use Cycle\Database\Exception\StatementException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
@@ -198,15 +199,23 @@ abstract class EntityReaderTest extends BaseData
         $reader->read();
     }
 
-    public function testGetSql(): void
+    public static function dataGetSql(): array
     {
-        $expectedQuery = <<<SQL
-            SELECT {user}.{id} AS {c0}, {user}.{email} AS {c1}, {user}.{balance} AS {c2}, {user}.{born_at} AS {c3}
-            FROM {user} AS {user} LIMIT 2 OFFSET 1
-SQL;
-        $reader = (new EntityReader($this->select('user')))->withLimit(2)->withOffset(1);
+        return [
+            'base' => [
+                <<<SQL
+                SELECT "user"."id" AS "c0", "user"."email" AS "c1", "user"."balance" AS "c2", "user"."born_at" AS "c3"
+                FROM "user" AS "user" LIMIT 2 OFFSET 1
+SQL,
+            ],
+        ];
+    }
 
-        $this->assertSameQuery($expectedQuery, $reader->getSql());
+    #[DataProvider('dataGetSql')]
+    public function testGetSql(string $expectedSql): void
+    {
+        $reader = (new EntityReader($this->select('user')))->withLimit(2)->withOffset(1);
+        $this->assertSame(\preg_replace('/\s+/', '', $expectedSql), \preg_replace('/\s+/', '', $reader->getSql()));
     }
 
     public function testMakeFilterClosureException(): void
