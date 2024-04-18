@@ -175,6 +175,21 @@ class BaseData extends TestCase
     }
 
     /**
+     * Send sample query in a form where all quotation symbols replaced with { and }.
+     */
+    protected function assertSameQuery(string $expectedQuery, string $actialQuery): void
+    {
+        // Preparing query
+        $expectedQuery = str_replace(
+            ['{', '}'],
+            explode('\a', $this->dbal->database()->getDriver()->identifier('\a')),
+            $expectedQuery,
+        );
+
+        $this->assertSame(preg_replace('/\s+/', '', $expectedQuery), preg_replace('/\s+/', '', $actialQuery));
+    }
+
+    /**
      * Cycle ORM Schema
      */
     private function createSchema(): SchemaInterface
