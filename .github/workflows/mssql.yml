@@ -28,11 +28,6 @@ jobs:
 
     env:
       extensions: pdo, pdo_sqlsrv-5.11.1
-      MSSQL_DATABASE: "yiitest"
-      MSSQL_HOST: "127.0.0.1"
-      MSSQL_PORT: "1433"
-      MSSQL_USER: "SA"
-      MSSQL_PASSWORD: "YourStrong!Passw0rd"
 
     runs-on: ${{ matrix.os }}
 
@@ -57,6 +52,11 @@ jobs:
           SA_PASSWORD: YourStrong!Passw0rd
           ACCEPT_EULA: Y
           MSSQL_PID: Developer
+          MSSQL_DATABASE: yiitest
+          MSSQL_HOST: 127.0.0.1
+          MSSQL_PORT: 1433
+          MSSQL_USER: SA
+          MSSQL_PASSWORD: YourStrong!Passw0rd
         ports:
           - 1433:1433
         options: --name=mssql --health-cmd="/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'SELECT 1'" --health-interval=10s --health-timeout=5s --health-retries=3

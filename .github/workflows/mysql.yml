@@ -28,11 +28,6 @@ jobs:
 
     env:
       extensions: pdo, pdo_mysql
-      MYSQL_DATABASE: "yiitest"
-      MYSQL_HOST: "127.0.0.1"
-      MYSQL_PORT: "3306"
-      MYSQL_USER: "root"
-      MYSQL_PASSWORD: ""
 
     runs-on: ${{ matrix.os }}
 
@@ -55,8 +50,11 @@ jobs:
         image: mysql:${{ matrix.mysql }}
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: true
-          MYSQL_PASSWORD: ''
           MYSQL_DATABASE: yiitest
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_PORT: 3306
+          MYSQL_USER: root
+          MYSQL_PASSWORD: ''
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3

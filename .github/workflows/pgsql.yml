@@ -28,11 +28,6 @@ jobs:
 
     env:
       extensions: pdo, pdo_pgsql
-      PGSQL_DATABASE: "yiitest"
-      PGSQL_HOST: "127.0.0.1"
-      PGSQL_PORT: "5432"
-      PGSQL_USER: "root"
-      PGSQL_PASSWORD: "root"
 
     runs-on: ${{ matrix.os }}
 
@@ -58,9 +53,12 @@ jobs:
       postgres:
         image: postgres:${{ matrix.pgsql }}
         env:
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: root
           POSTGRES_DB: yiitest
+          PGSQL_DATABASE: yiitest
+          PGSQL_HOST: 127.0.0.1
+          PGSQL_PORT: 5432
+          PGSQL_USER: root
+          PGSQL_PASSWORD: root
         ports:
           - 5432:5432
         options: --name=postgres --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
