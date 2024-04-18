@@ -88,12 +88,8 @@ jobs:
 
       - name: Run tests with phpunit
         run: |
-          export ENVIRONMENT=production
-          export CYCLE_MYSQL_DATABASE=yiitest
-          export CYCLE_MYSQL_HOST=127.0.0.1
-          export CYCLE_MYSQL_PORT=3306
-          export CYCLE_MYSQL_USER=root
-          export CYCLE_MYSQL_PASSWORD=''
+          rm tests/env.local
+          mv tests/env.ci tests/env.local
           vendor/bin/phpunit --testsuite Mysql --coverage-clover=coverage.xml --colors=always
 
       - name: Upload coverage to Codecov

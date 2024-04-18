@@ -76,9 +76,6 @@ class BaseData extends TestCase
             ),
         ];
 
-        var_dump($_ENV);
-        exit;
-
         if (isset($_ENV['CYCLE_MYSQL_DATABASE'])) {
             $databases['mysql'] = ['connection' => 'mysql'];
             $connections['mysql'] = new MySQLDriverConfig(

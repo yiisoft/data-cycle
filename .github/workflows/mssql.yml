@@ -91,13 +91,9 @@ jobs:
         run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
 
       - name: Run tests with phpunit
-        run: >
-          export ENVIRONMENT=production
-          export CYCLE_MSSQL_DATABASE=yiitest
-          export CYCLE_MSSQL_HOST=127.0.0.1
-          export CYCLE_MSSQL_PORT=1433
-          export CYCLE_MSSQL_USER=SA
-          export CYCLE_MSSQL_PASSWORD=YourStrong!Passw0rd
+        run: |
+          rm tests/env.local
+          mv tests/env.ci tests/env.local
           vendor/bin/phpunit --testsuite Mssql --coverage-clover=coverage.xml --colors=always
 
       - name: Upload coverage to Codecov
