@@ -15,6 +15,8 @@ abstract class AllHandlerTest extends BaseData
 {
     public function testAllHandler(): void
     {
+        var_dump($_ENV);
+
         $this->fillFixtures();
 
         $reader = (new EntityReader($this->select('user')))
