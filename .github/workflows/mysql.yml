@@ -88,8 +88,12 @@ jobs:
 
       - name: Run tests with phpunit
         run: |
-          cat ./tests/.env.prod >> $GITHUB_ENV
-          echo $CYCLE_MYSQL_DATABASE
+          echo "ENVIRONMENT=production" >> $GITHUB_ENV
+          echo "CYCLE_MYSQL_DATABASE=yiitest" >> $GITHUB_ENV
+          echo "CYCLE_MYSQL_HOST=127.0.0.1" >> $GITHUB_ENV
+          echo "CYCLE_MYSQL_PORT=3306" >> $GITHUB_ENV
+          echo "CYCLE_MYSQL_USER=root" >> $GITHUB_ENV
+          echo "CYCLE_MYSQL_PASSWORD=" >> $GITHUB_ENV
           vendor/bin/phpunit --testsuite Mysql --coverage-clover=coverage.xml --colors=always
 
       - name: Upload coverage to Codecov
