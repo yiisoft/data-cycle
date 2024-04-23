@@ -35,7 +35,7 @@ abstract class NotHandlerTest extends BaseData
         return [
             'all' => [new Not(new All(new Equals('number', 1), new Equals('number', 2))), range(1, 5)],
             'any' => [new Not(new Any(new Equals('number', 1), new Equals('number', 2))), range(3, 5)],
-            'between' => [new Not(new Between('balance', '10.25', '100.0')), [2, 4]],
+            'between' => [new Not(new Between('balance', 10.25, 100.0)), [2, 4]],
             'equals' => [new Not(new Equals('number', 1)), range(2, 5)],
             'equals null' => [new Not(new EqualsNull('born_at')), [5]],
             'greater than' => [new Not(new GreaterThan('number', 2)), [1]],

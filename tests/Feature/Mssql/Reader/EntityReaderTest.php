@@ -18,9 +18,10 @@ final class EntityReaderTest extends BaseEntityReaderTest
                 SELECT * FROM (
                     SELECT
                         [user].[id] AS [c0],
-                        [user].[email] AS [c1],
-                        [user].[balance] AS [c2],
-                        [user].[born_at] AS [c3],
+                        [user].[number] AS [c1],
+                        [user].[email] AS [c2],
+                        [user].[balance] AS [c3],
+                        [user].[born_at] AS [c4],
                         ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS [_ROW_NUMBER_]
                     FROM [user] AS [user]
                 ) AS [ORD_FALLBACK]

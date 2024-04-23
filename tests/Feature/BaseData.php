@@ -122,12 +122,8 @@ class BaseData extends TestCase
         return new DatabaseManager(new DatabaseConfig(['databases' => $databases, 'connections' => $connections]));
     }
 
-    protected function dropDatabase(?DatabaseInterface $database = null): void
+    protected function dropDatabase(DatabaseInterface $database): void
     {
-        if ($database === null) {
-            return;
-        }
-
         foreach ($database->getTables() as $table) {
             $schema = $table->getSchema();
 

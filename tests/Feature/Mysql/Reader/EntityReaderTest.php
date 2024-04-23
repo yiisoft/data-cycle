@@ -15,7 +15,12 @@ final class EntityReaderTest extends BaseEntityReaderTest
         return [
             'base' => [
                 <<<SQL
-                SELECT `user`.`id` AS `c0`, `user`.`email` AS `c1`, `user`.`balance` AS `c2`, `user`.`born_at` AS `c3`
+                SELECT
+                    `user`.`id` AS `c0`,
+                    `user`.`number` AS `c1`,
+                    `user`.`email` AS `c2`,
+                    `user`.`balance` AS `c3`,
+                    `user`.`born_at` AS `c4`
                 FROM `user` AS `user` LIMIT 2 OFFSET 1
 SQL,
             ],
