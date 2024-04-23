@@ -18,7 +18,7 @@ abstract class EntityWriterTest extends BaseData
         $writer = new EntityWriter($this->createEntityManager());
 
         // if (static::DRIVER === 'mssql') {
-            $this->getDatabase()->execute('SET IDENTITY_INSERT [user] ON');
+        $this->getDatabase()->execute('SET IDENTITY_INSERT [user] ON');
         // }
 
         $writer->write($users = [
@@ -27,7 +27,7 @@ abstract class EntityWriterTest extends BaseData
         ]);
 
         // if (static::DRIVER === 'mssql') {
-            $this->getDatabase()->execute('SET IDENTITY_INSERT [user] OFF');
+        $this->getDatabase()->execute('SET IDENTITY_INSERT [user] OFF');
         // }
 
         $reader = new EntityReader(
