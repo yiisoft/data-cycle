@@ -23,13 +23,6 @@ use Yiisoft\Data\Reader\Filter\Not;
 
 abstract class NotHandlerTest extends BaseData
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->fillFixtures();
-    }
-
     public static function dataBase(): array
     {
         return [

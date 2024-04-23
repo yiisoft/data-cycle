@@ -12,8 +12,6 @@ abstract class LessThanHandlerTest extends BaseData
 {
     public function testLessThanHandler(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')))->withFilter(new LessThan('balance', 1.1));
         $this->assertFixtures([1], $reader->read());
     }

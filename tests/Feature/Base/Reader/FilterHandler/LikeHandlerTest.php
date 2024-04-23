@@ -12,8 +12,6 @@ abstract class LikeHandlerTest extends BaseData
 {
     public function testLikeHandler(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')))->withFilter(new Like('email', 'seed@%'));
         $this->assertFixtures([2], $reader->read());
     }

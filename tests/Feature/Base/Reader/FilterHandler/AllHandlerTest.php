@@ -15,8 +15,6 @@ abstract class AllHandlerTest extends BaseData
 {
     public function testAllHandler(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')))
             ->withFilter(new All(new Equals('balance', '100.0'), new Equals('email', 'seed@beat')));
         $this->assertFixtures([2], $reader->read());

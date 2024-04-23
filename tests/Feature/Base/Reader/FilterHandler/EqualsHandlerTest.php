@@ -12,8 +12,6 @@ abstract class EqualsHandlerTest extends BaseData
 {
     public function testEqualsHandler(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')))->withFilter(new Equals('number', 2));
         $this->assertFixtures([1], $reader->read());
     }

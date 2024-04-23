@@ -54,6 +54,7 @@ class BaseData extends TestCase
     {
         $this->dbal ??= $this->createDbal();
         $this->orm ??= $this->createOrm();
+        $this->fillFixtures();
     }
 
     protected function tearDown(): void
@@ -145,6 +146,7 @@ class BaseData extends TestCase
     {
         /** @var Database $db */
         $db = $this->dbal->database();
+        // $this->dropDatabase($db);
 
         $user = $db->table('user')->getSchema();
         $user->column('id')->integer()->primary();

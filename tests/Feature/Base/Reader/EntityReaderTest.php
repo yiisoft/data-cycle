@@ -20,16 +20,12 @@ abstract class EntityReaderTest extends BaseData
 {
     public function testReadOne(): void
     {
-        $this->fillFixtures();
-
         $reader = new EntityReader($this->select('user'));
         $this->assertFixtures([0], [$reader->readOne()]);
     }
 
     public function testReadOneFromItemsCache(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')))->withLimit(3);
 
         $ref = (new \ReflectionProperty($reader, 'itemsCache'));
@@ -46,8 +42,6 @@ abstract class EntityReaderTest extends BaseData
 
     public function testGetIterator(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')))->withLimit(1);
         $this->assertFixtures([0], [\iterator_to_array($reader->getIterator())[0]]);
 
@@ -63,16 +57,12 @@ abstract class EntityReaderTest extends BaseData
 
     public function testRead(): void
     {
-        $this->fillFixtures();
-
         $reader = new EntityReader($this->select('user'));
         $this->assertFixtures(range(0, 4), $reader->read());
     }
 
     public function testWithSort(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader(
             $this->select('user'),
         ))
@@ -85,8 +75,6 @@ abstract class EntityReaderTest extends BaseData
 
     public function testGetSort(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')));
 
         self::assertNull($reader->getSort());
@@ -99,8 +87,6 @@ abstract class EntityReaderTest extends BaseData
 
     public function testCount(): void
     {
-        $this->fillFixtures();
-
         $reader = new EntityReader($this->select('user'));
 
         self::assertSame(count(self::FIXTURES_USER), $reader->count());
@@ -111,8 +97,6 @@ abstract class EntityReaderTest extends BaseData
      */
     public function testCountWithLimit(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader(
             $this->select('user'),
         ))->withLimit(1);
@@ -122,8 +106,6 @@ abstract class EntityReaderTest extends BaseData
 
     public function testCountWithFilter(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')))->withFilter(new Equals('number', 2));
 
         self::assertSame(1, $reader->count());
@@ -131,8 +113,6 @@ abstract class EntityReaderTest extends BaseData
 
     public function testLimit(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader(
             $this->select('user'),
         ))
@@ -148,8 +128,6 @@ abstract class EntityReaderTest extends BaseData
 
     public function testLimitOffset(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader(
             $this->select('user'),
         ))
@@ -159,16 +137,12 @@ abstract class EntityReaderTest extends BaseData
 
     public function testFilter(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')))->withFilter(new Equals('number', 2));
         $this->assertFixtures([1], $reader->read());
     }
 
     public function testFilterHandlers(): void
     {
-        $this->fillFixtures();
-
         $baseReader = (new EntityReader($this->select('user')))->withFilterHandlers(new StubFilterHandler());
 
         $reader = $baseReader->withFilter(new Equals('number', 2));

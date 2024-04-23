@@ -12,7 +12,6 @@ abstract class EntityWriterTest extends BaseData
 {
     public function testWrite(): void
     {
-        $this->fillFixtures();
         $orm = $this->getOrm();
 
         $writer = new EntityWriter($this->createEntityManager());
@@ -29,8 +28,6 @@ abstract class EntityWriterTest extends BaseData
 
     public function testDelete(): void
     {
-        $this->fillFixtures();
-
         $writer = new EntityWriter($this->createEntityManager());
         $reader = new EntityReader($this->select('user')->where('number', 'in', [1, 2, 3]));
         // Iterator doesn't use cache

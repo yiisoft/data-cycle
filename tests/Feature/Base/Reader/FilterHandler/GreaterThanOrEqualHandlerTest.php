@@ -12,8 +12,6 @@ abstract class GreaterThanOrEqualHandlerTest extends BaseData
 {
     public function testGreaterThanOrEqualHandler(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')))
             ->withFilter(new GreaterThanOrEqual('balance', 500));
         $this->assertFixtures([3], $reader->read());

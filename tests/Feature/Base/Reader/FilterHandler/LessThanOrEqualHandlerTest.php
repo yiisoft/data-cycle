@@ -12,8 +12,6 @@ abstract class LessThanOrEqualHandlerTest extends BaseData
 {
     public function testLessThanOrEqualHandler(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')))->withFilter(new LessThanOrEqual('balance', 1.0));
         $this->assertFixtures([1], $reader->read());
     }

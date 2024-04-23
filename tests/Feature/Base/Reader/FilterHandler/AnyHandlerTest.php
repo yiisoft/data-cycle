@@ -19,8 +19,6 @@ abstract class AnyHandlerTest extends BaseData
 {
     public function testAnyHandler(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')))
             ->withFilter(new Any(new Equals('number', 2), new Equals('number', 3)));
         $this->assertFixtures([1, 2], $reader->read());
@@ -28,8 +26,6 @@ abstract class AnyHandlerTest extends BaseData
 
     public function testNested(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')))
             ->withFilter(
                 new Any(
