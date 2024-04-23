@@ -28,7 +28,6 @@ use Cycle\ORM\Schema;
 use Cycle\ORM\SchemaInterface;
 use Cycle\ORM\Select;
 use PHPUnit\Framework\TestCase;
-use Yiisoft\Data\Reader\DataReaderInterface;
 
 class BaseData extends TestCase
 {
