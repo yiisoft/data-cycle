@@ -158,19 +158,11 @@ class BaseData extends TestCase
         $user->column('born_at')->date()->nullable();
         $user->save();
 
-        if (static::DRIVER === 'mssql') {
-            $db->execute('SET IDENTITY_INSERT [user] ON');
-        }
-
         $db
             ->insert('user')
             ->columns(['number', 'email', 'balance', 'born_at'])
             ->values(static::FIXTURES_USER)
             ->run();
-
-        if (static::DRIVER === 'mssql') {
-            $db->execute('SET IDENTITY_INSERT [user] OFF');
-        }
     }
 
     protected function select(string $role): Select
