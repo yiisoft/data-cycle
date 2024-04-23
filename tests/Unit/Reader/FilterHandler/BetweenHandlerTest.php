@@ -15,7 +15,7 @@ final class BetweenHandlerTest extends TestCase
     public function testUnexpectedFilterException(): void
     {
         $handler = new BetweenHandler();
-        $filter = new GreaterThan('id', 2);
+        $filter = new GreaterThan('number', 2);
 
         $this->expectException(UnexpectedFilterException::class);
         $this->expectExceptionMessage(sprintf('Expected "%s", but "%s" given.', Between::class, GreaterThan::class));

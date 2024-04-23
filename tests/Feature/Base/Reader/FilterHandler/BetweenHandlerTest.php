@@ -14,10 +14,6 @@ abstract class BetweenHandlerTest extends BaseData
     {
         $this->fillFixtures();
         $reader = (new EntityReader($this->select('user')))->withFilter(new Between('balance', '10.25', '100.0'));
-
-        $this->assertEquals(
-            [(object) self::FIXTURES_USER[0], (object) self::FIXTURES_USER[2], (object) self::FIXTURES_USER[4]],
-            $reader->read(),
-        );
+        $this->assertFixtures([0, 2, 4], $reader->read());
     }
 }

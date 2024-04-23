@@ -19,8 +19,8 @@ final class EntityReaderTest extends TestCase
         $ref->setAccessible(true);
 
         $this->assertSame(
-            ['id' => 'ASC', 'name' => 'DESC', 'email' => 'ASC'],
-            $ref->invoke($reader, ['id' => 'ASC', 'name' => SORT_DESC, 'email' => SORT_ASC])
+            ['number' => 'ASC', 'name' => 'DESC', 'email' => 'ASC'],
+            $ref->invoke($reader, ['number' => 'ASC', 'name' => SORT_DESC, 'email' => SORT_ASC])
         );
     }
 
@@ -36,10 +36,10 @@ final class EntityReaderTest extends TestCase
     public function testOrderBy(): void
     {
         $select = $this->createMock(SelectQuery::class);
-        $select->expects($this->once())->method('orderBy')->with(['id' => 'DESC'])->willReturnSelf();
+        $select->expects($this->once())->method('orderBy')->with(['number' => 'DESC'])->willReturnSelf();
 
         $reader = new EntityReader($select);
-        $reader->withSort(Sort::only(['id'])->withOrderString('-id'))->getSql();
+        $reader->withSort(Sort::only(['number'])->withOrderString('-number'))->getSql();
     }
 
     public function testLimit(): void

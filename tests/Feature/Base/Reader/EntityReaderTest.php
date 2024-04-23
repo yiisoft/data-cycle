@@ -23,8 +23,7 @@ abstract class EntityReaderTest extends BaseData
         $this->fillFixtures();
 
         $reader = new EntityReader($this->select('user'));
-
-        self::assertEquals(self::FIXTURES_USER[0], (array)$reader->readOne());
+        $this->assertFixtures([0], [$reader->readOne()]);
     }
 
     public function testReadOneFromItemsCache(): void
@@ -41,7 +40,7 @@ abstract class EntityReaderTest extends BaseData
 
         self::assertTrue($ref->getValue($reader)->isCollected());
 
-        self::assertEquals(self::FIXTURES_USER[0], (array)$reader->readOne());
+        $this->assertFixtures([0], [$reader->readOne()]);
         self::assertEquals($ref->getValue($reader)->getCollection()[0], $reader->readOne());
     }
 
@@ -50,7 +49,7 @@ abstract class EntityReaderTest extends BaseData
         $this->fillFixtures();
 
         $reader = (new EntityReader($this->select('user')))->withLimit(1);
-        self::assertEquals(self::FIXTURES_USER[0], (array) \iterator_to_array($reader->getIterator())[0]);
+        $this->assertFixtures([0], [\iterator_to_array($reader->getIterator())[0]]);
 
         $ref = (new \ReflectionProperty($reader, 'itemsCache'));
         $ref->setAccessible(true);
@@ -67,12 +66,7 @@ abstract class EntityReaderTest extends BaseData
         $this->fillFixtures();
 
         $reader = new EntityReader($this->select('user'));
-
-        $result = $reader->read();
-        self::assertEquals(
-            \array_map(static fn (array $data): \stdClass => (object) $data, self::FIXTURES_USER),
-            $result,
-        );
+        $this->assertFixtures(range(0, 4), $reader->read());
     }
 
     public function testWithSort(): void
@@ -83,14 +77,10 @@ abstract class EntityReaderTest extends BaseData
             $this->select('user'),
         ))
             // Reverse order
-            ->withSort(Sort::only(['id'])->withOrderString('-id'));
+            ->withSort(Sort::only(['number'])->withOrderString('-number'));
 
-        $result = $reader->read();
-        self::assertEquals(
-            \array_map(static fn (array $data): object => (object) $data, \array_reverse(self::FIXTURES_USER)),
-            $result,
-        );
-        self::assertSame('-id', $reader->getSort()->getOrderAsString());
+        $this->assertFixtures(array_reverse(range(0, 4)), $reader->read());
+        self::assertSame('-number', $reader->getSort()->getOrderAsString());
     }
 
     public function testGetSort(): void
@@ -101,7 +91,7 @@ abstract class EntityReaderTest extends BaseData
 
         self::assertNull($reader->getSort());
 
-        $sort = Sort::only(['id'])->withOrderString('-id');
+        $sort = Sort::only(['number'])->withOrderString('-number');
         $reader = $reader->withSort($sort);
 
         self::assertSame($sort, $reader->getSort());
@@ -134,7 +124,7 @@ abstract class EntityReaderTest extends BaseData
     {
         $this->fillFixtures();
 
-        $reader = (new EntityReader($this->select('user')))->withFilter(new Equals('id', 2));
+        $reader = (new EntityReader($this->select('user')))->withFilter(new Equals('number', 2));
 
         self::assertSame(1, $reader->count());
     }
@@ -147,11 +137,7 @@ abstract class EntityReaderTest extends BaseData
             $this->select('user'),
         ))
             ->withLimit(2);
-
-        self::assertEquals(
-            [(object)self::FIXTURES_USER[0], (object)self::FIXTURES_USER[1]],
-            $reader->read(),
-        );
+        $this->assertFixtures([0, 1], $reader->read());
     }
 
     public function testLimitException(): void
@@ -168,20 +154,15 @@ abstract class EntityReaderTest extends BaseData
             $this->select('user'),
         ))
             ->withLimit(2)->withOffset(1);
-
-        self::assertEquals(
-            [(object)self::FIXTURES_USER[1], (object)self::FIXTURES_USER[2]],
-            $reader->read(),
-        );
+        $this->assertFixtures([1, 2], $reader->read());
     }
 
     public function testFilter(): void
     {
         $this->fillFixtures();
 
-        $reader = (new EntityReader($this->select('user')))->withFilter(new Equals('id', 2));
-
-        self::assertEquals([(object)self::FIXTURES_USER[1]], $reader->read());
+        $reader = (new EntityReader($this->select('user')))->withFilter(new Equals('number', 2));
+        $this->assertFixtures([1], $reader->read());
     }
 
     public function testFilterHandlers(): void
@@ -190,8 +171,8 @@ abstract class EntityReaderTest extends BaseData
 
         $baseReader = (new EntityReader($this->select('user')))->withFilterHandlers(new StubFilterHandler());
 
-        $reader = $baseReader->withFilter(new Equals('id', 2));
-        $this->assertEquals([(object) self::FIXTURES_USER[1]], $reader->read());
+        $reader = $baseReader->withFilter(new Equals('number', 2));
+        $this->assertFixtures([1], $reader->read());
 
         $reader = $reader->withFilter(new StubFilter());
         $this->expectException(StatementException::class);
@@ -204,8 +185,15 @@ abstract class EntityReaderTest extends BaseData
         return [
             'base' => [
                 <<<SQL
-                SELECT "user"."id" AS "c0", "user"."email" AS "c1", "user"."balance" AS "c2", "user"."born_at" AS "c3"
-                FROM "user" AS "user" LIMIT 2 OFFSET 1
+                SELECT
+                    "user"."id" AS "c0",
+                    "user"."number" AS "c1",
+                    "user"."email" AS "c2",
+                    "user"."balance" AS "c3",
+                    "user"."born_at" AS "c4"
+                FROM "user" AS "user"
+                LIMIT 2
+                OFFSET 1
 SQL,
             ],
         ];

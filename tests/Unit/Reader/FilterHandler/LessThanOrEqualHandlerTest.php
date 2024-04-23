@@ -15,7 +15,7 @@ final class LessThanOrEqualHandlerTest extends TestCase
     public function testUnexpectedFilterException(): void
     {
         $handler = new LessThanOrEqualHandler();
-        $filter = new Equals('id', 2);
+        $filter = new Equals('number', 2);
 
         $this->expectException(UnexpectedFilterException::class);
         $this->expectExceptionMessage(sprintf('Expected "%s", but "%s" given.', LessThanOrEqual::class, Equals::class));

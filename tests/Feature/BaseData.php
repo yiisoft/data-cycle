@@ -28,17 +28,18 @@ use Cycle\ORM\Schema;
 use Cycle\ORM\SchemaInterface;
 use Cycle\ORM\Select;
 use PHPUnit\Framework\TestCase;
+use Yiisoft\Data\Reader\DataReaderInterface;
 
 class BaseData extends TestCase
 {
     public const DRIVER = null;
 
     protected const FIXTURES_USER = [
-        ['id' => 1, 'email' => 'foo@bar', 'balance' => '10.25', 'born_at' => null],
-        ['id' => 2, 'email' => 'bar@foo', 'balance' => '1.0', 'born_at' => null],
-        ['id' => 3, 'email' => 'seed@beat', 'balance' => '100.0', 'born_at' => null],
-        ['id' => 4, 'email' => 'the@best', 'balance' => '500.0', 'born_at' => null],
-        ['id' => 5, 'email' => 'test@test', 'balance' => '42.0', 'born_at' => '1990-01-01'],
+        ['number' => 1, 'email' => 'foo@bar', 'balance' => 10.25, 'born_at' => null],
+        ['number' => 2, 'email' => 'bar@foo', 'balance' => 1, 'born_at' => null],
+        ['number' => 3, 'email' => 'seed@beat', 'balance' => 100, 'born_at' => null],
+        ['number' => 4, 'email' => 'the@best', 'balance' => 500, 'born_at' => null],
+        ['number' => 5, 'email' => 'test@test', 'balance' => 42, 'born_at' => '1990-01-01'],
     ];
 
     // cache
@@ -151,25 +152,26 @@ class BaseData extends TestCase
         $db = $this->dbal->database();
 
         $user = $db->table('user')->getSchema();
-        $user->column('id')->bigInteger()->primary();
+        $user->column('id')->integer()->primary();
+        $user->column('number')->integer();
         $user->column('email')->string()->nullable(false);
         $user->column('balance')->float()->nullable(false)->defaultValue(0.0);
         $user->column('born_at')->date()->nullable();
         $user->save();
 
-        // if (static::DRIVER === 'mssql') {
+        if (static::DRIVER === 'mssql') {
             $db->execute('SET IDENTITY_INSERT [user] ON');
-        // }
+        }
 
         $db
             ->insert('user')
-            ->columns(['id', 'email', 'balance', 'born_at'])
+            ->columns(['number', 'email', 'balance', 'born_at'])
             ->values(static::FIXTURES_USER)
             ->run();
 
-        // if (static::DRIVER === 'mssql') {
+        if (static::DRIVER === 'mssql') {
             $db->execute('SET IDENTITY_INSERT [user] OFF');
-        // }
+        }
     }
 
     protected function select(string $role): Select
@@ -206,6 +208,7 @@ class BaseData extends TestCase
                 SchemaInterface::COLUMNS => [
                     // property => column
                     'id' => 'id',
+                    'number' => 'number',
                     'email' => 'email',
                     'balance' => 'balance',
                     'born_at' => 'born_at',
@@ -222,5 +225,23 @@ class BaseData extends TestCase
     protected function createEntityManager(): EntityManagerInterface
     {
         return new EntityManager($this->orm);
+    }
+
+    protected function assertFixtures(array $expectedFixtureIndexes, array $actualFixtures): void
+    {
+        $expectedFixtures = array_map(
+            static fn (int $expectedNumber) => self::FIXTURES_USER[$expectedNumber],
+            $expectedFixtureIndexes,
+        );
+        $actualFixtures = array_map(
+            static function (object $fixture): array {
+                $fixture = json_decode(json_encode($fixture), associative: true);
+                unset($fixture['id']);
+
+                return $fixture;
+            },
+            $actualFixtures,
+        );
+        $this->assertSame($expectedFixtures, $actualFixtures);
     }
 }

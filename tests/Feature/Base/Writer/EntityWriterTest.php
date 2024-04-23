@@ -16,24 +16,14 @@ abstract class EntityWriterTest extends BaseData
         $orm = $this->getOrm();
 
         $writer = new EntityWriter($this->createEntityManager());
-
-        // if (static::DRIVER === 'mssql') {
-            $this->getDatabase()->execute('SET IDENTITY_INSERT [user] ON');
-        // }
-
         $writer->write($users = [
-            $orm->make('user', ['id' => 99998, 'email' => 'super@test1.com', 'balance' => 1000.0]),
-            $orm->make('user', ['id' => 99999, 'email' => 'super@test2.com', 'balance' => 999.0]),
+            $orm->make('user', ['number' => 99998, 'email' => 'super@test1.com', 'balance' => 1000.0]),
+            $orm->make('user', ['number' => 99999, 'email' => 'super@test2.com', 'balance' => 999.0]),
         ]);
 
-        // if (static::DRIVER === 'mssql') {
-            $this->getDatabase()->execute('SET IDENTITY_INSERT [user] OFF');
-        // }
-
         $reader = new EntityReader(
-            $this->select('user')->where('id', 'in', [99998, 99999]),
+            $this->select('user')->where('number', 'in', [99998, 99999]),
         );
-
         self::assertEquals($users, $reader->read());
     }
 
@@ -42,7 +32,7 @@ abstract class EntityWriterTest extends BaseData
         $this->fillFixtures();
 
         $writer = new EntityWriter($this->createEntityManager());
-        $reader = new EntityReader($this->select('user')->where('id', 'in', [1, 2, 3]));
+        $reader = new EntityReader($this->select('user')->where('number', 'in', [1, 2, 3]));
         // Iterator doesn't use cache
         $entities = \iterator_to_array($reader->getIterator());
 

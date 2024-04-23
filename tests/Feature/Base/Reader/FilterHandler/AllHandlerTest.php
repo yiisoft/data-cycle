@@ -19,8 +19,7 @@ abstract class AllHandlerTest extends BaseData
 
         $reader = (new EntityReader($this->select('user')))
             ->withFilter(new All(new Equals('balance', '100.0'), new Equals('email', 'seed@beat')));
-
-        $this->assertEquals([(object)self::FIXTURES_USER[2]], $reader->read());
+        $this->assertFixtures([2], $reader->read());
     }
 
     public function testNotSupportedFilterException(): void

@@ -15,7 +15,6 @@ abstract class GreaterThanHandlerTest extends BaseData
         $this->fillFixtures();
 
         $reader = (new EntityReader($this->select('user')))->withFilter(new GreaterThan('balance', 499));
-
-        $this->assertEquals([(object)self::FIXTURES_USER[3]], $reader->read());
+        $this->assertFixtures([3], $reader->read());
     }
 }

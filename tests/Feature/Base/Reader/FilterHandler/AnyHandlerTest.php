@@ -22,9 +22,8 @@ abstract class AnyHandlerTest extends BaseData
         $this->fillFixtures();
 
         $reader = (new EntityReader($this->select('user')))
-            ->withFilter(new Any(new Equals('id', 2), new Equals('id', 3)));
-
-        $this->assertEquals([(object)self::FIXTURES_USER[1], (object)self::FIXTURES_USER[2]], $reader->read());
+            ->withFilter(new Any(new Equals('number', 2), new Equals('number', 3)));
+        $this->assertFixtures([1, 2], $reader->read());
     }
 
     public function testNested(): void
@@ -34,12 +33,11 @@ abstract class AnyHandlerTest extends BaseData
         $reader = (new EntityReader($this->select('user')))
             ->withFilter(
                 new Any(
-                    new All(new GreaterThan('balance', '500.0'), new LessThan('id', 5)),
+                    new All(new GreaterThan('balance', '500.0'), new LessThan('number', 5)),
                     new Like('email', '%st'),
                 )
             );
-
-        $this->assertEquals([(object) self::FIXTURES_USER[3], (object) self::FIXTURES_USER[4]], $reader->read());
+        $this->assertFixtures([3, 4], $reader->read());
     }
 
     public function testNotsupportedFilterException(): void
@@ -48,6 +46,6 @@ abstract class AnyHandlerTest extends BaseData
 
         $this->expectException(NotSupportedFilterException::class);
         $this->expectExceptionMessage(sprintf('Filter "%s" is not supported.', NotSupportedFilter::class));
-        $reader->withFilter(new Any(new Equals('id', 2), new NotSupportedFilter(), new Equals('id', 3)));
+        $reader->withFilter(new Any(new Equals('number', 2), new NotSupportedFilter(), new Equals('number', 3)));
     }
 }

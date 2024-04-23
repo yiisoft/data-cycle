@@ -14,15 +14,6 @@ abstract class EqualsNullHandlerTest extends BaseData
     {
         $this->fillFixtures();
         $reader = (new EntityReader($this->select('user')))->withFilter(new EqualsNull('born_at'));
-
-        $this->assertEquals(
-            [
-                (object) self::FIXTURES_USER[0],
-                (object) self::FIXTURES_USER[1],
-                (object) self::FIXTURES_USER[2],
-                (object) self::FIXTURES_USER[3],
-            ],
-            $reader->read(),
-        );
+        $this->assertFixtures(range(0, 3), $reader->read());
     }
 }

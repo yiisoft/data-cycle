@@ -15,7 +15,7 @@ final class NotHandlerTest extends TestCase
     public function testUnexpectedFilterException(): void
     {
         $handler = new NotHandler();
-        $filter = new GreaterThan('id', 2);
+        $filter = new GreaterThan('number', 2);
 
         $this->expectException(UnexpectedFilterException::class);
         $this->expectExceptionMessage(sprintf('Expected "%s", but "%s" given.', Not::class, GreaterThan::class));
