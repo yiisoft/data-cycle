@@ -59,7 +59,7 @@ class BaseData extends TestCase
 
     protected function tearDown(): void
     {
-        $this->dropDatabase($this->dbal->database());
+        $this->dropDatabase();
         $this->orm = null;
         $this->dbal = null;
     }
@@ -123,9 +123,9 @@ class BaseData extends TestCase
         return new DatabaseManager(new DatabaseConfig(['databases' => $databases, 'connections' => $connections]));
     }
 
-    protected function dropDatabase(DatabaseInterface $database): void
+    protected function dropDatabase(): void
     {
-        foreach ($database->getTables() as $table) {
+        foreach ($this->dbal->database()->getTables() as $table) {
             $schema = $table->getSchema();
 
             foreach ($schema->getForeignKeys() as $foreign) {
@@ -135,7 +135,7 @@ class BaseData extends TestCase
             $schema->save(Handler::DROP_FOREIGN_KEYS);
         }
 
-        foreach ($database->getTables() as $table) {
+        foreach ($this->dbal->database()->getTables() as $table) {
             $schema = $table->getSchema();
             $schema->declareDropped();
             $schema->save();
@@ -146,10 +146,12 @@ class BaseData extends TestCase
     {
         /** @var Database $db */
         $db = $this->dbal->database();
-        // $this->dropDatabase($db);
+        if ($db->hasTable('user')) {
+            return;
+        }
 
         $user = $db->table('user')->getSchema();
-        $user->column('id')->integer()->primary();
+        $user->column('id')->primary();
         $user->column('number')->integer();
         $user->column('email')->string()->nullable(false);
         $user->column('balance')->float()->nullable(false)->defaultValue(0.0);
