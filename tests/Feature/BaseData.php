@@ -113,6 +113,7 @@ class BaseData extends TestCase
                     database: getenv('CYCLE_MSSQL_DATABASE'),
                     host: getenv('CYCLE_MSSQL_HOST'),
                     port: (int) getenv('CYCLE_MSSQL_PORT'),
+                    trustServerCertificate: true,
                     user: getenv('CYCLE_MSSQL_USER'),
                     password: getenv('CYCLE_MSSQL_PASSWORD'),
                 ),
@@ -158,10 +159,15 @@ class BaseData extends TestCase
         $user->column('born_at')->date()->nullable();
         $user->save();
 
+        $fixtures = static::FIXTURES_USER;
+        foreach ($fixtures as $index => $fixture) {
+            $fixtures[$index]['balance'] = (string) $fixtures[$index]['balance'];
+        }
+
         $db
             ->insert('user')
             ->columns(['number', 'email', 'balance', 'born_at'])
-            ->values(static::FIXTURES_USER)
+            ->values($fixtures)
             ->run();
     }
 
@@ -206,6 +212,7 @@ class BaseData extends TestCase
                 ],
                 SchemaInterface::TYPECAST => [
                     'id' => 'int',
+                    'number' => 'int',
                     'balance' => 'float',
                 ],
                 SchemaInterface::RELATIONS => [],
