@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Data\Cycle\Tests\Feature\Reader\FilterHandler;
+namespace Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler;
 
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Cycle\Tests\Feature\BaseData;
 use Yiisoft\Data\Reader\Filter\Like;
 
-final class ILikeHandlerTest extends BaseData
+abstract class ILikeHandlerTest extends BaseData
 {
     public function testLikeHandler(): void
     {
