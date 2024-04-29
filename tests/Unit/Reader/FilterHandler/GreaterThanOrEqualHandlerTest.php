@@ -15,7 +15,7 @@ final class GreaterThanOrEqualHandlerTest extends TestCase
     public function testUnexpectedFilterException(): void
     {
         $handler = new GreaterThanOrEqualHandler();
-        $filter = new Equals('id', 2);
+        $filter = new Equals('number', 2);
 
         $this->expectException(UnexpectedFilterException::class);
         $this->expectExceptionMessage(

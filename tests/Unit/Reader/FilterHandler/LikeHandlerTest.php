@@ -15,7 +15,7 @@ final class LikeHandlerTest extends TestCase
     public function testUnexpectedFilterException(): void
     {
         $handler = new LikeHandler();
-        $filter = new Equals('id', 2);
+        $filter = new Equals('number', 2);
 
         $this->expectException(UnexpectedFilterException::class);
         $this->expectExceptionMessage(sprintf('Expected "%s", but "%s" given.', Like::class, Equals::class));
