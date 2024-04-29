@@ -15,7 +15,7 @@ final class AllHandlerTest extends TestCase
     public function testUnexpectedFilterException(): void
     {
         $handler = new AllHandler();
-        $filter = new Equals('id', 2);
+        $filter = new Equals('number', 2);
 
         $this->expectException(UnexpectedFilterException::class);
         $this->expectExceptionMessage(sprintf('Expected "%s", but "%s" given.', All::class, Equals::class));

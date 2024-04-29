@@ -15,7 +15,7 @@
 [![type-coverage](https://shepherd.dev/github/yiisoft/data-cycle/coverage.svg)](https://shepherd.dev/github/yiisoft/data-cycle)
 [![psalm-level](https://shepherd.dev/github/yiisoft/data-cycle/level.svg)](https://shepherd.dev/github/yiisoft/data-cycle)
 
-There package provides [Cycle ORM](https://github.com/cycle/orm) query adapter for[Yii Data](https://github.com/yiisoft/data). For other 
+There package provides [Cycle ORM](https://github.com/cycle/orm) query adapter for[Yii Data](https://github.com/yiisoft/data). For other
 integrations of Cycle ORM with Yii framework see [Yii Cycle](https://github.com/yiisoft/yii-cycle) package.
 
 ## Requirements
@@ -32,8 +32,15 @@ composer require yiisoft/data-cycle
 
 ## Documentation
 
-- Guide: [English](docs/guide/en), [Russian](docs/guide/ru), [Spanish](docs/guide/es)
+- Guide:
+  - [English](docs/guide/en/README.md)
+  - [Portuguese - Brazil](docs/guide/pt-BR/README.md)
+  - [Russian](docs/guide/ru/README.md)
+  - [Spanish](docs/guide/es/README.md)
 - [Internals](docs/internals.md)
+
+If you need help or have a question, the [Yii Forum](https://forum.yiiframework.com/c/yii-3-0/63) is a good place for
+that. You may also check out other [Yii Community Resources](https://www.yiiframework.com/community).
 
 ## License
 
