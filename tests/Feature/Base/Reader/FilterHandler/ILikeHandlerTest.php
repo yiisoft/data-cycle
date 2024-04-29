@@ -10,12 +10,9 @@ use Yiisoft\Data\Reader\Filter\Like;
 
 abstract class ILikeHandlerTest extends BaseData
 {
-    public function testLikeHandler(): void
+    public function testILikeHandler(): void
     {
-        $this->fillFixtures();
-
         $reader = (new EntityReader($this->select('user')))->withFilter(new Like('email', 'SEED@%'));
-
-        $this->assertEquals([(object)self::FIXTURES_USER[2]], $reader->read());
+        $this->assertFixtures([2], $reader->read());
     }
 }
