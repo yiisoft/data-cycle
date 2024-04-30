@@ -9,4 +9,12 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\LikeHandlerTest a
 final class LikeHandlerTest extends BaseLikeHandlerTest
 {
     public const DRIVER = 'pgsql';
+
+    public static function dataBase(): array
+    {
+        return [
+            'case matches' => ['email', 'seed@%', [2]],
+            'case does not match' => ['email', 'SEED@%', []],
+        ];
+    }
 }

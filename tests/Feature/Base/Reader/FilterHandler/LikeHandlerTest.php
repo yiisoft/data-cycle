@@ -15,7 +15,7 @@ abstract class LikeHandlerTest extends BaseData
     {
         return [
             'case matches' => ['email', 'seed@%', [2]],
-            'case does not match' => ['email', 'SEED@%', []],
+            'case does not match' => ['email', 'SEED@%', [2]],
         ];
     }
 
