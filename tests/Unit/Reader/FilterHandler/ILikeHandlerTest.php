@@ -4,17 +4,32 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Unit\Reader\FilterHandler;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
-use Yiisoft\Data\Cycle\Reader\FilterHandler\ILikeHandler\ILikeHandler;
+use Yiisoft\Data\Cycle\Reader\FilterHandler\ILikeHandler\MysqlILikeHandler;
+use Yiisoft\Data\Cycle\Reader\FilterHandler\ILikeHandler\PostgresILikeHandler;
+use Yiisoft\Data\Cycle\Reader\FilterHandler\ILikeHandler\SqliteILikeHandler;
+use Yiisoft\Data\Cycle\Reader\FilterHandler\ILikeHandler\SqlServerILikeHandler;
 use Yiisoft\Data\Reader\Filter\Equals;
 use Yiisoft\Data\Reader\Filter\ILike;
+use Yiisoft\Data\Reader\FilterHandlerInterface;
 
 final class ILikeHandlerTest extends TestCase
 {
-    public function testUnexpectedFilterException(): void
+    public static function dataUnexpectedFilterException(): array
     {
-        $handler = new ILikeHandler();
+        return [
+            [new SqliteILikeHandler()],
+            [new MysqlILikeHandler()],
+            [new PostgresILikeHandler()],
+            [new SqlServerILikeHandler()],
+        ];
+    }
+
+    #[DataProvider('dataUnexpectedFilterException')]
+    public function testUnexpectedFilterException(FilterHandlerInterface $handler): void
+    {
         $filter = new Equals('id', 2);
 
         $this->expectException(UnexpectedFilterException::class);
