@@ -46,6 +46,11 @@ final class EntityReader implements DataReaderInterface
         $this->countCache = new CachedCount($this->query);
         $this->itemsCache = new CachedCollection();
         $this->oneItemCache = new CachedCollection();
+        /**
+         * @psalm-suppress InternalMethod There is no other way to get driver for SelectQuery.
+         * @psalm-suppress UndefinedMagicMethod The magic method is not defined in annotations.
+         */
+        $iLikeHandler = ILikeHandlerFactory::getIlikeHandler($this->query->getDriver());
         $this->setFilterHandlers(
             new FilterHandler\AllHandler(),
             new FilterHandler\AnyHandler(),
@@ -55,7 +60,7 @@ final class EntityReader implements DataReaderInterface
             new FilterHandler\GreaterThanHandler(),
             new FilterHandler\GreaterThanOrEqualHandler(),
             new FilterHandler\InHandler(),
-            ILikeHandlerFactory::getIlikeHandler($this->query->getDriver()),
+            $iLikeHandler,
             new FilterHandler\LessThanHandler(),
             new FilterHandler\LessThanOrEqualHandler(),
             new FilterHandler\LikeHandler(),
