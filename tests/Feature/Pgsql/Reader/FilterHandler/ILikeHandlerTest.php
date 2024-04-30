@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Feature\Pgsql\Reader\FilterHandler;
+namespace Yiisoft\Data\Cycle\Tests\Feature\Pgsql\Reader\FilterHandler;
 
 use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\ILikeHandlerTest as BaseILikeHandlerTest;
 
