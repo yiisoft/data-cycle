@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
+namespace Yiisoft\Data\Cycle\Reader\FilterHandler\ILikeHandler;
 
+use Cycle\Database\Injection\Fragment;
 use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Reader\Filter\ILike;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\FilterInterface;
 
-final class ILikeHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
+final class SqliteILikeHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
     public function getFilterClass(): string
     {
@@ -23,6 +24,6 @@ final class ILikeHandler implements QueryBuilderFilterHandler, FilterHandlerInte
             throw new UnexpectedFilterException(ILike::class, $filter::class);
         }
 
-        return [$filter->getField(), 'ilike', $filter->getValue()];
+        return [new Fragment("UPPER({$filter->getField()})"), 'like', mb_strtoupper($filter->getValue())];
     }
 }

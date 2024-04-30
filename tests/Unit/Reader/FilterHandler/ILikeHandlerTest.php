@@ -6,7 +6,7 @@ namespace Yiisoft\Data\Cycle\Tests\Unit\Reader\FilterHandler;
 
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
-use Yiisoft\Data\Cycle\Reader\FilterHandler\ILikeHandler;
+use Yiisoft\Data\Cycle\Reader\FilterHandler\ILikeHandler\ILikeHandler;
 use Yiisoft\Data\Reader\Filter\Equals;
 use Yiisoft\Data\Reader\Filter\ILike;
 

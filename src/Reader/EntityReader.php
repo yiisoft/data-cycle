@@ -11,6 +11,7 @@ use Cycle\ORM\Select\QueryBuilder;
 use Generator;
 use InvalidArgumentException;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
+use Yiisoft\Data\Cycle\Reader\FilterHandler\ILikeHandler\ILikeHandlerFactory;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
@@ -54,7 +55,7 @@ final class EntityReader implements DataReaderInterface
             new FilterHandler\GreaterThanHandler(),
             new FilterHandler\GreaterThanOrEqualHandler(),
             new FilterHandler\InHandler(),
-            new FilterHandler\ILikeHandler(),
+            ILikeHandlerFactory::getIlikeHandler($this->query->getDriver()),
             new FilterHandler\LessThanHandler(),
             new FilterHandler\LessThanOrEqualHandler(),
             new FilterHandler\LikeHandler(),
