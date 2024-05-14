@@ -24,7 +24,7 @@ integrations of Cycle ORM with Yii framework see [Yii Cycle](https://github.com/
 
 ## Installation
 
-The package could be installed with composer:
+The package could be installed with [Composer](https://getcomposer.org):
 
 ```shell
 composer require yiisoft/data-cycle
@@ -32,11 +32,7 @@ composer require yiisoft/data-cycle
 
 ## Documentation
 
-- Guide:
-  - [English](docs/guide/en/README.md)
-  - [Portuguese - Brazil](docs/guide/pt-BR/README.md)
-  - [Russian](docs/guide/ru/README.md)
-  - [Spanish](docs/guide/es/README.md)
+- Guide: [English](docs/guide/en/README.md), [Português - Brasil](docs/guide/pt-BR/README.md), [Русский](docs/guide/ru/README.md), [Spanish](docs/guide/es/README.md)
 - [Internals](docs/internals.md)
 
 If you need help or have a question, the [Yii Forum](https://forum.yiiframework.com/c/yii-3-0/63) is a good place for
