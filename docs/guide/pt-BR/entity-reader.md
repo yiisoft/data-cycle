@@ -1,30 +1,30 @@
-# EntityReader
+# Classe EntityReader
 
 `EntityReader` permite passar com segurança consultas de seleção do repositório para o tempo de execução do usuário.
 Por consulta selecionada, assumimos uma instância de `\Cycle\ORM\Select` ou `\Cycle\Database\Query\SelectQuery`.
 
 Você precisa saber o seguinte sobre `EntityReader`:
 
-* `EntityReader` implementa `IteratorAggregate`.
+- `EntityReader` implementa `IteratorAggregate`.
   Ele permite usar a instância `EntityReader` em `foreach`.
-* Usando `EntityReader` você pode ajustar a consulta de seleção:
-  * Adicione manualmente `Limit` e `Offset` ou usando `OffsetPaginator`
-  * Especifique a classificação. Observe que a classificação `EntityReader`
-     não substitui a classificação da consulta inicial, mas adiciona uma classificação np topo dela.
+- Usando `EntityReader` você pode ajustar a consulta de seleção:
+  - Adicione manualmente `Limit` e `Offset` ou usando `OffsetPaginator`
+  - Especifique a classificação. Observe que a classificação `EntityReader`
+     não substitui a classificação da consulta inicial, mas adiciona uma classificação no topo dela.
      Cada próxima chamada `withSort()` substitui as opções de classificação `EntityReader`.
-  * Aplicar filtro. As condições de filtragem em `EntityReader` também não substituem as condições de filtragem
+  - Aplicar filtro. As condições de filtragem em `EntityReader` também não substituem as condições de filtragem
      na consulta inicial, mas adiciona condições a ela. Portanto, usando filtragem no `SeletecDataReader`
      você só pode refinar a seleção, mas NÃO expandir.
-* `EntityReader` consulta o banco de dados somente quando você realmente lê os dados.
-* Caso você esteja usando `read()`, `readOne()` ou `count()`, os dados serão armazenados em cache por `EntityReader`.
-* O método `count()` retorna o número de elementos sem levar em consideração o limite e o deslocamento.
-* Caso você queira evitar o cache, use `getIterator()`. Observe que se o cache já estiver lá, `getIterator()`
+- `EntityReader` consulta o banco de dados somente quando você realmente lê os dados.
+- Caso você esteja usando `read()`, `readOne()` ou `count()`, os dados serão armazenados em cache por `EntityReader`.
+- O método `count()` retorna o número de elementos sem levar em consideração o limite e o deslocamento.
+- Caso você queira evitar o cache, use `getIterator()`. Observe que se o cache já estiver lá, `getIterator()`
    vai usá-lo.
 
 ## Exemplos
 
 Vamos implementar um repositório para trabalhar com tabela de artigos. Queremos um método para obter artigos públicos `findPublic()` mas
-não retornaria uma coleção de artigos prontos ou uma consulta selecionada. Em vez disso, retornar `EntityReader`:
+ue não retorne uma coleção de artigos prontos ou uma consulta selecionada. Em vez disso, retorne `EntityReader`:
 
 ```php
 use Yiisoft\Data\Cycle\Data\Reader\EntityReader;
@@ -152,7 +152,6 @@ function index(ArticleRepository $repository)
         ->withSort(Sort::any()->withOrder(['published_at' => 'asc']));
 }
 ```
-
 Você pode refinar as condições de consulta com filtros. Essas condições de filtragem são adicionadas às condições de consulta de seleção originais, mas NÃO as substituem.
 
 ```php
@@ -174,4 +173,4 @@ class ArticleRepository extends \Cycle\ORM\Select\Repository
 ```
 
 Use filtros do pacote [yiisoft/data](https://github.com/yiisoft/data) ou qualquer outro, tendo previamente escrito
-os manipuladores (processadores) apropriados para eles.
+os handlers(processors) apropriados para eles.

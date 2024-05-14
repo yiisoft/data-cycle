@@ -1,4 +1,4 @@
-# EntityReader
+# Clase EntityReader
 
 `EntityReader` es una herramienta útil para transferir de forma segura las solicitudes de selección del repositorio en tiempo de ejecución del usuario.
 
@@ -6,15 +6,15 @@ Una solicitud de selección se refiere a una instancia de una de las clases: ``C
 
 Lo que hay que saber sobre `EntityReader`:
 
-* La clase `EntityReader` implementa la interfaz `IteratorAggregate`. Esto permite utilizar el objeto `EntityReader` en un bucle `foreach`.
-* Con `EntityReader` se puede ajustar la consulta de selección:
+- La clase `EntityReader` implementa la interfaz `IteratorAggregate`. Esto permite utilizar el objeto `EntityReader` en un bucle `foreach`.
+- Con `EntityReader` se puede ajustar la consulta de selección:
   - Establezca `Limit` y `Offset` manualmente con `OffsetPaginator`.
   - La ordenación por `EntityReader` no sustituye la ordenación en la consulta original, sólo la complementa. Sin embargo, cada llamada posterior al método `withSort()` sustituirá la configuración de clasificación del objeto `EntityReader`.
   - Las condiciones del filtro `EntityReader` tampoco sustituyen al de filtrado en la consulta original, solo la complementan. Así, que al filtrar el objeto `EntityReader`, sólo puede ajustar la selección pero no ampliarla.
-* `EntityReader` no extrae los datos de la base de datos de una sola vez. Sólo accede a la base de datos cuando se consultan esos datos.
-* Si utiliza los métodos `read()` y `readOne()` para leer los datos, entonces `EntityReader` lo almacenará en una caché. El resultado de una llamada a `count()` también se almacena en caché.
-* El método `count()` devuelve el número de todos los elementos de la muestra sin tener en cuenta las restricciones `Limit` y `Offset`.
-* Si no quieres que los datos se almacenen en caché, utiliza el método `getIterator()`. Sin embargo, si la caché ya está llena, `getIterator()` devolverá el contenido de la caché.
+- `EntityReader` no extrae los datos de la base de datos de una sola vez. Sólo accede a la base de datos cuando se consultan esos datos.
+- Si utiliza los métodos `read()` y `readOne()` para leer los datos, entonces `EntityReader` lo almacenará en una caché. El resultado de una llamada a `count()` también se almacena en caché.
+- El método `count()` devuelve el número de todos los elementos de la muestra sin tener en cuenta las restricciones `Limit` y `Offset`.
+- Si no quieres que los datos se almacenen en caché, utiliza el método `getIterator()`. Sin embargo, si la caché ya está llena, `getIterator()` devolverá el contenido de la caché.
 
 ## Ejemplos
 

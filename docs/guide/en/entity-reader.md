@@ -1,13 +1,13 @@
-# EntityReader
+# EntityReader Class
 
 `EntityReader` allows to securely pass select-queries from repository to user runtime.
 By select-query we assume an instance of `\Cycle\ORM\Select` or `\Cycle\Database\Query\SelectQuery`.
 
 You need to know the following about `EntityReader`:
 
-* `EntityReader` implements `IteratorAggregate`.
+- `EntityReader` implements `IteratorAggregate`.
  It allows using `EntityReader` instance in `foreach`.
-* Using `EntityReader` you can adjust select-query:
+- Using `EntityReader` you can adjust select-query:
   - Add `Limit` and `Offset` manually or using `OffsetPaginator`
   - Specify sorting. Note that `EntityReader` sorting does
     not replace initial query sorting but adds sorting on top of it.
@@ -15,10 +15,10 @@ You need to know the following about `EntityReader`:
   - Apply filter. Filtration conditions in `EntityReader` also, do not replace filtration conditions
     in initial query, but adds conditions on top of it. Therefore, by using filtration in `SeletecDataReader`
     you can only refine the selection, but NOT expand.
-* `EntityReader` queries database only when you actually read the data.
-* In case you're using `read()`, `readOne()` or `count()`, data will be cached by `EntityReader`.
-* The `count()` method returns the number of elements without taking limit and offset into account.
-* In case you want to avoid caching, use `getIterator()`. Note that if cache is already there, `getIterator()`
+- `EntityReader` queries database only when you actually read the data.
+- In case you're using `read()`, `readOne()` or `count()`, data will be cached by `EntityReader`.
+- The `count()` method returns the number of elements without taking limit and offset into account.
+- In case you want to avoid caching, use `getIterator()`. Note that if cache is already there, `getIterator()`
   uses it.
 
 ## Examples
@@ -152,6 +152,7 @@ function index(ArticleRepository $repository)
         ->withSort(Sort::any()->withOrder(['published_at' => 'asc']));
 }
 ```
+
 You may refine query conditions with filters. This filtering conditions are adding to original select query conditions, but NOT replace them.
 
 ```php
