@@ -28,18 +28,15 @@ use Cycle\ORM\Schema;
 use Cycle\ORM\SchemaInterface;
 use Cycle\ORM\Select;
 use PHPUnit\Framework\TestCase;
+use Yiisoft\Data\Cycle\Reader\EntityReader;
+use Yiisoft\Data\Reader\DataReaderInterface;
+use Yiisoft\Data\Tests\Common\FixtureTrait;
 
 class BaseData extends TestCase
 {
-    public const DRIVER = null;
+    use FixtureTrait;
 
-    protected const FIXTURES_USER = [
-        ['number' => 1, 'email' => 'foo@bar', 'balance' => 10.25, 'born_at' => null],
-        ['number' => 2, 'email' => 'bar@foo', 'balance' => 1, 'born_at' => null],
-        ['number' => 3, 'email' => 'seed@beat', 'balance' => 100, 'born_at' => null],
-        ['number' => 4, 'email' => 'the@best', 'balance' => 500, 'born_at' => null],
-        ['number' => 5, 'email' => 'test@test', 'balance' => 42, 'born_at' => '1990-01-01'],
-    ];
+    public const DRIVER = null;
 
     // cache
     private ?ORMInterface $orm = null;
@@ -159,7 +156,7 @@ class BaseData extends TestCase
         $user->column('born_at')->date()->nullable();
         $user->save();
 
-        $fixtures = static::FIXTURES_USER;
+        $fixtures = static::$fixtures;
         foreach ($fixtures as $index => $fixture) {
             $fixtures[$index]['balance'] = (string) $fixtures[$index]['balance'];
         }
@@ -225,21 +222,8 @@ class BaseData extends TestCase
         return new EntityManager($this->orm);
     }
 
-    protected function assertFixtures(array $expectedFixtureIndexes, array $actualFixtures): void
+    protected function getReader(): DataReaderInterface
     {
-        $expectedFixtures = array_map(
-            static fn (int $expectedNumber) => self::FIXTURES_USER[$expectedNumber],
-            $expectedFixtureIndexes,
-        );
-        $actualFixtures = array_map(
-            static function (object $fixture): array {
-                $fixture = json_decode(json_encode($fixture), associative: true);
-                unset($fixture['id']);
-
-                return $fixture;
-            },
-            $actualFixtures,
-        );
-        $this->assertSame($expectedFixtures, $actualFixtures);
+        return new EntityReader($this->select('user'));
     }
 }
