@@ -32,7 +32,7 @@ composer require yiisoft/data-cycle
 
 ## Documentation
 
-- Guide: [English](docs/guide/en/README.md), [Português - Brasil](docs/guide/pt-BR/README.md), [Spanish](docs/guide/es/README.md), [Русский](docs/guide/ru/README.md)
+- Guide: [English](docs/guide/en/README.md), [Español](docs/guide/es/README.md), [Português - Brasil](docs/guide/pt-BR/README.md), [Русский](docs/guide/ru/README.md)
 - [Internals](docs/internals.md)
 
 If you need help or have a question, the [Yii Forum](https://forum.yiiframework.com/c/yii-3-0/63) is a good place for
