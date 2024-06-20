@@ -7,9 +7,9 @@ namespace Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Cycle\Tests\Feature\BaseData;
-use Yiisoft\Data\Reader\Filter\Like;
+use Yiisoft\Data\Reader\Filter\ILike;
 
-abstract class LikeHandlerTest extends BaseData
+abstract class ILikeHandlerTest extends BaseData
 {
     public static function dataBase(): array
     {
@@ -22,7 +22,7 @@ abstract class LikeHandlerTest extends BaseData
     #[DataProvider('dataBase')]
     public function testBase(string $field, string $value, array $expectedFixtureIndexes): void
     {
-        $reader = (new EntityReader($this->select('user')))->withFilter(new Like($field, $value));
+        $reader = (new EntityReader($this->select('user')))->withFilter(new ILike($field, $value));
         $this->assertFixtures($expectedFixtureIndexes, $reader->read());
     }
 }
