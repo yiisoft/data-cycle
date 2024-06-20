@@ -10,15 +10,11 @@ use Yiisoft\Data\Cycle\Tests\Feature\BaseData;
 use Yiisoft\Data\Cycle\Tests\Support\NotSupportedFilter;
 use Yiisoft\Data\Reader\Filter\All;
 use Yiisoft\Data\Reader\Filter\Equals;
+use Yiisoft\Data\Tests\Common\Reader\FilterHandler\AllHandlerWithReaderTestTrait;
 
 abstract class AllHandlerTest extends BaseData
 {
-    public function testAllHandler(): void
-    {
-        $reader = (new EntityReader($this->select('user')))
-            ->withFilter(new All(new Equals('balance', '100.0'), new Equals('email', 'seed@beat')));
-        $this->assertFixtures([2], $reader->read());
-    }
+    use AllHandlerWithReaderTestTrait;
 
     public function testNotSupportedFilterException(): void
     {

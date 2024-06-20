@@ -89,7 +89,7 @@ abstract class EntityReaderTest extends BaseData
     {
         $reader = new EntityReader($this->select('user'));
 
-        self::assertSame(count(self::FIXTURES_USER), $reader->count());
+        self::assertSame(count(self::$fixtures), $reader->count());
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class EntityReaderTest extends BaseData
             $this->select('user'),
         ))->withLimit(1);
 
-        self::assertSame(count(self::FIXTURES_USER), $reader->count());
+        self::assertSame(count(self::$fixtures), $reader->count());
     }
 
     public function testCountWithFilter(): void

@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler;
 
-use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Cycle\Tests\Feature\BaseData;
-use Yiisoft\Data\Reader\Filter\Like;
+use Yiisoft\Data\Tests\Common\Reader\FilterHandler\LikeHandlerWithReaderTestTrait;
 
 abstract class LikeHandlerTest extends BaseData
 {
-    public function testLikeHandler(): void
-    {
-        $reader = (new EntityReader($this->select('user')))->withFilter(new Like('email', 'seed@%'));
-        $this->assertFixtures([2], $reader->read());
-    }
+    use LikeHandlerWithReaderTestTrait;
 }
