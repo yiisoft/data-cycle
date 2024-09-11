@@ -13,7 +13,7 @@ final class UnexpectedFilterException extends InvalidArgumentException
      * @param string $expectedClassName Expected class name of a filter.
      * @psalm-param class-string $actualClassName
      *
-     * @param string $actualClassName An actual given filter that's not an instance of specific filter with `$expectedClassName`.
+     * @param string $actualClassName An actual given filter that's not an instance of a specific filter with `$expectedClassName`.
      * @psalm-param class-string $ac
      */
     public function __construct(
