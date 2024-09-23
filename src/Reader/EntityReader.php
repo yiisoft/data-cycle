@@ -28,7 +28,7 @@ final class EntityReader implements DataReaderInterface
 {
     private Select|SelectQuery $query;
     private ?int $limit = null;
-    private ?int $offset = null;
+    private int $offset = 0;
     private ?Sort $sorting = null;
     private ?FilterInterface $filter = null;
     private CachedCount $countCache;
@@ -69,7 +69,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
-    public function withLimit(int $limit): static
+    public function withLimit(?int $limit): static
     {
         if ($limit < 0) {
             throw new InvalidArgumentException('$limit must not be less than 0.');
@@ -112,7 +112,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
-    public function withFilter(FilterInterface $filter): static
+    public function withFilter(?FilterInterface $filter): static
     {
         $new = clone $this;
         if ($new->filter !== $filter) {
@@ -128,7 +128,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
-    public function withFilterHandlers(FilterHandlerInterface ...$filterHandlers): static
+    public function withAddedFilterHandlers(FilterHandlerInterface ...$filterHandlers): static
     {
         $new = clone $this;
         /** @psalm-suppress ImpureMethodCall */
@@ -158,7 +158,7 @@ final class EntityReader implements DataReaderInterface
     {
         if (!$this->oneItemCache->isCollected()) {
             $item = $this->itemsCache->isCollected()
-                // get first item from cached collection
+                // get the first item from a cached collection
                 ? $this->itemsCache->getGenerator()->current()
                 // read data with limit 1
                 : $this->withLimit(1)->getIterator()->current();
@@ -196,7 +196,7 @@ final class EntityReader implements DataReaderInterface
     private function buildSelectQuery(): SelectQuery|Select
     {
         $newQuery = clone $this->query;
-        if ($this->offset !== null) {
+        if ($this->offset !== 0) {
             $newQuery->offset($this->offset);
         }
         if ($this->sorting !== null) {
@@ -244,5 +244,20 @@ final class EntityReader implements DataReaderInterface
         }
 
         return $criteria;
+    }
+
+    public function getFilter(): ?FilterInterface
+    {
+        return $this->filter;
+    }
+
+    public function getLimit(): ?int
+    {
+        return $this->limit;
+    }
+
+    public function getOffset(): int
+    {
+        return $this->offset;
     }
 }

@@ -143,7 +143,7 @@ abstract class EntityReaderTest extends BaseData
 
     public function testFilterHandlers(): void
     {
-        $baseReader = (new EntityReader($this->select('user')))->withFilterHandlers(new StubFilterHandler());
+        $baseReader = (new EntityReader($this->select('user')))->withAddedFilterHandlers(new StubFilterHandler());
 
         $reader = $baseReader->withFilter(new Equals('number', 2));
         $this->assertFixtures([1], $reader->read());
