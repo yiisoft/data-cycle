@@ -27,30 +27,24 @@ use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Schema;
 use Cycle\ORM\SchemaInterface;
 use Cycle\ORM\Select;
-use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Reader\DataReaderInterface;
-use Yiisoft\Data\Tests\Common\FixtureTrait;
 
-class BaseData extends TestCase
+trait DataTrait
 {
-    use FixtureTrait;
-
-    public const DRIVER = null;
+    public static $DRIVER = null;
 
     // cache
     private ?ORMInterface $orm = null;
     private ?DatabaseProviderInterface $dbal = null;
 
-    public function testDefinitions(): void
-    {
-        self::assertInstanceOf(ORMInterface::class, $this->getOrm());
-    }
-
     protected function setUp(): void
     {
         $this->dbal ??= $this->createDbal();
+
         $this->orm ??= $this->createOrm();
+        $this->assertInstanceOf(ORMInterface::class, $this->getOrm());
+
         $this->fillFixtures();
     }
 
@@ -64,7 +58,7 @@ class BaseData extends TestCase
     private function createDbal(): DatabaseProviderInterface
     {
         $databases = [
-            'default' => ['connection' => static::DRIVER ?? 'sqlite'],
+            'default' => ['connection' => static::$DRIVER ?? 'sqlite'],
             'sqlite' => ['connection' => 'sqlite'],
         ];
         $connections = [

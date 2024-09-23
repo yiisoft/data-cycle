@@ -7,7 +7,7 @@ namespace Yiisoft\Data\Cycle\Tests\Feature\Sqlite\Reader\FilterHandler;
 use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\GreaterThanHandlerTest as
 BaseGreaterThanHandlerTest;
 
-final class GreaterThanHandlerTest extends BaseGreaterThanHandlerTest
+final class GreaterThanHandlerTestCase extends BaseGreaterThanHandlerTest
 {
-    public const DRIVER = 'sqlite';
+    public static $DRIVER = 'sqlite';
 }

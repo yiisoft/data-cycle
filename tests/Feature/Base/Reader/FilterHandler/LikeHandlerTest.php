@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler;
 
-use Yiisoft\Data\Cycle\Tests\Feature\BaseData;
-use Yiisoft\Data\Tests\Common\Reader\FilterHandler\LikeHandlerWithReaderTestTrait;
+use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\BaseReaderTest;
+use Yiisoft\Data\Cycle\Tests\Feature\DataTrait;
 
-abstract class LikeHandlerTest extends BaseData
+abstract class LikeHandlerTest extends BaseReaderTest
 {
-    use LikeHandlerWithReaderTestTrait;
+    use DataTrait;
 }

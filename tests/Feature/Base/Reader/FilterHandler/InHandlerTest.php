@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler;
 
-use Yiisoft\Data\Cycle\Tests\Feature\BaseData;
-use Yiisoft\Data\Tests\Common\Reader\FilterHandler\InHandlerWithReaderTestTrait;
+use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\BaseReaderTest;
+use Yiisoft\Data\Cycle\Tests\Feature\DataTrait;
 
-abstract class InHandlerTest extends BaseData
+abstract class InHandlerTest extends BaseReaderTest
 {
-    use InHandlerWithReaderTestTrait;
+    use DataTrait;
 }

@@ -9,15 +9,17 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
-use Yiisoft\Data\Cycle\Tests\Feature\BaseData;
+use Yiisoft\Data\Cycle\Tests\Feature\DataTrait;
 use Yiisoft\Data\Cycle\Tests\Support\NotSupportedFilter;
 use Yiisoft\Data\Cycle\Tests\Support\StubFilter;
 use Yiisoft\Data\Cycle\Tests\Support\StubFilterHandler;
 use Yiisoft\Data\Reader\Filter\Equals;
 use Yiisoft\Data\Reader\Sort;
 
-abstract class EntityReaderTest extends BaseData
+abstract class EntityReaderTest extends BaseReaderTest
 {
+    use DataTrait;
+
     public function testReadOne(): void
     {
         $reader = new EntityReader($this->select('user'));
