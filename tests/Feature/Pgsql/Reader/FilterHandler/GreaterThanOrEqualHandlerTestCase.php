@@ -7,7 +7,7 @@ namespace Yiisoft\Data\Cycle\Tests\Feature\Pgsql\Reader\FilterHandler;
 use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\GreaterThanOrEqualHandlerTest as
 BaseGreaterThanOrEqualHandlerTest;
 
-final class GreaterThanOrEqualHandlerTest extends BaseGreaterThanOrEqualHandlerTest
+final class GreaterThanOrEqualHandlerTestCase extends BaseGreaterThanOrEqualHandlerTest
 {
     public const DRIVER = 'pgsql';
 }

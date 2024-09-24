@@ -6,7 +6,7 @@ namespace Yiisoft\Data\Cycle\Tests\Feature\Pgsql\Reader\FilterHandler;
 
 use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\InHandlerTest as BaseInHandlerTest;
 
-final class InHandlerTest extends BaseInHandlerTest
+final class InHandlerTestCase extends BaseInHandlerTest
 {
     public const DRIVER = 'pgsql';
 }

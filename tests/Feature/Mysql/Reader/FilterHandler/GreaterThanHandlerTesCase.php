@@ -7,7 +7,7 @@ namespace Yiisoft\Data\Cycle\Tests\Feature\Mysql\Reader\FilterHandler;
 use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\GreaterThanHandlerTest as
 BaseGreaterThanHandlerTest;
 
-final class GreaterThanHandlerTest extends BaseGreaterThanHandlerTest
+final class GreaterThanHandlerTesCase extends BaseGreaterThanHandlerTest
 {
     public const DRIVER = 'mysql';
 }
