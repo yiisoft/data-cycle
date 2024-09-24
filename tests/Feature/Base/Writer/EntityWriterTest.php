@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature\Base\Writer;
 
+use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
-use Yiisoft\Data\Cycle\Tests\Feature\BaseData;
+use Yiisoft\Data\Cycle\Tests\Feature\DataTrait;
 use Yiisoft\Data\Cycle\Writer\EntityWriter;
+use Yiisoft\Data\Tests\Common\FixtureTrait;
 
-abstract class EntityWriterTest extends BaseData
+abstract class EntityWriterTest extends TestCase
 {
+    use DataTrait;
+    use FixtureTrait;
+
     public function testWrite(): void
     {
         $orm = $this->getOrm();
@@ -23,7 +28,7 @@ abstract class EntityWriterTest extends BaseData
         $reader = new EntityReader(
             $this->select('user')->where('number', 'in', [99998, 99999]),
         );
-        self::assertEquals($users, $reader->read());
+        $this->assertEquals($users, $reader->read());
     }
 
     public function testDelete(): void
@@ -35,7 +40,7 @@ abstract class EntityWriterTest extends BaseData
 
         $writer->delete($entities);
 
-        self::assertCount(3, $entities);
-        self::assertEquals([], \iterator_to_array($reader->getIterator()));
+        $this->assertCount(3, $entities);
+        $this->assertEquals([], \iterator_to_array($reader->getIterator()));
     }
 }

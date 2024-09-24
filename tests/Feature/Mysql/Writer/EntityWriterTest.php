@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Writer\EntityWriterTest as BaseEntityW
 
 final class EntityWriterTest extends BaseEntityWriterTest
 {
-    public const DRIVER = 'mysql';
+    public static $DRIVER = 'mysql';
 }

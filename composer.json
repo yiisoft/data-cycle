@@ -35,7 +35,7 @@
         "php": "^8.1",
         "cycle/database": "^2.10",
         "cycle/orm": "^2.7.1",
-        "yiisoft/data": "dev-master"
+        "yiisoft/data": "dev-move-fixtures-to-trait"
     },
     "require-dev": {
         "maglnet/composer-require-checker": "^4.7",
@@ -53,7 +53,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Yiisoft\\Data\\Cycle\\Tests\\": "tests"
+            "Yiisoft\\Data\\Cycle\\Tests\\": "tests",
+            "Yiisoft\\Data\\Tests\\": "vendor/yiisoft/data/tests"
         },
         "files": [
             "tests/bootstrap.php"

@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Writer\EntityWriterTest as BaseEntityW
 
 final class EntityWriterTest extends BaseEntityWriterTest
 {
-    public const DRIVER = 'pgsql';
+    public static $DRIVER = 'pgsql';
 }
