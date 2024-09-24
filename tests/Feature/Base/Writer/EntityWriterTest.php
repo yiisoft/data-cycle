@@ -12,8 +12,8 @@ use Yiisoft\Data\Tests\Common\FixtureTrait;
 
 abstract class EntityWriterTest extends TestCase
 {
-    use FixtureTrait;
     use DataTrait;
+    use FixtureTrait;
 
     public function testWrite(): void
     {
