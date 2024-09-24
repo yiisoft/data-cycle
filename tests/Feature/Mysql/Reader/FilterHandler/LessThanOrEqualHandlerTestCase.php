@@ -9,5 +9,5 @@ BaseLessThanOrEqualHandlerTestAlias;
 
 final class LessThanOrEqualHandlerTestCase extends BaseLessThanOrEqualHandlerTestAlias
 {
-    public const DRIVER = 'mysql';
+    public static $DRIVER = 'mysql';
 }

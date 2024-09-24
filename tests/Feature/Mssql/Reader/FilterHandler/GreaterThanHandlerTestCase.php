@@ -7,7 +7,7 @@ namespace Yiisoft\Data\Cycle\Tests\Feature\Mssql\Reader\FilterHandler;
 use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\GreaterThanHandlerTest as
 BaseGreaterThanHandlerTest;
 
-final class GreaterThanHandlerTest extends BaseGreaterThanHandlerTest
+final class GreaterThanHandlerTestCase extends BaseGreaterThanHandlerTest
 {
-    public const DRIVER = 'mssql';
+    public static $DRIVER = 'mssql';
 }

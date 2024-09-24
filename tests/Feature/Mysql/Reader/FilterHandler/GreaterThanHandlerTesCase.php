@@ -9,5 +9,5 @@ BaseGreaterThanHandlerTest;
 
 final class GreaterThanHandlerTesCase extends BaseGreaterThanHandlerTest
 {
-    public const DRIVER = 'mysql';
+    public static $DRIVER = 'mysql';
 }

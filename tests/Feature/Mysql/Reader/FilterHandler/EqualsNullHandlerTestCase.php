@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\EqualsNullHandler
 
 final class EqualsNullHandlerTestCase extends BaseEqualsNullHandlerTest
 {
-    public const DRIVER = 'mysql';
+    public static $DRIVER = 'mysql';
 }

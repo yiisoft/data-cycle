@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\EqualsHandlerTest
 
 final class EqualsHandlerTestCase extends BaseEqualsHandlerTest
 {
-    public const DRIVER = 'pgsql';
+    public static $DRIVER = 'pgsql';
 }

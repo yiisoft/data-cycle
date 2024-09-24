@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\NotHandlerTest as
 
 final class NotHandlerTestCase extends BaseNotHandlerTest
 {
-    public const DRIVER = 'pgsql';
+    public static $DRIVER = 'pgsql';
 }

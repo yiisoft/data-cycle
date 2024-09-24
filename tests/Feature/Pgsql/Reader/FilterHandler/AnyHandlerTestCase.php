@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\AnyHandlerTest as
 
 final class AnyHandlerTestCase extends BaseAnyHandlerTest
 {
-    public const DRIVER = 'pgsql';
+    public static $DRIVER = 'pgsql';
 }

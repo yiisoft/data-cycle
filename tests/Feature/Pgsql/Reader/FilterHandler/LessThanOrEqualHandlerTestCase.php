@@ -9,5 +9,5 @@ BaseLessThanOrEqualHandlerTestAlias;
 
 final class LessThanOrEqualHandlerTestCase extends BaseLessThanOrEqualHandlerTestAlias
 {
-    public const DRIVER = 'pgsql';
+    public static $DRIVER = 'pgsql';
 }

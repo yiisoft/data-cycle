@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\InHandlerTest as 
 
 final class InHandlerTestCase extends BaseInHandlerTest
 {
-    public const DRIVER = 'mysql';
+    public static $DRIVER = 'mysql';
 }

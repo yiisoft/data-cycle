@@ -6,7 +6,7 @@ namespace Yiisoft\Data\Cycle\Tests\Feature\Mssql\Reader\FilterHandler;
 
 use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\AllHandlerTest as BaseAllHandlerTest;
 
-final class AllHandlerTest extends BaseAllHandlerTest
+final class AllHandlerTestCase extends BaseAllHandlerTest
 {
-    public const DRIVER = 'mssql';
+    public static $DRIVER = 'mssql';
 }

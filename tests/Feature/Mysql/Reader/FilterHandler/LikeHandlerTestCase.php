@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\FilterHandler\LikeHandlerTest a
 
 final class LikeHandlerTestCase extends BaseLikeHandlerTest
 {
-    public const DRIVER = 'mysql';
+    public static $DRIVER = 'mysql';
 }

@@ -9,5 +9,5 @@ BaseGreaterThanHandlerTest;
 
 final class GreaterThanHandlerTestCase extends BaseGreaterThanHandlerTest
 {
-    public const DRIVER = 'pgsql';
+    public static $DRIVER = 'pgsql';
 }
