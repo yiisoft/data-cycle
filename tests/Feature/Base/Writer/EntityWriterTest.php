@@ -8,9 +8,11 @@ use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Cycle\Tests\Feature\DataTrait;
 use Yiisoft\Data\Cycle\Writer\EntityWriter;
+use Yiisoft\Data\Tests\Common\FixtureTrait;
 
 abstract class EntityWriterTest extends TestCase
 {
+    use FixtureTrait;
     use DataTrait;
 
     public function testWrite(): void

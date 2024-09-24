@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature\Base\Reader;
 
-use Yiisoft\Data\Tests\Common\Reader\ReaderWithFilter\BaseReaderWithFilterTestCase;
+use Yiisoft\Data\Tests\Common\Reader\BaseReaderTestCase;
 
-abstract class BaseReaderTest extends BaseReaderWithFilterTestCase
+abstract class BaseReaderTest extends BaseReaderTestCase
 {
     protected function assertFixtures(array $expectedFixtureIndexes, array $actualFixtures): void
     {
