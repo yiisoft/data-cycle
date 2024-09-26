@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature\Mysql\Writer;
 
-use Yiisoft\Data\Cycle\Tests\Feature\Base\Writer\EntityWriterTest as BaseEntityWriterTest;
+use Yiisoft\Data\Cycle\Tests\Feature\Base\Writer\BaseEntityWriterTestCase;
 
-final class EntityWriterTest extends BaseEntityWriterTest
+final class EntityWriterTest extends BaseEntityWriterTestCase
 {
     public static $DRIVER = 'mysql';
 }

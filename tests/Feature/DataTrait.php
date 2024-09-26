@@ -220,4 +220,27 @@ trait DataTrait
     {
         return new EntityReader($this->select('user'));
     }
+
+    protected function assertFixtures(array $expectedFixtureIndexes, array $actualFixtures): void
+    {
+        $processedActualFixtures = [];
+        foreach ($actualFixtures as $fixture) {
+            if (is_object($fixture)) {
+                $fixture = json_decode(json_encode($fixture), associative: true);
+            }
+
+            unset($fixture['id']);
+            $fixture['number'] = (int) $fixture['number'];
+            $fixture['balance'] = (float) $fixture['balance'];
+
+            $processedActualFixtures[$fixture['number'] - 1] = $fixture;
+        }
+
+        $expectedFixtures = [];
+        foreach ($expectedFixtureIndexes as $index) {
+            $expectedFixtures[$index] = $this->getFixture($index);
+        }
+
+        $this->assertSame($expectedFixtures, $processedActualFixtures);
+    }
 }

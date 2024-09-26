@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Feature\Mysql\Reader;
 
-use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\EntityReaderTestCase as BaseEntityReaderTest;
+use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\BaseEntityReaderTestCase;
 
-final class EntityReaderTest extends BaseEntityReaderTest
+final class EntityReaderTest extends BaseEntityReaderTestCase
 {
     public static $DRIVER = 'mysql';
 
