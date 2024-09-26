@@ -23,6 +23,6 @@ final class LikeHandler implements QueryBuilderFilterHandler, FilterHandlerInter
             throw new UnexpectedFilterException(Like::class, $filter::class);
         }
 
-        return [$filter->getField(), 'like', $filter->getValue()];
+        return [$filter->getField(), 'like', '%' . $filter->getValue() . '%'];
     }
 }

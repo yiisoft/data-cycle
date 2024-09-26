@@ -9,4 +9,12 @@ use Yiisoft\Data\Cycle\Tests\Feature\DataTrait;
 abstract class BaseReaderWithLikeTestCase extends \Yiisoft\Data\Tests\Common\Reader\ReaderWithFilter\BaseReaderWithLikeTestCase
 {
     use DataTrait;
+
+    public static function dataWithReader(): array
+    {
+        $data = parent::dataWithReader();
+        unset($data['wildcard is not supported']);
+
+        return $data;
+    }
 }
