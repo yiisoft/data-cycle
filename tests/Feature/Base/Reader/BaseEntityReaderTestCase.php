@@ -20,10 +20,10 @@ use Yiisoft\Data\Tests\Common\FixtureTrait;
 
 abstract class BaseEntityReaderTestCase extends TestCase
 {
+    use DataTrait;
     use FixtureTrait {
         DataTrait::assertFixtures insteadof FixtureTrait;
     }
-    use DataTrait;
 
     public function testReadOne(): void
     {
