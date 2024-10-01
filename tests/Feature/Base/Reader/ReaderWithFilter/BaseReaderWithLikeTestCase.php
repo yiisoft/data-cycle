@@ -13,7 +13,7 @@ abstract class BaseReaderWithLikeTestCase extends \Yiisoft\Data\Tests\Common\Rea
     public static function dataWithReader(): array
     {
         $data = parent::dataWithReader();
-        unset($data['wildcard is not supported']);
+        $data['wildcard is not supported'][1] = '\%st';
 
         return $data;
     }
