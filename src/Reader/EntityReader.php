@@ -74,6 +74,7 @@ final class EntityReader implements DataReaderInterface
      */
     public function withLimit(?int $limit): static
     {
+        /** @psalm-suppress DocblockTypeContradiction */
         if ($limit < 0) {
             throw new InvalidArgumentException('$limit must not be less than 0.');
         }
