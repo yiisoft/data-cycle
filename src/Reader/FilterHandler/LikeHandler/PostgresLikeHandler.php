@@ -17,9 +17,9 @@ final class PostgresLikeHandler extends BaseLikeHandler
         }
 
         if ($filter->isCaseSensitive() !== true) {
-            return [$filter->getField(), 'like', $filter->getValue()];
+            return [$filter->getField(), 'like', '%'. $filter->getValue() . '%'];
         }
 
-        return [$filter->getField(), 'ilike', $filter->getValue()];
+        return [$filter->getField(), 'ilike', '%'. $filter->getValue() . '%'];
     }
 }
