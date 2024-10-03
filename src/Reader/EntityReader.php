@@ -27,6 +27,9 @@ use Yiisoft\Data\Cycle\Reader\Cache\CachedCount;
 final class EntityReader implements DataReaderInterface
 {
     private Select|SelectQuery $query;
+    /**
+     * @psalm-var non-negative-int|null
+     */
     private ?int $limit = null;
     private int $offset = 0;
     private ?Sort $sorting = null;
@@ -71,6 +74,7 @@ final class EntityReader implements DataReaderInterface
      */
     public function withLimit(?int $limit): static
     {
+        /** @psalm-suppress DocblockTypeContradiction */
         if ($limit < 0) {
             throw new InvalidArgumentException('$limit must not be less than 0.');
         }
