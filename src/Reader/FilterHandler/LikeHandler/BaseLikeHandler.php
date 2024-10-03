@@ -24,7 +24,11 @@ abstract class BaseLikeHandler implements QueryBuilderFilterHandler, FilterHandl
             throw new UnexpectedFilterException(Like::class, $filter::class);
         }
 
+        if ($filter->isCaseSensitive() !== true) {
+            return [$filter->getField(), 'like', '%' . $filter->getValue() . '%'];
+        }
+
         /** @infection-ignore-all mb_strtoupper -> strtoupper */
-        return [new Fragment("UPPER({$filter->getField()})"), 'like', mb_strtoupper($filter->getValue())];
+        return [new Fragment("UPPER({$filter->getField()})"), 'like', '%' . mb_strtoupper($filter->getValue()) . '%'];
     }
 }
