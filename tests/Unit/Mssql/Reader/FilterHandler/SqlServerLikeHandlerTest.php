@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterOptionException;
 use Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler\SqlServerLikeHandler;
 use Yiisoft\Data\Reader\Filter\Like;
-use Yiisoft\Data\Reader\FilterHandlerInterface;
 
 final class SqlServerLikeHandlerTest extends TestCase
 {
