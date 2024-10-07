@@ -21,6 +21,6 @@ final class SqlServerLikeHandler extends BaseLikeHandler
             throw new NotSupportedFilterOptionException(optionName: 'caseSensitive', driverType: 'SQLServer');
         }
 
-        return [$filter->getField(), 'like', '%' . $filter->getValue() . '%'];
+        return [$filter->getField(), 'like', $this->prepareValue($filter->getValue())];
     }
 }

@@ -21,6 +21,6 @@ final class SqliteLikeHandler extends BaseLikeHandler
             throw new NotSupportedFilterOptionException(optionName: 'caseSensitive', driverType: 'SQLite');
         }
 
-        return [$filter->getField(), 'like', '%' . $filter->getValue() . '%'];
+        return [$filter->getField(), 'like', $this->prepareValue($filter->getValue())];
     }
 }

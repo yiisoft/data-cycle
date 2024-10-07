@@ -14,6 +14,10 @@ use Yiisoft\Data\Reader\FilterInterface;
 
 abstract class BaseLikeHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
+    private array $escapingReplacements = [
+        '%' => '\%',
+    ];
+
     public function getFilterClass(): string
     {
         return Like::class;
@@ -35,5 +39,10 @@ abstract class BaseLikeHandler implements QueryBuilderFilterHandler, FilterHandl
 
         /** @infection-ignore-all mb_strtoupper -> strtoupper */
         return [new Fragment("UPPER({$filter->getField()})"), 'like', '%' . mb_strtoupper($filter->getValue()) . '%'];
+    }
+
+    protected function prepareValue(string $value): string
+    {
+        return '%' . strtr($value, $this->escapingReplacements) . '%';
     }
 }

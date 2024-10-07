@@ -20,6 +20,6 @@ final class MysqlLikeHandler extends BaseLikeHandler
             return [$filter->getField(), 'like', '%' . $filter->getValue() . '%'];
         }
 
-        return [$filter->getField(), 'like binary', '%' . $filter->getValue() . '%'];
+        return [$filter->getField(), 'like binary', $this->prepareValue($filter->getValue())];
     }
 }

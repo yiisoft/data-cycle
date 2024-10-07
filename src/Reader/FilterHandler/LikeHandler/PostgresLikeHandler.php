@@ -20,6 +20,6 @@ final class PostgresLikeHandler extends BaseLikeHandler
             return [$filter->getField(), 'ilike', '%' . $filter->getValue() . '%'];
         }
 
-        return [$filter->getField(), 'like', '%' . $filter->getValue() . '%'];
+        return [$filter->getField(), 'like', $this->prepareValue($filter->getValue())];
     }
 }
