@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
 
 use Cycle\Database\Injection\Fragment;
+use Yiisoft\Data\Cycle\Exception\NotSupportedFilterOptionException;
 use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
@@ -18,6 +19,10 @@ abstract class BaseLikeHandler implements QueryBuilderFilterHandler, FilterHandl
         return Like::class;
     }
 
+    /**
+     * @throws NotSupportedFilterOptionException When {@see Like::$caseSensitive} option is not supported with used
+     * database driver.
+     */
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         if (!$filter instanceof Like) {
