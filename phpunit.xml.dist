@@ -21,22 +21,24 @@
         <testsuite name="Sqlite">
             <directory>./tests/Feature/Sqlite</directory>
             <directory>./tests/Exception</directory>
-            <directory>./tests/Unit</directory>
+            <directory>./tests/Unit/Sqlite</directory>
+            <directory>./tests/Unit/Reader</directory>
         </testsuite>
         <testsuite name="Mysql">
             <directory>./tests/Feature/Mysql</directory>
             <directory>./tests/Exception</directory>
-            <directory>./tests/Unit</directory>
+            <directory>./tests/Unit/Reader</directory>
         </testsuite>
         <testsuite name="Pgsql">
             <directory>./tests/Feature/Pgsql</directory>
             <directory>./tests/Exception</directory>
-            <directory>./tests/Unit</directory>
+            <directory>./tests/Unit/Reader</directory>
         </testsuite>
         <testsuite name="Mssql">
             <directory>./tests/Feature/Mssql</directory>
             <directory>./tests/Exception</directory>
-            <directory>./tests/Unit</directory>
+            <directory>./tests/Unit/Mssql</directory>
+            <directory>./tests/Unit/Reader</directory>
         </testsuite>
     </testsuites>
 
