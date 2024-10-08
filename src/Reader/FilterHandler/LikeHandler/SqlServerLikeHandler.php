@@ -6,10 +6,11 @@ namespace Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
 
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterOptionException;
 use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
+use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\FilterInterface;
 
-final class SqlServerLikeHandler extends BaseLikeHandler
+final class SqlServerLikeHandler extends BaseLikeHandler implements QueryBuilderFilterHandler
 {
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
