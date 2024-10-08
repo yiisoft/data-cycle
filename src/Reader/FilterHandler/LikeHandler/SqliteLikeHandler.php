@@ -12,6 +12,11 @@ use Yiisoft\Data\Reader\FilterInterface;
 
 final class SqliteLikeHandler extends BaseLikeHandler implements QueryBuilderFilterHandler
 {
+    public function __construct()
+    {
+        unset($this->escapingReplacements['\\']);
+    }
+
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         if (!$filter instanceof Like) {

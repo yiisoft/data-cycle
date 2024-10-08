@@ -9,8 +9,10 @@ use Yiisoft\Data\Reader\FilterHandlerInterface;
 
 abstract class BaseLikeHandler implements FilterHandlerInterface
 {
-    private array $escapingReplacements = [
+    protected array $escapingReplacements = [
         '%' => '\%',
+        '_' => '\_',
+        '\\' => '\\\\',
     ];
 
     public function getFilterClass(): string
