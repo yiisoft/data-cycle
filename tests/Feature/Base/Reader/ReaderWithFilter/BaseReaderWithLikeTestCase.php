@@ -13,11 +13,7 @@ abstract class BaseReaderWithLikeTestCase extends \Yiisoft\Data\Tests\Common\Rea
     public static function dataWithReader(): array
     {
         $data = parent::dataWithReader();
-        unset(
-            $data['search: contains, different case, case sensitive: false'],
-            $data['search: contains, different case, case sensitive: true'],
-            $data['wildcard is not supported'],
-        );
+        $data['search: contains, different case, case sensitive: null'] = ['email', 'SEED@', null, [2]];
 
         return $data;
     }
