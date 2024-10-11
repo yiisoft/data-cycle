@@ -36,7 +36,7 @@
         "ext-mbstring": "*",
         "cycle/database": "^2.11",
         "cycle/orm": "^2.9",
-        "yiisoft/data": "dev-more-like-test-cases"
+        "yiisoft/data": "dev-master"
     },
     "require-dev": {
         "maglnet/composer-require-checker": "^4.7",
