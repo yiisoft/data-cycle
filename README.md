@@ -26,7 +26,6 @@ Detailed build statuses:
 | MySQL                | [![MYSQL status](https://github.com/yiisoft/data-cycle/workflows/mysql/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Amysql)                |
 | PostgreSQL           | [![PostgreSQL status](https://github.com/yiisoft/data-cycle/workflows/pgsql/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Apgsql)           |
 | Microsoft SQL Server | [![Microsoft SQL Server status](https://github.com/yiisoft/data-cycle/workflows/mssql/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Amssql) |
-| Oracle               | [![Oracle status](https://github.com/yiisoft/data-cycle/workflows/oracle/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Aoracle)             |
 
 ## Requirements
 
