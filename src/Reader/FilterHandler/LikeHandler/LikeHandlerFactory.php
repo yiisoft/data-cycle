@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
 
-use Cycle\Database\Driver\DriverInterface;
 use RuntimeException;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 
-class LikeHandlerFactory
+/**
+ * @internal
+ */
+final class LikeHandlerFactory
 {
-    public static function getLikeHandler(?DriverInterface $databaseDriver): FilterHandlerInterface
+    public static function getLikeHandler(string $driverType): FilterHandlerInterface
     {
-        $driverType = $databaseDriver?->getType() ?? 'SQLite';
-
         // default - ignored due to the complexity of testing and preventing splitting of databaseDriver argument.
         // @codeCoverageIgnoreStart
         return match ($driverType) {
