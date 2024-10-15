@@ -53,7 +53,7 @@ final class EntityReader implements DataReaderInterface
          * @psalm-suppress InternalMethod There is no other way to get driver for SelectQuery.
          * @psalm-suppress UndefinedMagicMethod The magic method is not defined in annotations.
          */
-        $likeHandler = LikeHandlerFactory::getLikeHandler($this->query->getDriver());
+        $likeHandler = LikeHandlerFactory::getLikeHandler($this->query->getDriver()?->getType() ?? 'SQLite');
         $this->setFilterHandlers(
             new FilterHandler\AllHandler(),
             new FilterHandler\AnyHandler(),
