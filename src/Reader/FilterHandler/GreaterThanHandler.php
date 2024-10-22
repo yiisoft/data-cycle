@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
-use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\GreaterThan;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
@@ -19,9 +18,7 @@ final class GreaterThanHandler implements QueryBuilderFilterHandler, FilterHandl
 
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-        if (!$filter instanceof GreaterThan) {
-            throw new UnexpectedFilterException(GreaterThan::class, $filter::class);
-        }
+        /** @var GreaterThan $filter */
 
         return [$filter->getField(), '>', $filter->getValue()];
     }

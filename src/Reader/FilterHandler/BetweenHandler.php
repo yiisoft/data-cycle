@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
-use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\Between;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
@@ -19,9 +18,7 @@ final class BetweenHandler implements QueryBuilderFilterHandler, FilterHandlerIn
 
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-        if (!$filter instanceof Between) {
-            throw new UnexpectedFilterException(Between::class, $filter::class);
-        }
+        /** @var Between $filter  */
 
         return [$filter->getField(), 'between', $filter->getMinValue(), $filter->getMaxValue()];
     }

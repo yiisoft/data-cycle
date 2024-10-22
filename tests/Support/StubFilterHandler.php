@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Support;
 
-use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
@@ -18,9 +17,7 @@ final class StubFilterHandler implements QueryBuilderFilterHandler, FilterHandle
 
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-        if (!$filter instanceof StubFilter) {
-            throw new UnexpectedFilterException(StubFilter::class, $filter::class);
-        }
+        /** @var StubFilter $filter */
 
         return ['field', 'symbol', 'value'];
     }

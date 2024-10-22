@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
-use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\EqualsNull;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
@@ -19,9 +18,7 @@ final class EqualsNullHandler implements QueryBuilderFilterHandler, FilterHandle
 
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-        if (!$filter instanceof EqualsNull) {
-            throw new UnexpectedFilterException(EqualsNull::class, $filter::class);
-        }
+        /** @var EqualsNull $filter */
 
         return [$filter->getField(), '=', null];
     }
