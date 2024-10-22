@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
-use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\All;
 use Yiisoft\Data\Reader\Filter\Any;
@@ -31,9 +30,7 @@ final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
 
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-        if (!$filter instanceof Not) {
-            throw new UnexpectedFilterException(Not::class, $filter::class);
-        }
+        /** @var Not $filter */
 
         $convertedFilter = $this->convertFilter($filter->getFilter());
         $handledFilter = $convertedFilter instanceof Not ? $convertedFilter->getFilter() : $convertedFilter;

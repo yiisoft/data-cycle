@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
-use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\LessThan;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
@@ -19,9 +18,7 @@ final class LessThanHandler implements QueryBuilderFilterHandler, FilterHandlerI
 
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-        if (!$filter instanceof LessThan) {
-            throw new UnexpectedFilterException(LessThan::class, $filter::class);
-        }
+        /** @var LessThan $filter */
 
         return [$filter->getField(), '<', $filter->getValue()];
     }

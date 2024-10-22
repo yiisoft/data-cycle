@@ -6,9 +6,8 @@ namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
 use Cycle\ORM\Select\QueryBuilder;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
-use Yiisoft\Data\Cycle\Exception\UnexpectedFilterException;
-use Yiisoft\Data\Reader\Filter\Any;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
+use Yiisoft\Data\Reader\Filter\Any;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 
@@ -21,9 +20,7 @@ final class AnyHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
 
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-        if (!$filter instanceof Any) {
-            throw new UnexpectedFilterException(Any::class, $filter::class);
-        }
+        /** @var Any $filter */
 
         return [
             static function (QueryBuilder $select) use ($filter, $handlers) {
