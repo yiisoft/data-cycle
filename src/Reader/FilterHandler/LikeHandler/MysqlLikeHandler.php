@@ -14,7 +14,7 @@ final class MysqlLikeHandler extends BaseLikeHandler implements QueryBuilderFilt
     {
         /** @var Like $filter */
 
-        if ($filter->isCaseSensitive() !== true) {
+        if ($filter->getCaseSensitive() !== true) {
             return [$filter->getField(), 'like', '%' . $this->prepareValue($filter->getValue()) . '%'];
         }
 

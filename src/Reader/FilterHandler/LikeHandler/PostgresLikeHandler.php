@@ -14,7 +14,7 @@ final class PostgresLikeHandler extends BaseLikeHandler implements QueryBuilderF
     {
         /** @var Like $filter */
 
-        if ($filter->isCaseSensitive() !== true) {
+        if ($filter->getCaseSensitive() !== true) {
             return [$filter->getField(), 'ilike', $this->prepareValue($filter->getValue())];
         }
 
