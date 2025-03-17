@@ -20,7 +20,7 @@ final class SqlServerLikeHandler extends BaseLikeHandler implements QueryBuilder
     {
         /** @var Like $filter */
 
-        if ($filter->isCaseSensitive() === true) {
+        if ($filter->getCaseSensitive() === true) {
             throw new NotSupportedFilterOptionException(optionName: 'caseSensitive', driverType: 'SQLServer');
         }
 
