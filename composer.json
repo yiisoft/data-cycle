@@ -32,20 +32,20 @@
     "prefer-stable": true,
     "minimum-stability": "dev",
     "require": {
-        "php": "^8.1",
+        "php": "8.3 - 8.4",
         "ext-mbstring": "*",
-        "cycle/database": "^2.11",
-        "cycle/orm": "^2.9",
+        "cycle/database": "^2.15",
+        "cycle/orm": "^2.10.1",
         "yiisoft/data": "dev-master"
     },
     "require-dev": {
-        "maglnet/composer-require-checker": "^4.7",
-        "phpunit/phpunit": "^10.5",
-        "rector/rector": "^2.0",
-        "roave/infection-static-analysis-plugin": "^1.35",
-        "spatie/phpunit-watcher": "^1.24",
-        "vimeo/psalm": "^5.26",
-        "vlucas/phpdotenv": "^5.6"
+        "maglnet/composer-require-checker": "^4.16.1",
+        "phpunit/phpunit": "^12.3.5",
+        "rector/rector": "^2.1.4",
+        "roave/infection-static-analysis-plugin": ">=1.38",
+        "spatie/phpunit-watcher": ">=1.24.0",
+        "vimeo/psalm": "^6.13.1",
+        "vlucas/phpdotenv": "^5.6.2"
     },
     "autoload": {
         "psr-4": {
@@ -63,6 +63,7 @@
     },
     "config": {
         "sort-packages": true,
+        "bump-after-update": true,
         "allow-plugins": {
             "infection/extension-installer": true,
             "composer/package-versions-deprecated": true
