@@ -10,6 +10,7 @@ use Yiisoft\Data\Reader\FilterInterface;
 
 final class MysqlLikeHandler extends BaseLikeHandler implements QueryBuilderFilterHandler
 {
+    #[\Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Like $filter */

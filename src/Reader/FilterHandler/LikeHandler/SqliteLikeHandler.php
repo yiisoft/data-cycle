@@ -16,6 +16,7 @@ final class SqliteLikeHandler extends BaseLikeHandler implements QueryBuilderFil
         unset($this->escapingReplacements['\\']);
     }
 
+    #[\Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Like $filter */

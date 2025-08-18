@@ -11,11 +11,13 @@ use Yiisoft\Data\Reader\FilterInterface;
 
 final class BetweenHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
+    #[\Override]
     public function getFilterClass(): string
     {
         return Between::class;
     }
 
+    #[\Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Between $filter  */
