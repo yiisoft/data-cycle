@@ -8,10 +8,9 @@ use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Cycle\Tests\Feature\DataTrait;
 use Yiisoft\Data\Cycle\Tests\Support\NotSupportedFilter;
-use Yiisoft\Data\Reader\Filter\AndX;
-use Yiisoft\Data\Reader\Filter\Equals;
+use Yiisoft\Data\Reader\Filter\All;
 
-abstract class BaseReaderWithAndXTestCase extends \Yiisoft\Data\Tests\Common\Reader\ReaderWithFilter\BaseReaderWithAllTestCase
+abstract class BaseReaderWithAllTestCase extends \Yiisoft\Data\Tests\Common\Reader\ReaderWithFilter\BaseReaderWithAllTestCase
 {
     use DataTrait;
 
@@ -22,7 +21,7 @@ abstract class BaseReaderWithAndXTestCase extends \Yiisoft\Data\Tests\Common\Rea
         $this->expectException(NotSupportedFilterException::class);
         $this->expectExceptionMessage(sprintf('Filter "%s" is not supported.', NotSupportedFilter::class));
         $reader->withFilter(
-            new AndX(new Equals('balance', '100.0'), new NotSupportedFilter(), new Equals('email', 'seed@beat')),
+            new All(),
         );
     }
 }

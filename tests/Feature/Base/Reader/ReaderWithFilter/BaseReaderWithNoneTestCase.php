@@ -8,19 +8,20 @@ use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Cycle\Tests\Feature\DataTrait;
 use Yiisoft\Data\Cycle\Tests\Support\NotSupportedFilter;
-use Yiisoft\Data\Reader\Filter\OrX;
-use Yiisoft\Data\Reader\Filter\Equals;
+use Yiisoft\Data\Reader\Filter\None;
 
-abstract class BaseReaderWithOrXTestCase extends \Yiisoft\Data\Tests\Common\Reader\ReaderWithFilter\BaseReaderWithOrXTestCase
+abstract class BaseReaderWithNoneTestCase extends \Yiisoft\Data\Tests\Common\Reader\ReaderWithFilter\BaseReaderWithNoneTestCase
 {
     use DataTrait;
 
-    public function testNotsupportedFilterException(): void
+    public function testNotSupportedFilterException(): void
     {
         $reader = (new EntityReader($this->select('user')));
 
         $this->expectException(NotSupportedFilterException::class);
         $this->expectExceptionMessage(sprintf('Filter "%s" is not supported.', NotSupportedFilter::class));
-        $reader->withFilter(new OrX(new Equals('number', 2), new NotSupportedFilter(), new Equals('number', 3)));
+        $reader->withFilter(
+            new None(),
+        );
     }
 }
