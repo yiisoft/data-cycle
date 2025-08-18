@@ -20,6 +20,6 @@ final class EqualsHandler implements QueryBuilderFilterHandler, FilterHandlerInt
     {
         /** @var Equals $filter */
 
-        return [$filter->getField(), '=', $filter->getValue()];
+        return [$filter->field, '=', $filter->value];
     }
 }

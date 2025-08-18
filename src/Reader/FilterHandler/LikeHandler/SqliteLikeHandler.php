@@ -20,10 +20,10 @@ final class SqliteLikeHandler extends BaseLikeHandler implements QueryBuilderFil
     {
         /** @var Like $filter */
 
-        if ($filter->getCaseSensitive() === true) {
+        if ($filter->caseSensitive === true) {
             throw new NotSupportedFilterOptionException(optionName: 'caseSensitive', driverType: 'SQLite');
         }
 
-        return [$filter->getField(), 'like', $this->prepareValue($filter->getValue())];
+        return [$filter->field, 'like', $this->prepareValue($filter->value)];
     }
 }

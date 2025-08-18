@@ -20,6 +20,6 @@ final class BetweenHandler implements QueryBuilderFilterHandler, FilterHandlerIn
     {
         /** @var Between $filter  */
 
-        return [$filter->getField(), 'between', $filter->getMinValue(), $filter->getMaxValue()];
+        return [$filter->field, 'between', $filter->minValue, $filter->maxValue];
     }
 }

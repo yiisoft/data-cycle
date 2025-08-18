@@ -13,6 +13,8 @@ use InvalidArgumentException;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler\LikeHandlerFactory;
 use Yiisoft\Data\Reader\DataReaderInterface;
+use Yiisoft\Data\Reader\Filter\All;
+use Yiisoft\Data\Reader\Filter\None;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 use Yiisoft\Data\Reader\Sort;
@@ -34,7 +36,7 @@ final class EntityReader implements DataReaderInterface
     private ?int $limit = null;
     private int $offset = 0;
     private ?Sort $sorting = null;
-    private ?FilterInterface $filter = null;
+    private FilterInterface $filter;   
     private CachedCount $countCache;
     private CachedCollection $itemsCache;
     private CachedCollection $oneItemCache;
@@ -55,8 +57,10 @@ final class EntityReader implements DataReaderInterface
          */
         $likeHandler = LikeHandlerFactory::getLikeHandler($this->query->getDriver()?->getType() ?? 'SQLite');
         $this->setFilterHandlers(
-            new FilterHandler\AllHandler(),
-            new FilterHandler\AnyHandler(),
+            new FilterHandler\AllHandler(),    
+            new FilterHandler\NoneHandler(),    
+            new FilterHandler\AndXHandler(),
+            new FilterHandler\OrXHandler(),
             new FilterHandler\BetweenHandler(),
             new FilterHandler\EqualsHandler(),
             new FilterHandler\EqualsNullHandler(),
@@ -68,6 +72,7 @@ final class EntityReader implements DataReaderInterface
             $likeHandler,
             new FilterHandler\NotHandler(),
         );
+        $this->filter = new All();
     }
 
     public function getSort(): ?Sort
@@ -122,7 +127,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
-    public function withFilter(?FilterInterface $filter): static
+    public function withFilter(FilterInterface $filter): static
     {
         $new = clone $this;
         if ($new->filter !== $filter) {
@@ -215,9 +220,9 @@ final class EntityReader implements DataReaderInterface
         if ($this->limit !== null) {
             $newQuery->limit($this->limit);
         }
-        if ($this->filter !== null) {
+        if (!($this->filter instanceof All) && !($this->filter instanceof None)) {
             $newQuery->andWhere($this->makeFilterClosure($this->filter));
-        }
+        }    
         return $newQuery;
     }
 
@@ -235,7 +240,7 @@ final class EntityReader implements DataReaderInterface
     private function resetCountCache(): void
     {
         $newQuery = clone $this->query;
-        if ($this->filter !== null) {
+        if (!($this->filter instanceof All) && !($this->filter instanceof None)) {
             $newQuery->andWhere($this->makeFilterClosure($this->filter));
         }
         $this->countCache = new CachedCount($newQuery);
@@ -256,7 +261,7 @@ final class EntityReader implements DataReaderInterface
         return $criteria;
     }
 
-    public function getFilter(): ?FilterInterface
+    public function getFilter(): FilterInterface
     {
         return $this->filter;
     }
