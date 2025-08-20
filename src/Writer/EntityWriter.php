@@ -21,6 +21,9 @@ final class EntityWriter implements DataWriterInterface
     public function write(iterable $items): void
     {
         foreach ($items as $entity) {
+            if (!is_object($entity)) {
+                throw new \InvalidArgumentException('Entity must be an object.');
+            }
             $this->entityManager->persist($entity);
         }
         $this->entityManager->run();
@@ -30,6 +33,9 @@ final class EntityWriter implements DataWriterInterface
     public function delete(iterable $items): void
     {
         foreach ($items as $entity) {
+            if (!is_object($entity)) {
+                throw new \InvalidArgumentException('Entity must be an object.');
+            }
             $this->entityManager->delete($entity);
         }
         $this->entityManager->run();

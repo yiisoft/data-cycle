@@ -167,6 +167,10 @@ final class EntityReader implements DataReaderInterface
         return $this->countCache->getCount();
     }
 
+    /**
+     * @psalm-suppress LessSpecificImplementedReturnType
+     * @return iterable
+     */
     #[\Override]
     public function read(): iterable
     {
@@ -174,9 +178,13 @@ final class EntityReader implements DataReaderInterface
             $query = $this->buildSelectQuery();
             $this->itemsCache->setCollection($query->fetchAll());
         }
+        /**
+         * 
+         */
         return $this->itemsCache->getCollection();
     }
 
+    
     #[\Override]
     public function readOne(): null|array|object
     {
@@ -188,7 +196,9 @@ final class EntityReader implements DataReaderInterface
                 : $this->withLimit(1)->getIterator()->current();
             $this->oneItemCache->setCollection($item === null ? [] : [$item]);
         }
-
+        /**
+         * @psalm-suppress MixedReturnStatement $this->oneItemCache->getGenerator()->current();
+         */
         return $this->oneItemCache->getGenerator()->current();
     }
 
