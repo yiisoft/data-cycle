@@ -256,7 +256,7 @@ final class EntityReader implements DataReaderInterface
         return $criteria;
     }
 
-    public function getFilter(): ?FilterInterface
+    public function getFilter(): FilterInterface
     {
         return $this->filter;
     }
