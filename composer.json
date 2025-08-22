@@ -32,7 +32,7 @@
     "prefer-stable": true,
     "minimum-stability": "dev",
     "require": {
-        "php": "8.1 - 8.4",
+        "php": "8.3 - 8.4",
         "ext-mbstring": "*",
         "cycle/database": "^2.15",
         "cycle/orm": "^2.10.1",
