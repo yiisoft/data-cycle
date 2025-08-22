@@ -14,7 +14,6 @@ use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler\LikeHandlerFactory;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Filter\All;
-use Yiisoft\Data\Reader\Filter\None;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 use Yiisoft\Data\Reader\Sort;
@@ -178,13 +177,9 @@ final class EntityReader implements DataReaderInterface
             $query = $this->buildSelectQuery();
             $this->itemsCache->setCollection($query->fetchAll());
         }
-        /**
-         * 
-         */
         return $this->itemsCache->getCollection();
     }
 
-    
     #[\Override]
     public function readOne(): null|array|object
     {
@@ -198,7 +193,7 @@ final class EntityReader implements DataReaderInterface
         }
         /**
          * @psalm-suppress MixedReturnStatement $this->oneItemCache->getGenerator()->current();
-         */
+         */   
         return $this->oneItemCache->getGenerator()->current();
     }
 
@@ -240,9 +235,9 @@ final class EntityReader implements DataReaderInterface
         if ($this->limit !== null) {
             $newQuery->limit($this->limit);
         }
-        if (!($this->filter instanceof All) && !($this->filter instanceof None)) {
+        if (!($this->filter instanceof All)) {
             $newQuery->andWhere($this->makeFilterClosure($this->filter));
-        }    
+        }
         return $newQuery;
     }
 
@@ -260,7 +255,7 @@ final class EntityReader implements DataReaderInterface
     private function resetCountCache(): void
     {
         $newQuery = clone $this->query;
-        if (!($this->filter instanceof All) && !($this->filter instanceof None)) {
+        if (!($this->filter instanceof All)) {
             $newQuery->andWhere($this->makeFilterClosure($this->filter));
         }
         $this->countCache = new CachedCount($newQuery);

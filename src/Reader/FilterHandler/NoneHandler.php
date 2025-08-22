@@ -8,6 +8,7 @@ use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\None;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
+use Cycle\Database\Injection\Expression;
 
 final class NoneHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
@@ -20,6 +21,6 @@ final class NoneHandler implements QueryBuilderFilterHandler, FilterHandlerInter
     #[\Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-        return [];
+        return [new Expression('1 = 0')];
     }
 }
