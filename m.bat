@@ -14,6 +14,7 @@ echo [1] Run PHP Psalm
 echo [2] Run PHP Psalm on a Specific File
 echo [2a] Clear Psalm's cache (in the event of stubborn errors)
 echo [2b] Php Unit Tests
+echo [2c] Mutation Tests using Roave
 echo [3] Check Composer Outdated
 echo [3a] Composer why-not {repository eg. yiisoft/yii-demo} {patch/minor version e.g. 1.1.1}
 echo [4] Run Composer Update
@@ -29,6 +30,7 @@ if "%choice%"=="1" goto psalm
 if "%choice%"=="2" goto psalm_file
 if "%choice%"=="2a" goto psalm_clear_cache
 if "%choice%"=="2b" goto php_unit_test
+if "%choice%"=="2c" goto roave_infection
 if "%choice%"=="3" goto outdated
 if "%choice%"=="3a" goto composerwhynot
 if "%choice%"=="4" goto composer_update
@@ -67,7 +69,13 @@ goto menu
 
 :php_unit_test
 echo Running PHP Unit Tests ... php vendor/bin/phpunit
-php vendor/bin/phpunit
+php vendor/bin/phpunit 
+pause
+goto menu
+
+:roave_infection
+echo Running Roave Infection Static Analysis Plugin ... php vendor/bin/roave-infection-static-analysis-plugin --only-covered --min-msi=99 
+php vendor/bin/roave-infection-static-analysis-plugin --only-covered --min-msi=99
 pause
 goto menu
 

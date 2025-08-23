@@ -143,17 +143,15 @@ final class EntityReader implements DataReaderInterface
         }
         return $new;
     }
-
+    
     /**
-     * @psalm-mutation-free
+     * @return static 
      */
     #[\Override]
     public function withAddedFilterHandlers(FilterHandlerInterface ...$filterHandlers): static
     {
         $new = clone $this;
-        /** @psalm-suppress ImpureMethodCall */
         $new->setFilterHandlers(...$filterHandlers);
-        /** @psalm-suppress ImpureMethodCall */
         $new->resetCountCache();
         $new->itemsCache = new CachedCollection();
         $new->oneItemCache = new CachedCollection();
@@ -184,6 +182,7 @@ final class EntityReader implements DataReaderInterface
     public function readOne(): null|array|object
     {
         if (!$this->oneItemCache->isCollected()) {
+            /** @var null|array|object $item */
             $item = $this->itemsCache->isCollected()
                 // get the first item from a cached collection
                 ? $this->itemsCache->getGenerator()->current()
@@ -226,7 +225,7 @@ final class EntityReader implements DataReaderInterface
     private function buildSelectQuery(): SelectQuery|Select
     {
         $newQuery = clone $this->query;
-        if ($this->offset !== 0) {
+        if ($this->offset >= 0 && $this->offset !== 0) {
             $newQuery->offset($this->offset);
         }
         if ($this->sorting !== null) {
@@ -253,26 +252,40 @@ final class EntityReader implements DataReaderInterface
     }
 
     private function resetCountCache(): void
-    {
-        $newQuery = clone $this->query;
-        if (!($this->filter instanceof All)) {
-            $newQuery->andWhere($this->makeFilterClosure($this->filter));
-        }
-        $this->countCache = new CachedCount($newQuery);
+{
+    $newQuery = clone $this->query;
+
+    // Ensure the clone worked: a clone is never identical to the original: different instances
+    if ($newQuery === $this->query) {
+        throw new \RuntimeException('Query was not properly cloned; $newQuery and $this->query are the same instance!');
     }
 
+    if (!$this->filter instanceof All) {
+        $newQuery->andWhere($this->makeFilterClosure($this->filter));
+    }
+    $this->countCache = new CachedCount($newQuery);
+}
+
+     /**
+     * @psalm-param array<string, int|string> $criteria
+     * @psalm-return array<string, 'ASC'|'DESC'|string>
+     * @return array<string, string>
+     */
     private function normalizeSortingCriteria(array $criteria): array
     {
         foreach ($criteria as $field => $direction) {
             if (is_int($direction)) {
+                /** @var 'ASC'|'DESC' $direction */
                 $direction = match ($direction) {
                     SORT_DESC => 'DESC',
                     default => 'ASC',
                 };
             }
-            $criteria[$field] = $direction;
+            /** @var 'ASC'|'DESC'|string $direction */
+            $criteria[$field] = $direction; // Always string!
         }
 
+        /** @var array<string, string> $criteria */
         return $criteria;
     }
 

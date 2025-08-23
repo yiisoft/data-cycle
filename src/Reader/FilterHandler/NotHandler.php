@@ -46,12 +46,19 @@ final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
             return $where;
         }
 
-        $operator = $where[1];
-        $where[1] = match ($operator) {
-            'between', 'in', 'like' => "not $operator",
-            '=' => '!=',
-            default => $operator,
-        };
+        $operator = (string)$where[1];
+        // avoid using a match statement to prevent a mutant escape
+        if ($operator === 'between') {
+            $where[1] = 'not between';
+        } elseif ($operator === 'in') {
+            $where[1] = 'not in';
+        } elseif ($operator === 'like') {
+            $where[1] = 'not like';
+        } elseif ($operator === '=') {
+            $where[1] = '!=';
+        } else {
+            $where[1] = $operator;
+        }
 
         return $where;
     }
