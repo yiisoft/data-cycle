@@ -9,7 +9,7 @@
 [![Latest Stable Version](https://poser.pugx.org/rossaddison/data-cycle/v)](https://packagist.org/packages/rossaddison/data-cycle)
 [![Total Downloads](https://poser.pugx.org/rossaddison/data-cycle/downloads)](https://packagist.org/packages/rossaddison/data-cycle)
 [![Code Coverage](https://codecov.io/gh/rossaddison/data-cycle/branch/master/graph/badge.svg)](https://codecov.io/gh/rossaddison/data-cycle)
-[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Frossaddison%2Fdata%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/rossaddison/data-cycle/master)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Frossaddison%2Fdata-cycle%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/rossaddison/data-cycle/master)
 [![static analysis](https://github.com/rossaddison/data-cycle/workflows/static%20analysis/badge.svg)](https://github.com/rossaddison/data-cycle/actions?query=workflow%3A%22static+analysis%22)
 [![type-coverage](https://shepherd.dev/github/rossaddison/data-cycle/coverage.svg)](https://shepherd.dev/github/rossaddison/data-cycle)
 [![psalm-level](https://shepherd.dev/github/rossaddison/data-cycle/level.svg)](https://shepherd.dev/github/rossaddison/data-cycle)
