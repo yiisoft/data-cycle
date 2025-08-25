@@ -303,13 +303,20 @@ trait DataTrait
                 if ($fixture['born_at'] instanceof \DateTimeInterface) {
                     $fixture['born_at'] = $fixture['born_at']->format('Y-m-d H:i:s');
                 } elseif (is_string($fixture['born_at']) && $fixture['born_at'] !== '') {
+                    // Remove milliseconds if present (MSSQL returns .000)
+                    $normalized = preg_replace('/\\.\\d{3}$/', '', $fixture['born_at']);
                     // Try to parse as date and reformat to standard string (for DB vs object test comparisons)
-                    $dt = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $fixture['born_at'])
-                        ?: \DateTimeImmutable::createFromFormat('Y-m-d', $fixture['born_at']);
-                    if ($dt !== false) {
-                        $fixture['born_at'] = $dt->format('Y-m-d H:i:s');
-                    }
-                }
+                    if ($normalized !== null && $normalized !== '') {
+                        $dt = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $normalized)
+                            ?: \DateTimeImmutable::createFromFormat('Y-m-d', $normalized);
+                        if ($dt !== false) {
+                            $fixture['born_at'] = $dt->format('Y-m-d H:i:s');
+                        } else {
+                            $fixture['born_at'] = $normalized;
+                        }
+                    } else {
+                        $fixture['born_at'] = $normalized;
+}               }
             }
 
             $processedActualFixtures[$fixture['number'] - 1] = $fixture;
