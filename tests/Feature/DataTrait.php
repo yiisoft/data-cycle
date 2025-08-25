@@ -36,6 +36,11 @@ trait DataTrait
     // cache
     private ?ORMInterface $orm = null;
     private ?DatabaseProviderInterface $dbal = null;
+    
+    protected function isDriver(string $driver): bool
+    {
+        return static::$DRIVER === $driver;
+    }
 
     protected function setUp(): void
     {
@@ -316,7 +321,8 @@ trait DataTrait
                         }
                     } else {
                         $fixture['born_at'] = $normalized;
-}               }
+                    } 
+                }
             }
 
             $processedActualFixtures[$fixture['number'] - 1] = $fixture;

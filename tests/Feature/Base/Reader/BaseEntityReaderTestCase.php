@@ -562,7 +562,14 @@ SQL,
         $reader = new EntityReader($this->select('user'));
         // Use reflection or a public method to get the SQL used by readOne
         $sql = $reader->withLimit(1)->getSql();
-        $this->assertStringContainsString('LIMIT 1', strtoupper($sql));
+        // Note: (1) MySQL and PostgreSQL use the LIMIT clause (e.g., SELECT ... LIMIT 1).
+        // Note: (2) MSSQL uses a different approach (ROW_NUMBER()/TOP) because it does not support the LIMIT clause.
+        if ($this->isDriver('mssql')) {
+            $this->assertStringContainsString('ROW_NUMBER()', $sql);
+            $this->assertStringContainsString('WHERE [_ROW_NUMBER_] BETWEEN 1 AND 1', $sql);
+        } else {
+            $this->assertStringContainsString('LIMIT 1', $sql);
+        }
     }
 
     public function testReadOneReturnsExactlyOneItem(): void
