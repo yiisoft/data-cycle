@@ -99,7 +99,6 @@ jobs:
           CYCLE_MSSQL_PORT: 1433
           CYCLE_MSSQL_USER: SA
           CYCLE_MSSQL_PASSWORD: YourStrong!Passw0rd
-          TRUSTSERVERCERTIFICATE: yes
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
