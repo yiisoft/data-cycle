@@ -178,7 +178,7 @@ trait DataTrait
         $user->column('number')->integer();
         $user->column('email')->string()->nullable(false);
         $user->column('balance')->float()->nullable(false)->defaultValue(0.0);
-        $user->column('born_at')->date()->nullable();
+        $user->column('born_at')->datetime()->nullable();
         $user->save();
 
         /** @var array<int, array<string, mixed>> $fixtures */
