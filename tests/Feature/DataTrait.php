@@ -125,6 +125,9 @@ trait DataTrait
                                     port: $port,
                                     user: $user,
                                     password: $password === '' ? null : $password,
+                                    options: [
+                                        'TrustServerCertificate' => 'yes',
+                                    ],    
                                 ),
                                 queryCache: true,
                             );
