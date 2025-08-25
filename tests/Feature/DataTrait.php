@@ -72,7 +72,7 @@ trait DataTrait
             if (($host = getenv('CYCLE_MYSQL_HOST', local_only: true)) !== false && $host !== '') {
                 if (($port = getenv('CYCLE_MYSQL_PORT', local_only: true)) !== false && $port !== '' && (int) $port > 0 && is_numeric($port)) {
                     if (($user = getenv('CYCLE_MYSQL_USER', local_only: true)) !== false && $user !== '') {
-                        if (($password = getenv('CYCLE_MYSQL_PASSWORD', local_only: true)) !== false && $password !== '') {
+                        if (($password = getenv('CYCLE_MYSQL_PASSWORD', local_only: true)) !== false) {
                             $connections['mysql'] = new MySQLDriverConfig(
                                 connection: new MySQLTcpConnectionConfig(
                                     database: $database,
@@ -94,7 +94,7 @@ trait DataTrait
             if (($host = getenv('CYCLE_PGSQL_HOST', local_only: true)) !== false && $host !== '') {
                 if (($port = getenv('CYCLE_PGSQL_PORT', local_only: true)) !== false && $port !== '' && (int) $port > 0 && is_numeric($port)) {
                     if (($user = getenv('CYCLE_PGSQL_USER', local_only: true)) !== false && $user !== '') {
-                        if (($password = getenv('CYCLE_PGSQL_PASSWORD', local_only: true)) !== false && $password !== '') {
+                        if (($password = getenv('CYCLE_PGSQL_PASSWORD', local_only: true)) !== false) {
                             $connections['pgsql'] = new PostgresDriverConfig(
                                 connection: new PostgresTcpConnectionConfig(
                                     database: $database,
@@ -117,7 +117,7 @@ trait DataTrait
             if (($host = getenv('CYCLE_MSSQL_HOST', local_only: true)) !== false && $host !== '') {
                 if (($port = getenv('CYCLE_MSSQL_PORT', local_only: true)) !== false && $port !== '' && (int) $port > 0 && is_numeric($port)) {
                     if (($user = getenv('CYCLE_MSSQL_USER', local_only: true)) !== false && $user !== '') {
-                        if (($password = getenv('CYCLE_MSSQL_PASSWORD', local_only: true)) !== false && $password !== '') {
+                        if (($password = getenv('CYCLE_MSSQL_PASSWORD', local_only: true)) !== false) {
                             $connections['mssql'] = new SQLServerDriverConfig(
                                 connection: new SQLServerTcpConnectionConfig(
                                     database: $database,
