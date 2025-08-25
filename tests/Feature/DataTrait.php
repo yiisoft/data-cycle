@@ -79,7 +79,7 @@ trait DataTrait
                                     host: $host,
                                     port: $port,
                                     user: $user,
-                                    password: $password,
+                                    password: $password === '' ? null : $password,
                                 ),
                                 queryCache: true,
                             );
@@ -101,7 +101,7 @@ trait DataTrait
                                     host: $host,
                                     port: $port,
                                     user: $user,
-                                    password: $password,
+                                    password: $password === '' ? null : $password,
                                 ),
                                 schema: 'public',
                                 queryCache: true,
@@ -124,7 +124,7 @@ trait DataTrait
                                     host: $host,
                                     port: $port,
                                     user: $user,
-                                    password: $password,
+                                    password: $password === '' ? null : $password,
                                 ),
                                 queryCache: true,
                             );
