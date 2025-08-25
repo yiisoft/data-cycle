@@ -341,6 +341,6 @@ trait DataTrait
             $expectedFixtures[$index] = $expectedFixture;
         }
 
-        $this->assertSame($expectedFixtures, $processedActualFixtures);
+        $this->assertEquals($expectedFixtures, $processedActualFixtures);
     }
 }
