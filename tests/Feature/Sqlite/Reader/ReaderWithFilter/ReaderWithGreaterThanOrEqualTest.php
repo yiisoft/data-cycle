@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\ReaderWithFilter\BaseReaderWith
 
 final class ReaderWithGreaterThanOrEqualTest extends BaseReaderWithGreaterThanOrEqualTestCase
 {
-    public static $DRIVER = 'sqlite';
+    public static string $DRIVER = 'sqlite';
 }

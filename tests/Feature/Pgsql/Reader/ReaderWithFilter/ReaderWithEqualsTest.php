@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Data\Cycle\Tests\Feature\Pgsql\Reader\ReaderWithFilter;
+namespace Yiisoft\Data\Cycle\Tests\Feature\Pqsql\Reader\ReaderWithFilter;
 
 use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\ReaderWithFilter\BaseReaderWithEqualsTestCase;
 
 final class ReaderWithEqualsTest extends BaseReaderWithEqualsTestCase
 {
-    public static $DRIVER = 'pgsql';
+    public static string $DRIVER = 'pgsql';
 }

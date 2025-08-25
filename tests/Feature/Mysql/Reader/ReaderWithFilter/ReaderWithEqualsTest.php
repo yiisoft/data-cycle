@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\ReaderWithFilter\BaseReaderWith
 
 final class ReaderWithEqualsTest extends BaseReaderWithEqualsTestCase
 {
-    public static $DRIVER = 'mysql';
+    public static string $DRIVER = 'mysql';
 }

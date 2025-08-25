@@ -10,6 +10,7 @@ abstract class BaseReaderWithLikeTestCase extends \Yiisoft\Data\Tests\Common\Rea
 {
     use DataTrait;
 
+    #[\Override]
     public static function dataWithReader(): array
     {
         $data = parent::dataWithReader();

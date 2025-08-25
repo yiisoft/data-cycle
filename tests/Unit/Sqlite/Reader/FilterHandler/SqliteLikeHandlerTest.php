@@ -11,7 +11,7 @@ use Yiisoft\Data\Reader\Filter\Like;
 
 final class SqliteLikeHandlerTest extends TestCase
 {
-    public static $DRIVER = 'sqlite';
+    public static string $DRIVER = 'sqlite';
 
     public function testNotSupportedFilterOptionException(): void
     {

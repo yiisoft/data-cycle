@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\ReaderWithFilter\BaseReaderWith
 
 final class ReaderWithLessThanTest extends BaseReaderWithLessThanTestCase
 {
-    public static $DRIVER = 'pgsql';
+    public static string $DRIVER = 'pgsql';
 }

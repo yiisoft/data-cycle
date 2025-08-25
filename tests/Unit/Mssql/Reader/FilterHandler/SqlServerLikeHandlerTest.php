@@ -11,7 +11,7 @@ use Yiisoft\Data\Reader\Filter\Like;
 
 final class SqlServerLikeHandlerTest extends TestCase
 {
-    public static $DRIVER = 'mssql';
+    public static string $DRIVER = 'mssql';
 
     public function testNotSupportedFilterOptionException(): void
     {

@@ -10,9 +10,7 @@ use Yiisoft\Data\Writer\DataWriterInterface;
 
 final class EntityWriter implements DataWriterInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager)
-    {
-    }
+    public function __construct(private EntityManagerInterface $entityManager) {}
 
     /**
      * @throws Throwable

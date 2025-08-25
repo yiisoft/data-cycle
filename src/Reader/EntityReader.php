@@ -35,7 +35,7 @@ final class EntityReader implements DataReaderInterface
     private ?int $limit = null;
     private int $offset = 0;
     private ?Sort $sorting = null;
-    private FilterInterface $filter;   
+    private FilterInterface $filter;
     private CachedCount $countCache;
     private CachedCollection $itemsCache;
     private CachedCollection $oneItemCache;
@@ -56,8 +56,8 @@ final class EntityReader implements DataReaderInterface
          */
         $likeHandler = LikeHandlerFactory::getLikeHandler($this->query->getDriver()?->getType() ?? 'SQLite');
         $this->setFilterHandlers(
-            new FilterHandler\AllHandler(),    
-            new FilterHandler\NoneHandler(),    
+            new FilterHandler\AllHandler(),
+            new FilterHandler\NoneHandler(),
             new FilterHandler\AndXHandler(),
             new FilterHandler\OrXHandler(),
             new FilterHandler\BetweenHandler(),
@@ -91,6 +91,11 @@ final class EntityReader implements DataReaderInterface
             throw new InvalidArgumentException('$limit must not be less than 0.');
         }
         $new = clone $this;
+
+        if ($new === $this) {
+            throw new \RuntimeException('Query was not properly cloned!');
+        }
+
         if ($new->limit !== $limit) {
             $new->limit = $limit;
             $new->itemsCache = new CachedCollection();
@@ -105,6 +110,11 @@ final class EntityReader implements DataReaderInterface
     public function withOffset(int $offset): static
     {
         $new = clone $this;
+
+        if ($new === $this) {
+            throw new \RuntimeException('Query was not properly cloned!');
+        }
+
         if ($new->offset !== $offset) {
             $new->offset = $offset;
             $new->itemsCache = new CachedCollection();
@@ -119,6 +129,11 @@ final class EntityReader implements DataReaderInterface
     public function withSort(?Sort $sort): static
     {
         $new = clone $this;
+
+        if ($new === $this) {
+            throw new \RuntimeException('Query was not properly cloned!');
+        }
+
         if ($new->sorting !== $sort) {
             $new->sorting = $sort;
             $new->itemsCache = new CachedCollection();
@@ -134,6 +149,11 @@ final class EntityReader implements DataReaderInterface
     public function withFilter(FilterInterface $filter): static
     {
         $new = clone $this;
+
+        if ($new === $this) {
+            throw new \RuntimeException('Query was not properly cloned!');
+        }
+
         if ($new->filter !== $filter) {
             $new->filter = $filter;
             $new->itemsCache = new CachedCollection();
@@ -143,9 +163,9 @@ final class EntityReader implements DataReaderInterface
         }
         return $new;
     }
-    
+
     /**
-     * @return static 
+     * @return static
      */
     #[\Override]
     public function withAddedFilterHandlers(FilterHandlerInterface ...$filterHandlers): static
@@ -186,14 +206,17 @@ final class EntityReader implements DataReaderInterface
             $item = $this->itemsCache->isCollected()
                 // get the first item from a cached collection
                 ? $this->itemsCache->getGenerator()->current()
-                // read data with limit 1
-                : $this->withLimit(1)->getIterator()->current();
+                // Option 1: read data with limit 1: use $this->withLimit(1)->getIterator()->current();
+                // Option 2: less efficient
+                : $this->getIterator()->current();
             $this->oneItemCache->setCollection($item === null ? [] : [$item]);
         }
         /**
-         * @psalm-suppress MixedReturnStatement $this->oneItemCache->getGenerator()->current();
-         */   
-        return $this->oneItemCache->getGenerator()->current();
+         * @psalm-suppress MixedReturnStatement
+         */
+        return $this->oneItemCache->getGenerator()->valid() ?
+                $this->oneItemCache->getGenerator()->current()
+                : null;
     }
 
     /**
@@ -204,11 +227,11 @@ final class EntityReader implements DataReaderInterface
     {
         yield from $this->itemsCache->getCollection() ?? $this->buildSelectQuery()->getIterator();
     }
-    
+
     public function getSql(): string
     {
         $query = $this->buildSelectQuery();
-        return (string)($query instanceof Select ? $query->buildQuery() : $query);
+        return (string) ($query instanceof Select ? $query->buildQuery() : $query);
     }
 
     private function setFilterHandlers(FilterHandlerInterface ...$filterHandlers): void
@@ -252,25 +275,25 @@ final class EntityReader implements DataReaderInterface
     }
 
     private function resetCountCache(): void
-{
-    $newQuery = clone $this->query;
+    {
+        $newQuery = clone $this->query;
 
-    // Ensure the clone worked: a clone is never identical to the original: different instances
-    if ($newQuery === $this->query) {
-        throw new \RuntimeException('Query was not properly cloned; $newQuery and $this->query are the same instance!');
+        // Ensure the clone worked: a clone is never identical to the original: different instances
+        if ($newQuery === $this->query) {
+            throw new \RuntimeException('Query was not properly cloned; $newQuery and $this->query are the same instance!');
+        }
+
+        if (!$this->filter instanceof All) {
+            $newQuery->andWhere($this->makeFilterClosure($this->filter));
+        }
+        $this->countCache = new CachedCount($newQuery);
     }
 
-    if (!$this->filter instanceof All) {
-        $newQuery->andWhere($this->makeFilterClosure($this->filter));
-    }
-    $this->countCache = new CachedCount($newQuery);
-}
-
-     /**
-     * @psalm-param array<string, int|string> $criteria
-     * @psalm-return array<string, 'ASC'|'DESC'|string>
-     * @return array<string, string>
-     */
+    /**
+    * @psalm-param array<string, int|string> $criteria
+    * @psalm-return array<string, 'ASC'|'DESC'|string>
+    * @return array<string, string>
+    */
     private function normalizeSortingCriteria(array $criteria): array
     {
         foreach ($criteria as $field => $direction) {

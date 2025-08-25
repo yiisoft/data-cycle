@@ -17,7 +17,6 @@ use Cycle\Database\Database;
 use Cycle\Database\DatabaseInterface;
 use Cycle\Database\DatabaseManager;
 use Cycle\Database\DatabaseProviderInterface;
-use Cycle\Database\Driver\Handler;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\EntityManagerInterface;
 use Cycle\ORM\Factory;
@@ -32,7 +31,7 @@ use Yiisoft\Data\Reader\DataReaderInterface;
 
 trait DataTrait
 {
-    public static $DRIVER = null;
+    public static string $DRIVER = '';
 
     // cache
     private ?ORMInterface $orm = null;
@@ -58,7 +57,7 @@ trait DataTrait
     private function createDbal(): DatabaseProviderInterface
     {
         $databases = [
-            'default' => ['connection' => static::$DRIVER ?? 'sqlite'],
+            'default' => ['connection' => static::$DRIVER ?: 'sqlite'],
             'sqlite' => ['connection' => 'sqlite'],
         ];
         $connections = [
@@ -68,48 +67,71 @@ trait DataTrait
             ),
         ];
 
-        if (getenv('CYCLE_MYSQL_DATABASE', local_only: true) !== false) {
+        if (($database = getenv('CYCLE_MYSQL_DATABASE', local_only: true)) !== false && $database !== '') {
             $databases['mysql'] = ['connection' => 'mysql'];
-            $connections['mysql'] = new MySQLDriverConfig(
-                connection: new MySQLTcpConnectionConfig(
-                    database: getenv('CYCLE_MYSQL_DATABASE'),
-                    host: getenv('CYCLE_MYSQL_HOST'),
-                    port: (int) getenv('CYCLE_MYSQL_PORT'),
-                    user: getenv('CYCLE_MYSQL_USER'),
-                    password: getenv('CYCLE_MYSQL_PASSWORD'),
-                ),
-                queryCache: true,
-            );
+            if (($host = getenv('CYCLE_MYSQL_HOST', local_only: true)) !== false && $host !== '') {
+                if (($port = getenv('CYCLE_MYSQL_PORT', local_only: true)) !== false && $port !== '' && (int) $port > 0 && is_numeric($port)) {
+                    if (($user = getenv('CYCLE_MYSQL_USER', local_only: true)) !== false && $user !== '') {
+                        if (($password = getenv('CYCLE_MYSQL_PASSWORD', local_only: true)) !== false && $password !== '') {
+                            $connections['mysql'] = new MySQLDriverConfig(
+                                connection: new MySQLTcpConnectionConfig(
+                                    database: $database,
+                                    host: $host,
+                                    port: $port,
+                                    user: $user,
+                                    password: $password,
+                                ),
+                                queryCache: true,
+                            );
+                        }
+                    }
+                }
+            }
         }
 
-        if (getenv('CYCLE_PGSQL_DATABASE', local_only: true) !== false) {
+        if (($database = getenv('CYCLE_PGSQL_DATABASE', local_only: true)) !== false && $database !== '') {
             $databases['pgsql'] = ['connection' => 'pgsql'];
-            $connections['pgsql'] = new PostgresDriverConfig(
-                connection: new PostgresTcpConnectionConfig(
-                    database: getenv('CYCLE_PGSQL_DATABASE'),
-                    host: getenv('CYCLE_PGSQL_HOST'),
-                    port: (int) getenv('CYCLE_PGSQL_PORT'),
-                    user: getenv('CYCLE_PGSQL_USER'),
-                    password: getenv('CYCLE_PGSQL_PASSWORD'),
-                ),
-                schema: 'public',
-                queryCache: true,
-            );
+            if (($host = getenv('CYCLE_PGSQL_HOST', local_only: true)) !== false && $host !== '') {
+                if (($port = getenv('CYCLE_PGSQL_PORT', local_only: true)) !== false && $port !== '' && (int) $port > 0 && is_numeric($port)) {
+                    if (($user = getenv('CYCLE_PGSQL_USER', local_only: true)) !== false && $user !== '') {
+                        if (($password = getenv('CYCLE_PGSQL_PASSWORD', local_only: true)) !== false && $password !== '') {
+                            $connections['pgsql'] = new PostgresDriverConfig(
+                                connection: new PostgresTcpConnectionConfig(
+                                    database: $database,
+                                    host: $host,
+                                    port: $port,
+                                    user: $user,
+                                    password: $password,
+                                ),
+                                schema: 'public',
+                                queryCache: true,
+                            );
+                        }
+                    }
+                }
+            }
         }
 
-        if (getenv('CYCLE_MSSQL_DATABASE', local_only: true) !== false) {
+        if (($database = getenv('CYCLE_MSSQL_DATABASE', local_only: true)) !== false && $database !== '') {
             $databases['mssql'] = ['connection' => 'mssql'];
-            $connections['mssql'] = new SQLServerDriverConfig(
-                connection: new SQLServerTcpConnectionConfig(
-                    database: getenv('CYCLE_MSSQL_DATABASE'),
-                    host: getenv('CYCLE_MSSQL_HOST'),
-                    port: (int) getenv('CYCLE_MSSQL_PORT'),
-                    trustServerCertificate: true,
-                    user: getenv('CYCLE_MSSQL_USER'),
-                    password: getenv('CYCLE_MSSQL_PASSWORD'),
-                ),
-                queryCache: true,
-            );
+            if (($host = getenv('CYCLE_MSSQL_HOST', local_only: true)) !== false && $host !== '') {
+                if (($port = getenv('CYCLE_MSSQL_PORT', local_only: true)) !== false && $port !== '' && (int) $port > 0 && is_numeric($port)) {
+                    if (($user = getenv('CYCLE_MSSQL_USER', local_only: true)) !== false && $user !== '') {
+                        if (($password = getenv('CYCLE_MSSQL_PASSWORD', local_only: true)) !== false && $password !== '') {
+                            $connections['mssql'] = new SQLServerDriverConfig(
+                                connection: new SQLServerTcpConnectionConfig(
+                                    database: $database,
+                                    host: $host,
+                                    port: $port,
+                                    user: $user,
+                                    password: $password,
+                                ),
+                                queryCache: true,
+                            );
+                        }
+                    }
+                }
+            }
         }
 
         return new DatabaseManager(new DatabaseConfig(['databases' => $databases, 'connections' => $connections]));
@@ -117,17 +139,25 @@ trait DataTrait
 
     protected function dropDatabase(): void
     {
+        if ($this->dbal === null) {
+            throw new \RuntimeException('DBAL not initialized');
+        }
+
+        /** @var \Cycle\Database\Table $table */
         foreach ($this->dbal->database()->getTables() as $table) {
+            /** @var \Cycle\Database\Schema\AbstractTable $schema */
             $schema = $table->getSchema();
 
             foreach ($schema->getForeignKeys() as $foreign) {
                 $schema->dropForeignKey($foreign->getColumns());
             }
 
-            $schema->save(Handler::DROP_FOREIGN_KEYS);
+            $schema->save(\Cycle\Database\Driver\Handler::DROP_FOREIGN_KEYS);
         }
 
+        /** @var \Cycle\Database\Table $table */
         foreach ($this->dbal->database()->getTables() as $table) {
+            /** @var \Cycle\Database\Schema\AbstractTable $schema */
             $schema = $table->getSchema();
             $schema->declareDropped();
             $schema->save();
@@ -136,6 +166,7 @@ trait DataTrait
 
     protected function fillFixtures(): void
     {
+        assert($this->dbal !== null);
         /** @var Database $db */
         $db = $this->dbal->database();
         if ($db->hasTable('user')) {
@@ -150,9 +181,18 @@ trait DataTrait
         $user->column('born_at')->date()->nullable();
         $user->save();
 
-        $fixtures = static::$fixtures;
+        /** @var array<int, array<string, mixed>> $fixtures */
+        $fixtures = $this->getFixtures();
+        /** @var array<string, mixed> $fixture */
         foreach ($fixtures as $index => $fixture) {
             $fixtures[$index]['balance'] = (string) $fixtures[$index]['balance'];
+            if (
+                isset($fixtures[$index]['born_at']) &&
+                $fixtures[$index]['born_at'] instanceof \DateTimeInterface
+            ) {
+                // Use a standard format for storing dates as string
+                $fixtures[$index]['born_at'] = $fixtures[$index]['born_at']->format('Y-m-d H:i:s');
+            }
         }
 
         $db
@@ -169,16 +209,25 @@ trait DataTrait
 
     protected function getOrm(): ORMInterface
     {
+        if ($this->orm === null) {
+            throw new \RuntimeException('ORM is not initialized');
+        }
         return $this->orm;
     }
 
     private function createOrm(): ORMInterface
     {
+        if ($this->dbal === null) {
+            throw new \RuntimeException('DBAL is not initialized');
+        }
         return new ORM(factory: new Factory($this->dbal), schema: $this->createSchema());
     }
 
     protected function getDatabase(): DatabaseInterface
     {
+        if ($this->dbal === null) {
+            throw new \RuntimeException('DBAL is not initialized');
+        }
         return $this->dbal->database();
     }
 
@@ -211,9 +260,13 @@ trait DataTrait
         ]);
     }
 
-    protected function createEntityManager(): EntityManagerInterface
+    protected function createEntityManager(): ?EntityManagerInterface
     {
-        return new EntityManager($this->orm);
+        $orm = $this->orm;
+        if (null !== $orm) {
+            return new EntityManager($orm);
+        }
+        return null;
     }
 
     protected function getReader(): DataReaderInterface
@@ -224,21 +277,54 @@ trait DataTrait
     protected function assertFixtures(array $expectedFixtureIndexes, array $actualFixtures): void
     {
         $processedActualFixtures = [];
+        /**
+         * @var array $fixture
+         */
         foreach ($actualFixtures as $fixture) {
+            /** @var array<string, mixed>|object $fixture */
             if (is_object($fixture)) {
-                $fixture = json_decode(json_encode($fixture), associative: true);
+                $json = json_encode($fixture);
+                if ($json === false) {
+                    throw new \RuntimeException('Failed to JSON-encode fixture');
+                }
+                /** @var array<string, mixed> $fixture */
+                $fixture = json_decode($json, associative: true);
             }
 
             unset($fixture['id']);
             $fixture['number'] = (int) $fixture['number'];
             $fixture['balance'] = (float) $fixture['balance'];
 
+            // Ensure born_at is normalized for comparison:
+            // - null stays null
+            // - string or object is converted to string 'Y-m-d H:i:s'
+            if (isset($fixture['born_at']) && $fixture['born_at'] !== null) {
+                if ($fixture['born_at'] instanceof \DateTimeInterface) {
+                    $fixture['born_at'] = $fixture['born_at']->format('Y-m-d H:i:s');
+                } elseif (is_string($fixture['born_at']) && $fixture['born_at'] !== '') {
+                    // Try to parse as date and reformat to standard string (for DB vs object test comparisons)
+                    $dt = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $fixture['born_at'])
+                        ?: \DateTimeImmutable::createFromFormat('Y-m-d', $fixture['born_at']);
+                    if ($dt !== false) {
+                        $fixture['born_at'] = $dt->format('Y-m-d H:i:s');
+                    }
+                }
+            }
+
             $processedActualFixtures[$fixture['number'] - 1] = $fixture;
         }
 
         $expectedFixtures = [];
+        /**
+         * @var int $index
+         */
         foreach ($expectedFixtureIndexes as $index) {
-            $expectedFixtures[$index] = $this->getFixture($index);
+            $expectedFixture = $this->getFixture($index);
+            // Normalize born_at for expected fixtures as well
+            if (isset($expectedFixture['born_at']) && $expectedFixture['born_at'] instanceof \DateTimeInterface) {
+                $expectedFixture['born_at'] = $expectedFixture['born_at']->format('Y-m-d H:i:s');
+            }
+            $expectedFixtures[$index] = $expectedFixture;
         }
 
         $this->assertSame($expectedFixtures, $processedActualFixtures);

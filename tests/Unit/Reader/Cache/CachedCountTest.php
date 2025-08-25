@@ -16,9 +16,11 @@ final class CachedCountTest extends TestCase
 
         $cached = new CachedCount($collection);
 
+        /** @psalm-suppress InternalMethod */
         $this->assertSame(2, $cached->getCount());
 
         // must return cached value and not call count() again
+        /** @psalm-suppress InternalMethod */
         $this->assertSame(2, $cached->getCount());
     }
 }

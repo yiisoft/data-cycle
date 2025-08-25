@@ -25,14 +25,14 @@ final class SqliteLikeHandler extends BaseLikeHandler implements QueryBuilderFil
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         assert($filter instanceof Like);
-        
+
         if (isset($filter->options['escape'])) {
             throw new NotSupportedFilterOptionException(
                 'Escape option is not supported in SQLite LIKE queries.',
-                'sqlite'
+                'sqlite',
             );
         }
-        
+
         /** @var Like $filter */
 
         $allowedModes = [LikeMode::Contains, LikeMode::StartsWith, LikeMode::EndsWith];
@@ -42,7 +42,7 @@ final class SqliteLikeHandler extends BaseLikeHandler implements QueryBuilderFil
         if (!in_array($filter->mode, $allowedModes, true)) {
             throw new NotSupportedFilterOptionException(
                 sprintf('LikeMode "%s" is not supported by SqliteLikeHandler.', $modeName),
-                'sqlite'
+                'sqlite',
             );
         }
 

@@ -20,7 +20,7 @@ final class EntityReaderTest extends TestCase
 
         $this->assertSame(
             ['number' => 'ASC', 'name' => 'DESC', 'email' => 'ASC'],
-            $ref->invoke($reader, ['number' => 'ASC', 'name' => SORT_DESC, 'email' => SORT_ASC])
+            $ref->invoke($reader, ['number' => 'ASC', 'name' => SORT_DESC, 'email' => SORT_ASC]),
         );
     }
 

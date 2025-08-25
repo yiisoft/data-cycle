@@ -46,7 +46,7 @@ final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
             return $where;
         }
 
-        $operator = (string)$where[1];
+        $operator = (string) $where[1];
         // avoid using a match statement to prevent a mutant escape
         if ($operator === 'between') {
             $where[1] = 'not between';
@@ -70,13 +70,13 @@ final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
         return match ($filter::class) {
             AndX::class => new OrX(
                 ...array_map(
-                    static fn (FilterInterface $subFilter): FilterInterface => $handler->convertFilter($subFilter),
+                    static fn(FilterInterface $subFilter): FilterInterface => $handler->convertFilter($subFilter),
                     $filter->filters,
                 ),
             ),
             OrX::class => new AndX(
                 ...array_map(
-                    static fn (FilterInterface $subFilter): FilterInterface => $handler->convertFilter($subFilter),
+                    static fn(FilterInterface $subFilter): FilterInterface => $handler->convertFilter($subFilter),
                     $filter->filters,
                 ),
             ),

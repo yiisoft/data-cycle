@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Writer\BaseEntityWriterTestCase;
 
 final class EntityWriterTest extends BaseEntityWriterTestCase
 {
-    public static $DRIVER = 'sqlite';
+    public static string $DRIVER = 'sqlite';
 }
