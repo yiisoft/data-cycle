@@ -36,7 +36,7 @@ trait DataTrait
     // cache
     private ?ORMInterface $orm = null;
     private ?DatabaseProviderInterface $dbal = null;
-    
+
     protected function isDriver(string $driver): bool
     {
         return static::$DRIVER === $driver;
@@ -129,7 +129,7 @@ trait DataTrait
                                     host: $host,
                                     port: $port,
                                     user: $user,
-                                    trustServerCertificate: true,    
+                                    trustServerCertificate: true,
                                     password: $password === '' ? null : $password,
                                 ),
                                 queryCache: true,
@@ -321,7 +321,7 @@ trait DataTrait
                         }
                     } else {
                         $fixture['born_at'] = $normalized;
-                    } 
+                    }
                 }
             }
 
@@ -340,7 +340,11 @@ trait DataTrait
             }
             $expectedFixtures[$index] = $expectedFixture;
         }
-
         $this->assertEquals($expectedFixtures, $processedActualFixtures);
+    }
+
+    protected function isSqlite(): bool
+    {
+        return $this->isDriver('sqlite');
     }
 }

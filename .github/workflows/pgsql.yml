@@ -99,7 +99,6 @@ jobs:
             CYCLE_PGSQL_PORT: 5432
             CYCLE_PGSQL_USER: root
             CYCLE_PGSQL_PASSWORD: root
-            TRUSTSERVERCERTIFICATE: yes
 
         - name: Upload coverage to Codecov
           if: matrix.os == 'ubuntu-latest'

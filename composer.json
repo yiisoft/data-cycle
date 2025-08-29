@@ -36,12 +36,13 @@
         "ext-mbstring": "*",
         "cycle/database": "^2.15",
         "cycle/orm": "^2.10.1",
-        "yiisoft/data": "dev-master"
+        "yiisoft/data": "dev-master",
+        "yiisoft/var-dumper": "^1.7"
     },
     "require-dev": {
         "maglnet/composer-require-checker": "^4.16.1",
         "friendsofphp/php-cs-fixer": "^3.86.0",
-        "phpunit/phpunit": "^12.3.6",
+        "phpunit/phpunit": "^12.3.7",
         "rector/rector": "^2.1.4",
         "roave/infection-static-analysis-plugin": ">=1.39",
         "spatie/phpunit-watcher": ">=1.24.0",

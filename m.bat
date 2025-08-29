@@ -27,7 +27,7 @@ echo [2] Run PHP Psalm on a Specific File
 echo [2a] Clear Psalm's cache (in the event of stubborn errors)
 echo [2b] Php Unit Tests
 echo [2c] Mutation Tests using Roave Covered - Prevents code from being merged if it decreases static analysis coverage
-echo [2d] Mutation Tests using Roave Uncovered - Prevents code from being merged if it decreases static analysis coverage
+echo [2d] Mutation Tests using Roave Uncovered
 echo [2e] Mutation Tests using Infection - Tests the quality of your test suite by introducing small changes a.k.a mutants in your code 
 echo [3] Check Composer Outdated
 echo [3a] Composer why-not {repository eg. yiisoft/yii-demo} {patch/minor version e.g. 1.1.1}
@@ -37,10 +37,11 @@ echo [4] Run Composer Update
 echo [5] Run Composer Require Checker
 echo [5a] Run Rector See Potential Changes
 echo [5b] Run Rector Make Changes
-echo [6] Exit
-echo [7] Exit to Current Directory
+echo [6] PHP Extension and Test Suite Submenu: Purpose: Check Php Cli extensions installed locally and then run Workflow Action Testsuites locally
+echo [7] Exit
+echo [8] Exit to Current Directory
 echo =======================================
-set /p choice="Enter your choice [1-7]: "
+set /p choice="Enter your choice [1-8]: "
 
 if "%choice%"=="1" goto psalm
 if "%choice%"=="2" goto psalm_file
@@ -57,8 +58,9 @@ if "%choice%"=="4" goto composer_update
 if "%choice%"=="5" goto require_checker
 if "%choice%"=="5a" goto rector_see_changes
 if "%choice%"=="5b" goto rector_make_changes
-if "%choice%"=="6" goto exit
-if "%choice%"=="7" goto exit_to_directory
+if "%choice%"=="6" goto emulate_workflow_actions
+if "%choice%"=="7" goto exit
+if "%choice%"=="8" goto exit_to_directory
 echo Invalid choice. Please try again.
 pause
 goto menu
@@ -72,6 +74,12 @@ goto menu
 :code_style_make_changes
 echo Make the changes that were suggested to the Coding Style 
 php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php 
+pause
+goto menu
+
+:emulate_workflow_actions
+echo Check Php Cli extensions installed locally and then run Workflow Action Testsuites locally
+call w.bat
 pause
 goto menu
 
