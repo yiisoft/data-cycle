@@ -24,6 +24,9 @@ name: static analysis
 
 jobs:
   psalm:
+    permissions:
+      contents: read
+      pull-requests: write
     uses: yiisoft/actions/.github/workflows/psalm.yml@master
     with:
       os: >-
