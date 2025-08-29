@@ -202,7 +202,7 @@ final class EntityReader implements DataReaderInterface
     public function readOne(): null|array|object
     {
         if (!$this->oneItemCache->isCollected()) {
-            /** @var null|array|object $item */
+            /** @var array|object|null $item */
             $item = $this->itemsCache->isCollected()
                 // get the first item from a cached collection
                 ? $this->itemsCache->getGenerator()->current()

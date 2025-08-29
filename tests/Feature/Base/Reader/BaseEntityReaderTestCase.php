@@ -331,7 +331,7 @@ SQL,
 
         // Prime the countCache with a dummy object
         $refCountCache = new \ReflectionProperty($reader, 'countCache');
-        $dummyCache = new \Yiisoft\Data\Cycle\Reader\Cache\CachedCount($this->select('user'));
+        $dummyCache = new CachedCount($this->select('user'));
         $refCountCache->setValue($reader, $dummyCache);
 
         $newReader = $reader->withAddedFilterHandlers(new StubFilterHandler());
@@ -410,7 +410,7 @@ SQL,
         $isObject = is_object($item);
 
         $this->assertTrue(
-            is_null($item) || is_array($item) || $isObject,
+            null === $item || is_array($item) || $isObject,
             'readOne should return null, or array, or object',
         );
 
@@ -560,5 +560,4 @@ SQL,
 
         // Assert a second call (with same state) does not return a different item, or returns null if expected
     }
-
 }
