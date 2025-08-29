@@ -54,6 +54,8 @@ final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
             $where[1] = 'not in';
         } elseif ($operator === 'like') {
             $where[1] = 'not like';
+        } elseif ($operator === 'ilike') {
+            $where[1] = 'not ilike';
         } elseif ($operator === '=') {
             $where[1] = '!=';
         } else {
