@@ -347,9 +347,9 @@ trait DataTrait
     {
         return $this->isDriver('sqlite');
     }
-    
+
     protected function isSqlServer(): bool
     {
         return $this->isDriver('mssql');
-    }    
+    }
 }
