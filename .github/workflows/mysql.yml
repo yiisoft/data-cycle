@@ -24,6 +24,9 @@ name: mysql
 
 jobs:
   tests:
+    permissions:
+      contents: read
+      pull-requests: write
     name: PHP ${{ matrix.php }}-mysql-${{ matrix.mysql }}
 
     env:
