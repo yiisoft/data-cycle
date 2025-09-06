@@ -264,7 +264,7 @@ SQL,
 
         $ref = new \ReflectionMethod($reader, 'buildSelectQuery');
         $ref->setAccessible(true);
-        
+
         /** @var array $result */
         $result = $ref->invoke($reader);
 
@@ -284,7 +284,7 @@ SQL,
 
         $method = new \ReflectionMethod($reader, 'buildSelectQuery');
         $method->setAccessible(true);
-        
+
         /** @var Select|SelectQuery $result */
         $result = $method->invoke($reader);
     }
@@ -297,7 +297,7 @@ SQL,
         // Use reflection to call private resetCountCache
         $refMethod = new \ReflectionMethod($reader, 'resetCountCache');
         $refMethod->setAccessible(true);
-        
+
         /** @var void $refMethod->invoke($reader); */
         $refMethod->invoke($reader);
 
@@ -370,7 +370,7 @@ SQL,
         $reader = new EntityReader($this->select('user'));
         $ref = new \ReflectionMethod($reader, 'buildSelectQuery');
         $ref->setAccessible(true);
-        
+
         // Default offset (assumed to be 0)
         /** @var Select|SelectQuery */
         $query = $ref->invoke($reader);
@@ -441,7 +441,7 @@ SQL,
 
         $refBuildSelectQuery = new \ReflectionMethod($reader, 'buildSelectQuery');
         $refBuildSelectQuery->setAccessible(true);
-        
+
         // By default, offset should NOT be set
         /** @var SelectQuery */
         $query = $refBuildSelectQuery->invoke($reader);
@@ -474,7 +474,7 @@ SQL,
 
         $refMethod = new \ReflectionMethod($reader, 'resetCountCache');
         $refMethod->setAccessible(true);
-        
+
         /** @var void $refMethod->invoke($reader); */
         $refMethod->invoke($reader);
 

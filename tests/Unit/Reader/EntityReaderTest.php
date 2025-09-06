@@ -17,7 +17,7 @@ final class EntityReaderTest extends TestCase
 
         $ref = new \ReflectionMethod($reader, 'normalizeSortingCriteria');
         $ref->setAccessible(true);
-        
+
         $this->assertSame(
             ['number' => 'ASC', 'name' => 'DESC', 'email' => 'ASC'],
             $ref->invoke($reader, ['number' => 'ASC', 'name' => SORT_DESC, 'email' => SORT_ASC]),
