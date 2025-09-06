@@ -263,7 +263,7 @@ SQL,
         $reader = new EntityReader($this->select('user'));
 
         $ref = new \ReflectionMethod($reader, 'buildSelectQuery');
-        
+
         /** @var array $result */
         $result = $ref->invoke($reader);
 
@@ -282,7 +282,7 @@ SQL,
         $offsetProp->setValue($reader, 0);
 
         $method = new \ReflectionMethod($reader, 'buildSelectQuery');
-        
+
         /** @var Select|SelectQuery $result */
         $result = $method->invoke($reader);
     }
@@ -294,7 +294,7 @@ SQL,
 
         // Use reflection to call private resetCountCache
         $refMethod = new \ReflectionMethod($reader, 'resetCountCache');
-        
+
         /** @var void $refMethod->invoke($reader); */
         $refMethod->invoke($reader);
 
@@ -366,7 +366,7 @@ SQL,
     {
         $reader = new EntityReader($this->select('user'));
         $ref = new \ReflectionMethod($reader, 'buildSelectQuery');
-        
+
         // Default offset (assumed to be 0)
         /** @var Select|SelectQuery */
         $query = $ref->invoke($reader);
@@ -436,7 +436,7 @@ SQL,
         $reader = new EntityReader($this->select('user'));
 
         $refBuildSelectQuery = new \ReflectionMethod($reader, 'buildSelectQuery');
-        
+
         // By default, offset should NOT be set
         /** @var SelectQuery */
         $query = $refBuildSelectQuery->invoke($reader);
@@ -468,7 +468,7 @@ SQL,
         $reader = new EntityReader($query);
 
         $refMethod = new \ReflectionMethod($reader, 'resetCountCache');
-        
+
         /** @var void $refMethod->invoke($reader); */
         $refMethod->invoke($reader);
 
