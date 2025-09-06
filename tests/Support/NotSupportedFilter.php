@@ -6,6 +6,6 @@ namespace Yiisoft\Data\Cycle\Tests\Support;
 
 use Yiisoft\Data\Reader\FilterInterface;
 
-final class NotSupportedFilter implements FilterInterface 
+final class NotSupportedFilter implements FilterInterface
 {
 }
