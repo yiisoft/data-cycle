@@ -1,5 +1,5 @@
 {
-    "name": "rossaddison/data-cycle",
+    "name": "yiisoft/data-cycle",
     "type": "library",
     "description": "Cycle ORM query adapter for yiisoft/data",
     "keywords": [
