@@ -195,7 +195,7 @@ final class EntityReader implements DataReaderInterface
     }
 
     /**
-     * @psalm-mutation-free
+     * @psalm-suppress ImpureMethodCall
      */
     #[\Override]
     public function readOne(): null|array|object
