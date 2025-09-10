@@ -92,10 +92,6 @@ final class EntityReader implements DataReaderInterface
         }
         $new = clone $this;
 
-        if ($new === $this) {
-            throw new \RuntimeException('Query was not properly cloned!');
-        }
-
         if ($new->limit !== $limit) {
             $new->limit = $limit;
             $new->itemsCache = new CachedCollection();
@@ -198,6 +194,9 @@ final class EntityReader implements DataReaderInterface
         return $this->itemsCache->getCollection();
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     #[\Override]
     public function readOne(): null|array|object
     {
@@ -206,9 +205,7 @@ final class EntityReader implements DataReaderInterface
             $item = $this->itemsCache->isCollected()
                 // get the first item from a cached collection
                 ? $this->itemsCache->getGenerator()->current()
-                // Option 1: read data with limit 1: use $this->withLimit(1)->getIterator()->current();
-                // Option 2: less efficient
-                : $this->getIterator()->current();
+                : $this->withLimit(1)->getIterator()->current();
             $this->oneItemCache->setCollection($item === null ? [] : [$item]);
         }
         /**

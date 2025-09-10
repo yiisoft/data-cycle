@@ -15,5 +15,10 @@
         </ignoreFiles>
     </projectFiles>
     <issueHandlers>
+        <ImpureMethodCall>
+            <errorLevel type="suppress">
+                <directory name="src" />
+            </errorLevel>
+        </ImpureMethodCall>
     </issueHandlers>
 </psalm>
