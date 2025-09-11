@@ -47,7 +47,6 @@ final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
         }
 
         $operator = (string) $where[1];
-        // avoid using a match statement to prevent a mutant escape
         if ($operator === 'between') {
             $where[1] = 'not between';
         } elseif ($operator === 'in') {
