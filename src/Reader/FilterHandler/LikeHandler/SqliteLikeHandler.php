@@ -36,7 +36,6 @@ final class SqliteLikeHandler extends BaseLikeHandler implements QueryBuilderFil
         /** @var Like $filter */
 
         $allowedModes = [LikeMode::Contains, LikeMode::StartsWith, LikeMode::EndsWith];
-        // Psalm will now know $filter->mode is LikeMode
         $modeName = $filter->mode->name;
 
         if (!in_array($filter->mode, $allowedModes, true)) {
