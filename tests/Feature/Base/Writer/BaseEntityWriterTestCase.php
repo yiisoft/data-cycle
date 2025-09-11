@@ -41,7 +41,6 @@ abstract class BaseEntityWriterTestCase extends TestCase
         if (null !== $entityWriter) {
             $writer = new EntityWriter($entityWriter);
             $reader = new EntityReader($this->select('user')->where('number', 'in', [1, 2, 3]));
-            // Iterator doesn't use cache
             $entities = \iterator_to_array($reader->getIterator());
 
             $writer->delete($entities);
