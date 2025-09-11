@@ -17,7 +17,6 @@ $finder = (new Finder())
     ->exclude([
     ])    
     ->append([
-        $root.'/public/index.php',
     ]);
 
 return (new Config())
