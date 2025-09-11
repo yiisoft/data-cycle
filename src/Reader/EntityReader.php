@@ -103,7 +103,7 @@ final class EntityReader implements DataReaderInterface
     public function withOffset(int $offset): static
     {
         $new = clone $this;
-        
+
         if ($new->offset !== $offset) {
             $new->offset = $offset;
             $new->itemsCache = new CachedCollection();
@@ -114,7 +114,7 @@ final class EntityReader implements DataReaderInterface
     #[\Override]
     public function withSort(?Sort $sort): static
     {
-        $new = clone $this;        
+        $new = clone $this;
 
         if ($new->sorting !== $sort) {
             $new->sorting = $sort;
