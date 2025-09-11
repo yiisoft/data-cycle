@@ -35,7 +35,7 @@ final class SqliteLikeHandler extends BaseLikeHandler implements QueryBuilderFil
                 'sqlite',
             );
         }
-        
+
         // The above escaping replacements will be used to build the pattern
         // in the event of escape characters (% or _) being found in the $filter->value
         // Sqlite does not have the ESCAPE command available
