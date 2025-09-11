@@ -24,18 +24,9 @@ final class SqliteLikeHandler extends BaseLikeHandler implements QueryBuilderFil
      */
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
-        assert($filter instanceof Like);
-
-        if (isset($filter->options['escape'])) {
-            throw new NotSupportedFilterOptionException(
-                'Escape option is not supported in SQLite LIKE queries.',
-                'sqlite',
-            );
-        }
+        $allowedModes = [LikeMode::Contains, LikeMode::StartsWith, LikeMode::EndsWith];
 
         /** @var Like $filter */
-
-        $allowedModes = [LikeMode::Contains, LikeMode::StartsWith, LikeMode::EndsWith];
         $modeName = $filter->mode->name;
 
         if (!in_array($filter->mode, $allowedModes, true)) {
@@ -44,7 +35,10 @@ final class SqliteLikeHandler extends BaseLikeHandler implements QueryBuilderFil
                 'sqlite',
             );
         }
-
+        
+        // The above escaping replacements will be used to build the pattern
+        // in the event of escape characters (% or _) being found in the $filter->value
+        // Sqlite does not have the ESCAPE command available
         $pattern = $this->prepareValue($filter->value, $filter->mode);
 
         if ($filter->caseSensitive === true) {
