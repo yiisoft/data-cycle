@@ -99,18 +99,11 @@ final class EntityReader implements DataReaderInterface
         return $new;
     }
 
-    /**
-     * @psalm-mutation-free
-     */
     #[\Override]
     public function withOffset(int $offset): static
     {
         $new = clone $this;
-
-        if ($new === $this) {
-            throw new \RuntimeException('Query was not properly cloned!');
-        }
-
+        
         if ($new->offset !== $offset) {
             $new->offset = $offset;
             $new->itemsCache = new CachedCollection();
@@ -118,17 +111,10 @@ final class EntityReader implements DataReaderInterface
         return $new;
     }
 
-    /**
-     * @psalm-mutation-free
-     */
     #[\Override]
     public function withSort(?Sort $sort): static
     {
-        $new = clone $this;
-
-        if ($new === $this) {
-            throw new \RuntimeException('Query was not properly cloned!');
-        }
+        $new = clone $this;        
 
         if ($new->sorting !== $sort) {
             $new->sorting = $sort;
@@ -138,17 +124,10 @@ final class EntityReader implements DataReaderInterface
         return $new;
     }
 
-    /**
-     * @psalm-mutation-free
-     */
     #[\Override]
     public function withFilter(FilterInterface $filter): static
     {
         $new = clone $this;
-
-        if ($new === $this) {
-            throw new \RuntimeException('Query was not properly cloned!');
-        }
 
         if ($new->filter !== $filter) {
             $new->filter = $filter;
@@ -194,9 +173,6 @@ final class EntityReader implements DataReaderInterface
         return $this->itemsCache->getCollection();
     }
 
-    /**
-     * @psalm-suppress ImpureMethodCall
-     */
     #[\Override]
     public function readOne(): null|array|object
     {
@@ -274,11 +250,6 @@ final class EntityReader implements DataReaderInterface
     private function resetCountCache(): void
     {
         $newQuery = clone $this->query;
-
-        // Ensure the clone worked: a clone is never identical to the original: different instances
-        if ($newQuery === $this->query) {
-            throw new \RuntimeException('Query was not properly cloned; $newQuery and $this->query are the same instance!');
-        }
 
         if (!$this->filter instanceof All) {
             $newQuery->andWhere($this->makeFilterClosure($this->filter));

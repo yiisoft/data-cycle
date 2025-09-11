@@ -23,9 +23,6 @@ name: sqlite
 
 jobs:
   phpunit:
-    permissions:
-      contents: read
-      pull-requests: write
     name: PHP ${{ matrix.php }}-${{ matrix.os }}
 
     runs-on: ${{ matrix.os }}

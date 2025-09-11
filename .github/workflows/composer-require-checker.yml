@@ -24,10 +24,6 @@ on:
 
 name: Composer require checker
 
-permissions:
-  contents: read
-  pull-requests: write
-
 jobs:
   composer-require-checker:
     uses: yiisoft/actions/.github/workflows/composer-require-checker.yml@master

@@ -20,9 +20,6 @@ name: mssql
 
 jobs:
   tests:
-    permissions:
-      contents: read
-      pull-requests: write
     name: PHP ${{ matrix.php }}-mssql-${{ matrix.mssql.server }}
 
     env:

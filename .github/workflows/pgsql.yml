@@ -24,9 +24,6 @@ name: pgsql
 
 jobs:
   tests:
-    permissions:
-      contents: read
-      pull-requests: write
     name: PHP ${{ matrix.php }}-pgsql-${{ matrix.pgsql }}
 
     env:
