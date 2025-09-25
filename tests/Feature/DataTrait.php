@@ -150,7 +150,7 @@ trait DataTrait
         $user->column('born_at')->date()->nullable();
         $user->save();
 
-        $fixtures = static::$fixtures;
+        $fixtures = $this->getFixtures();
         foreach ($fixtures as $index => $fixture) {
             $fixtures[$index]['balance'] = (string) $fixtures[$index]['balance'];
         }
@@ -205,6 +205,7 @@ trait DataTrait
                     'id' => 'int',
                     'number' => 'int',
                     'balance' => 'float',
+                    'born_at' => 'datetime'
                 ],
                 SchemaInterface::RELATIONS => [],
             ],
@@ -238,7 +239,9 @@ trait DataTrait
 
         $expectedFixtures = [];
         foreach ($expectedFixtureIndexes as $index) {
-            $expectedFixtures[$index] = $this->getFixture($index);
+            $expectedFixture = $this->getFixture($index);
+            $expectedFixture['born_at'] = json_decode(json_encode($expectedFixture['born_at']), associative: true);
+            $expectedFixtures[$index] = $expectedFixture;
         }
 
         $this->assertSame($expectedFixtures, $processedActualFixtures);

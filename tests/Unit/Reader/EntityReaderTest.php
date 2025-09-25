@@ -16,7 +16,6 @@ final class EntityReaderTest extends TestCase
         $reader = new EntityReader($this->createMock(SelectQuery::class));
 
         $ref = new \ReflectionMethod($reader, 'normalizeSortingCriteria');
-        $ref->setAccessible(true);
 
         $this->assertSame(
             ['number' => 'ASC', 'name' => 'DESC', 'email' => 'ASC'],

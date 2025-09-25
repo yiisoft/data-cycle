@@ -21,6 +21,6 @@ final class InHandler implements QueryBuilderFilterHandler, FilterHandlerInterfa
     {
         /** @var In $filter */
 
-        return [$filter->getField(), 'in', new Parameter($filter->getValues())];
+        return [$filter->field, 'in', new Parameter($filter->values)];
     }
 }

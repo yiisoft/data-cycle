@@ -20,6 +20,6 @@ final class LessThanHandler implements QueryBuilderFilterHandler, FilterHandlerI
     {
         /** @var LessThan $filter */
 
-        return [$filter->getField(), '<', $filter->getValue()];
+        return [$filter->field, '<', $filter->value];
     }
 }

@@ -55,8 +55,8 @@ final class EntityReader implements DataReaderInterface
          */
         $likeHandler = LikeHandlerFactory::getLikeHandler($this->query->getDriver()?->getType() ?? 'SQLite');
         $this->setFilterHandlers(
-            new FilterHandler\AllHandler(),
-            new FilterHandler\AnyHandler(),
+            new FilterHandler\AndXHandler(),
+            new FilterHandler\OrXHandler(),
             new FilterHandler\BetweenHandler(),
             new FilterHandler\EqualsHandler(),
             new FilterHandler\EqualsNullHandler(),

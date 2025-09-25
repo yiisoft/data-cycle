@@ -20,6 +20,6 @@ final class EqualsNullHandler implements QueryBuilderFilterHandler, FilterHandle
     {
         /** @var EqualsNull $filter */
 
-        return [$filter->getField(), '=', null];
+        return [$filter->field, '=', null];
     }
 }

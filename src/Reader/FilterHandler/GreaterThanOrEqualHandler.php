@@ -20,6 +20,6 @@ final class GreaterThanOrEqualHandler implements QueryBuilderFilterHandler, Filt
     {
         /** @var GreaterThanOrEqual $filter */
 
-        return [$filter->getField(), '>=', $filter->getValue()];
+        return [$filter->field, '>=', $filter->value];
     }
 }

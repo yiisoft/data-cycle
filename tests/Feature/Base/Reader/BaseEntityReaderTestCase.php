@@ -36,7 +36,6 @@ abstract class BaseEntityReaderTestCase extends TestCase
         $reader = (new EntityReader($this->select('user')))->withLimit(3);
 
         $ref = (new \ReflectionProperty($reader, 'itemsCache'));
-        $ref->setAccessible(true);
 
         self::assertFalse($ref->getValue($reader)->isCollected());
         $reader->read();
@@ -53,7 +52,6 @@ abstract class BaseEntityReaderTestCase extends TestCase
         $this->assertFixtures([0], [\iterator_to_array($reader->getIterator())[0]]);
 
         $ref = (new \ReflectionProperty($reader, 'itemsCache'));
-        $ref->setAccessible(true);
 
         $cache = new CachedCollection();
         $cache->setCollection([['foo' => 'bar']]);
@@ -96,7 +94,7 @@ abstract class BaseEntityReaderTestCase extends TestCase
     {
         $reader = new EntityReader($this->select('user'));
 
-        self::assertSame(count(self::$fixtures), $reader->count());
+        self::assertSame(count($this->getFixtures()), $reader->count());
     }
 
     /**
@@ -108,7 +106,7 @@ abstract class BaseEntityReaderTestCase extends TestCase
             $this->select('user'),
         ))->withLimit(1);
 
-        self::assertSame(count(self::$fixtures), $reader->count());
+        self::assertSame(count($this->getFixtures()), $reader->count());
     }
 
     public function testCountWithFilter(): void
