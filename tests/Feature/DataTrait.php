@@ -205,7 +205,7 @@ trait DataTrait
                     'id' => 'int',
                     'number' => 'int',
                     'balance' => 'float',
-                    'born_at' => 'datetime'
+                    'born_at' => 'datetime',
                 ],
                 SchemaInterface::RELATIONS => [],
             ],
