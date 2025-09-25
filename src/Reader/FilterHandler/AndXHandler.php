@@ -14,11 +14,13 @@ use Yiisoft\Data\Reader\FilterInterface;
 
 final class AndXHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
+    #[\Override]
     public function getFilterClass(): string
     {
         return AndX::class;
     }
 
+    #[\Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var AndX $filter */

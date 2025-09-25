@@ -13,11 +13,13 @@ use Yiisoft\Data\Reader\FilterInterface;
 
 final class OrXHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
+    #[\Override]
     public function getFilterClass(): string
     {
         return OrX::class;
     }
 
+    #[\Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var OrX $filter */

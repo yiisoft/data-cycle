@@ -13,6 +13,7 @@ use InvalidArgumentException;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler\LikeHandlerFactory;
 use Yiisoft\Data\Reader\DataReaderInterface;
+use Yiisoft\Data\Reader\Filter\All;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 use Yiisoft\Data\Reader\Sort;
@@ -34,7 +35,7 @@ final class EntityReader implements DataReaderInterface
     private ?int $limit = null;
     private int $offset = 0;
     private ?Sort $sorting = null;
-    private ?FilterInterface $filter = null;
+    private FilterInterface $filter;
     private CachedCount $countCache;
     private CachedCollection $itemsCache;
     private CachedCollection $oneItemCache;
@@ -55,6 +56,8 @@ final class EntityReader implements DataReaderInterface
          */
         $likeHandler = LikeHandlerFactory::getLikeHandler($this->query->getDriver()?->getType() ?? 'SQLite');
         $this->setFilterHandlers(
+            new FilterHandler\AllHandler(),
+            new FilterHandler\NoneHandler(),
             new FilterHandler\AndXHandler(),
             new FilterHandler\OrXHandler(),
             new FilterHandler\BetweenHandler(),
@@ -68,8 +71,11 @@ final class EntityReader implements DataReaderInterface
             $likeHandler,
             new FilterHandler\NotHandler(),
         );
+
+        $this->filter = new All();
     }
 
+    #[\Override]
     public function getSort(): ?Sort
     {
         return $this->sorting;
@@ -78,6 +84,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
+    #[\Override]
     public function withLimit(?int $limit): static
     {
         /** @psalm-suppress DocblockTypeContradiction */
@@ -95,6 +102,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
+    #[\Override]
     public function withOffset(int $offset): static
     {
         $new = clone $this;
@@ -108,6 +116,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
+    #[\Override]
     public function withSort(?Sort $sort): static
     {
         $new = clone $this;
@@ -122,7 +131,8 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
-    public function withFilter(?FilterInterface $filter): static
+    #[\Override]
+    public function withFilter(FilterInterface $filter): static
     {
         $new = clone $this;
         if ($new->filter !== $filter) {
@@ -138,6 +148,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
+    #[\Override]
     public function withAddedFilterHandlers(FilterHandlerInterface ...$filterHandlers): static
     {
         $new = clone $this;
@@ -150,11 +161,13 @@ final class EntityReader implements DataReaderInterface
         return $new;
     }
 
+    #[\Override]
     public function count(): int
     {
         return $this->countCache->getCount();
     }
 
+    #[\Override]
     public function read(): iterable
     {
         if ($this->itemsCache->getCollection() === null) {
@@ -164,6 +177,7 @@ final class EntityReader implements DataReaderInterface
         return $this->itemsCache->getCollection();
     }
 
+    #[\Override]
     public function readOne(): null|array|object
     {
         if (!$this->oneItemCache->isCollected()) {
@@ -181,6 +195,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * Get Iterator without caching
      */
+    #[\Override]
     public function getIterator(): Generator
     {
         yield from $this->itemsCache->getCollection() ?? $this->buildSelectQuery()->getIterator();
@@ -215,9 +230,13 @@ final class EntityReader implements DataReaderInterface
         if ($this->limit !== null) {
             $newQuery->limit($this->limit);
         }
-        if ($this->filter !== null) {
-            $newQuery->andWhere($this->makeFilterClosure($this->filter));
+
+        if ($this->filter instanceof All) {
+            return $newQuery;
         }
+
+        $newQuery->andWhere($this->makeFilterClosure($this->filter));
+
         return $newQuery;
     }
 
@@ -235,9 +254,8 @@ final class EntityReader implements DataReaderInterface
     private function resetCountCache(): void
     {
         $newQuery = clone $this->query;
-        if ($this->filter !== null) {
-            $newQuery->andWhere($this->makeFilterClosure($this->filter));
-        }
+        $newQuery->andWhere($this->makeFilterClosure($this->filter));
+
         $this->countCache = new CachedCount($newQuery);
     }
 
@@ -256,16 +274,19 @@ final class EntityReader implements DataReaderInterface
         return $criteria;
     }
 
-    public function getFilter(): ?FilterInterface
+    #[\Override]
+    public function getFilter(): FilterInterface
     {
         return $this->filter;
     }
 
+    #[\Override]
     public function getLimit(): ?int
     {
         return $this->limit;
     }
 
+    #[\Override]
     public function getOffset(): int
     {
         return $this->offset;

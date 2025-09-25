@@ -23,11 +23,13 @@ use Yiisoft\Data\Reader\FilterInterface;
 
 final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
+    #[\Override]
     public function getFilterClass(): string
     {
         return Not::class;
     }
 
+    #[\Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Not $filter */
