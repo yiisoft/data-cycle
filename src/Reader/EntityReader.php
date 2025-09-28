@@ -231,10 +231,6 @@ final class EntityReader implements DataReaderInterface
             $newQuery->limit($this->limit);
         }
 
-        if ($this->filter instanceof All) {
-            return $newQuery;
-        }
-
         $newQuery->andWhere($this->makeFilterClosure($this->filter));
 
         return $newQuery;

@@ -25,7 +25,7 @@ final class NoneHandler implements QueryBuilderFilterHandler, FilterHandlerInter
         /** @var None $filter */
         return [
             static function (QueryBuilder $select) {
-                $select->where(new Expression('1'), new Expression('0'));
+                $select->where(new Expression('1 = 0'));
             },
         ];
     }

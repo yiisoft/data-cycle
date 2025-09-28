@@ -25,7 +25,7 @@ final class AllHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
         /** @var All $filter */
         return [
             static function (QueryBuilder $select) {
-                $select->where(new Expression('1'), new Expression('1'));
+                $select->where(new Expression('1 = 1'));
             },
         ];
     }

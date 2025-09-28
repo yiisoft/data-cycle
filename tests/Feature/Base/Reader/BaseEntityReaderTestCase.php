@@ -171,6 +171,7 @@ abstract class BaseEntityReaderTestCase extends TestCase
                     "user"."balance" AS "c3",
                     "user"."born_at" AS "c4"
                 FROM "user" AS "user"
+                WHERE ((1 = 1))
                 LIMIT 2
                 OFFSET 1
 SQL,
