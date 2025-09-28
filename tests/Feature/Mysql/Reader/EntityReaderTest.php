@@ -21,7 +21,7 @@ final class EntityReaderTest extends BaseEntityReaderTestCase
                     `user`.`email` AS `c2`,
                     `user`.`balance` AS `c3`,
                     `user`.`born_at` AS `c4`
-                FROM `user` AS `user` LIMIT 2 OFFSET 1
+                FROM `user` AS `user` WHERE ((1 = 1)) LIMIT 2 OFFSET 1
 SQL,
             ],
         ];
