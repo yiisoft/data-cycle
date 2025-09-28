@@ -131,6 +131,12 @@ abstract class BaseEntityReaderTestCase extends TestCase
         (new EntityReader($this->select('user')))->withLimit(-1);
     }
 
+    public function testGetLimit(): void
+    {
+        $reader = (new EntityReader($this->select('user')))->withLimit(2);
+        $this->assertSame(2, $reader->getLimit());
+    }
+
     public function testLimitOffset(): void
     {
         $reader = (new EntityReader(
@@ -138,6 +144,12 @@ abstract class BaseEntityReaderTestCase extends TestCase
         ))
             ->withLimit(2)->withOffset(1);
         $this->assertFixtures([1, 2], $reader->read());
+    }
+
+    public function testGetOffset(): void
+    {
+        $reader = (new EntityReader($this->select('user')))->withOffset(1);
+        $this->assertSame(1, $reader->getOffset());
     }
 
     public function testFilter(): void
@@ -157,6 +169,13 @@ abstract class BaseEntityReaderTestCase extends TestCase
         $this->expectException(StatementException::class);
         $this->expectExceptionMessageMatches('/symbol/i');
         $reader->read();
+    }
+
+    public function testGetFilter(): void
+    {
+        $filter = new Equals('number', 2);
+        $reader = (new EntityReader($this->select('user')))->withFilter($filter);
+        $this->assertSame($filter, $reader->getFilter());
     }
 
     public static function dataGetSql(): array
