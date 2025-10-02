@@ -16,14 +16,15 @@ final class SqlServerLikeHandler extends BaseLikeHandler implements QueryBuilder
         unset($this->escapingReplacements['\\']);
     }
 
+    #[\Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Like $filter */
 
-        if ($filter->getCaseSensitive() === true) {
+        if ($filter->caseSensitive === true) {
             throw new NotSupportedFilterOptionException(optionName: 'caseSensitive', driverType: 'SQLServer');
         }
 
-        return [$filter->getField(), 'like', $this->prepareValue($filter->getValue())];
+        return [$filter->field, 'like', $this->prepareValue($filter->value, $filter->mode)];
     }
 }

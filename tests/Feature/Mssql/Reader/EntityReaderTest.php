@@ -24,6 +24,7 @@ final class EntityReaderTest extends BaseEntityReaderTestCase
                         [user].[born_at] AS [c4],
                         ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS [_ROW_NUMBER_]
                     FROM [user] AS [user]
+                    WHERE ((1=1))
                 ) AS [ORD_FALLBACK]
                 WHERE [_ROW_NUMBER_] BETWEEN 2 AND 3
 SQL,

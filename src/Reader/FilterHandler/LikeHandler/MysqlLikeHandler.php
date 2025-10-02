@@ -10,14 +10,15 @@ use Yiisoft\Data\Reader\FilterInterface;
 
 final class MysqlLikeHandler extends BaseLikeHandler implements QueryBuilderFilterHandler
 {
+    #[\Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Like $filter */
 
-        if ($filter->getCaseSensitive() !== true) {
-            return [$filter->getField(), 'like', '%' . $this->prepareValue($filter->getValue()) . '%'];
+        if ($filter->caseSensitive !== true) {
+            return [$filter->field, 'like', $this->prepareValue($filter->value, $filter->mode)];
         }
 
-        return [$filter->getField(), 'like binary', $this->prepareValue($filter->getValue())];
+        return [$filter->field, 'like binary', $this->prepareValue($filter->value, $filter->mode)];
     }
 }

@@ -12,15 +12,17 @@ use Yiisoft\Data\Reader\FilterInterface;
 
 final class InHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
+    #[\Override]
     public function getFilterClass(): string
     {
         return In::class;
     }
 
+    #[\Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var In $filter */
 
-        return [$filter->getField(), 'in', new Parameter($filter->getValues())];
+        return [$filter->field, 'in', new Parameter($filter->values)];
     }
 }

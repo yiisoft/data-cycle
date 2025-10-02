@@ -17,6 +17,7 @@ final class EntityWriter implements DataWriterInterface
     /**
      * @throws Throwable
      */
+    #[\Override]
     public function write(iterable $items): void
     {
         foreach ($items as $entity) {
@@ -25,6 +26,7 @@ final class EntityWriter implements DataWriterInterface
         $this->entityManager->run();
     }
 
+    #[\Override]
     public function delete(iterable $items): void
     {
         foreach ($items as $entity) {

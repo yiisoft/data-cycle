@@ -11,15 +11,17 @@ use Yiisoft\Data\Reader\FilterInterface;
 
 final class LessThanHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
+    #[\Override]
     public function getFilterClass(): string
     {
         return LessThan::class;
     }
 
+    #[\Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var LessThan $filter */
 
-        return [$filter->getField(), '<', $filter->getValue()];
+        return [$filter->field, '<', $filter->value];
     }
 }

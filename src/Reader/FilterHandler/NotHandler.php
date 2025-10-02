@@ -6,8 +6,7 @@ namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
-use Yiisoft\Data\Reader\Filter\All;
-use Yiisoft\Data\Reader\Filter\Any;
+use Yiisoft\Data\Reader\Filter\AndX;
 use Yiisoft\Data\Reader\Filter\Between;
 use Yiisoft\Data\Reader\Filter\Equals;
 use Yiisoft\Data\Reader\Filter\EqualsNull;
@@ -18,22 +17,25 @@ use Yiisoft\Data\Reader\Filter\LessThan;
 use Yiisoft\Data\Reader\Filter\LessThanOrEqual;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\Filter\Not;
+use Yiisoft\Data\Reader\Filter\OrX;
 use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 
 final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
 {
+    #[\Override]
     public function getFilterClass(): string
     {
         return Not::class;
     }
 
+    #[\Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Not $filter */
 
-        $convertedFilter = $this->convertFilter($filter->getFilter());
-        $handledFilter = $convertedFilter instanceof Not ? $convertedFilter->getFilter() : $convertedFilter;
+        $convertedFilter = $this->convertFilter($filter->filter);
+        $handledFilter = $convertedFilter instanceof Not ? $convertedFilter->filter : $convertedFilter;
         $handler = $handlers[$handledFilter::class] ?? null;
         if ($handler === null) {
             throw new NotSupportedFilterException($handledFilter::class);
@@ -59,22 +61,22 @@ final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
         $handler = $this;
 
         return match ($filter::class) {
-            All::class => new Any(
+            AndX::class => new OrX(
                 ...array_map(
                     static fn (FilterInterface $subFilter): FilterInterface => $handler->convertFilter($subFilter),
-                    $filter->getFilters(),
+                    $filter->filters,
                 ),
             ),
-            Any::class => new All(
+            OrX::class => new AndX(
                 ...array_map(
                     static fn (FilterInterface $subFilter): FilterInterface => $handler->convertFilter($subFilter),
-                    $filter->getFilters(),
+                    $filter->filters,
                 ),
             ),
-            GreaterThan::class => new LessThanOrEqual($filter->getField(), $filter->getValue()),
-            GreaterThanOrEqual::class => new LessThan($filter->getField(), $filter->getValue()),
-            LessThan::class => new GreaterThanOrEqual($filter->getField(), $filter->getValue()),
-            LessThanOrEqual::class => new GreaterThan($filter->getField(), $filter->getValue()),
+            GreaterThan::class => new LessThanOrEqual($filter->field, $filter->value),
+            GreaterThanOrEqual::class => new LessThan($filter->field, $filter->value),
+            LessThan::class => new GreaterThanOrEqual($filter->field, $filter->value),
+            LessThanOrEqual::class => new GreaterThan($filter->field, $filter->value),
             Between::class, Equals::class, EqualsNull::class, In::class, Like::class => new Not($filter),
             Not::class => $this->convertNot($filter, $notCount),
             default => $filter,
@@ -85,10 +87,10 @@ final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterf
     {
         $notCount++;
 
-        if ($filter->getFilter() instanceof Not) {
-            return $this->convertFilter($filter->getFilter(), $notCount);
+        if ($filter->filter instanceof Not) {
+            return $this->convertFilter($filter->filter, $notCount);
         }
 
-        return $notCount % 2 === 1 ? new Not($filter->getFilter()) : $filter->getFilter();
+        return $notCount % 2 === 1 ? new Not($filter->filter) : $filter->filter;
     }
 }

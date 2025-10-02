@@ -32,7 +32,7 @@
     "prefer-stable": true,
     "minimum-stability": "dev",
     "require": {
-        "php": "^8.1",
+        "php": "8.1 - 8.4",
         "ext-mbstring": "*",
         "cycle/database": "^2.11",
         "cycle/orm": "^2.9",
@@ -44,7 +44,7 @@
         "rector/rector": "^2.1.5",
         "roave/infection-static-analysis-plugin": "^1.35",
         "spatie/phpunit-watcher": "^1.24",
-        "vimeo/psalm": "^5.26",
+        "vimeo/psalm": "^5.26.1 || ^6.10.3",
         "vlucas/phpdotenv": "^5.6"
     },
     "autoload": {
