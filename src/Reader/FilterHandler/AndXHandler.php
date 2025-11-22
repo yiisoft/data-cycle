@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
+use Cycle\Database\Query\SelectQuery;
 use Cycle\ORM\Select\QueryBuilder;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
@@ -24,7 +25,7 @@ final class AndXHandler implements QueryBuilderFilterHandler, FilterHandlerInter
     {
         /** @var AndX $filter */
         return [
-            static function (QueryBuilder $select) use ($filter, $handlers) {
+            static function (QueryBuilder|SelectQuery $select) use ($filter, $handlers) {
                 foreach ($filter->filters as $subFilter) {
                     $handler = $handlers[$subFilter::class] ?? null;
                     if ($handler === null) {

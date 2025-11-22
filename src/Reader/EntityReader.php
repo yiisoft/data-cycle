@@ -238,7 +238,7 @@ final class EntityReader implements DataReaderInterface
 
     private function makeFilterClosure(FilterInterface $filter): Closure
     {
-        return function (QueryBuilder $select) use ($filter) {
+        return function (QueryBuilder|SelectQuery $select) use ($filter) {
             if (!array_key_exists($filter::class, $this->filterHandlers)) {
                 throw new NotSupportedFilterException($filter::class);
             }
