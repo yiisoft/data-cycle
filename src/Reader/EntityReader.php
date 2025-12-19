@@ -14,7 +14,6 @@ use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler\LikeHandlerFactory;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Filter\All;
-use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
@@ -40,7 +39,7 @@ final class EntityReader implements DataReaderInterface
     private CachedCollection $itemsCache;
     private CachedCollection $oneItemCache;
     /**
-     * @psalm-var array<class-string, FilterHandlerInterface & QueryBuilderFilterHandler> $handlers
+     * @psalm-var array<class-string, QueryBuilderFilterHandler> $handlers
      */
     private array $filterHandlers = [];
 
@@ -149,7 +148,7 @@ final class EntityReader implements DataReaderInterface
      * @psalm-mutation-free
      */
     #[\Override]
-    public function withAddedFilterHandlers(FilterHandlerInterface ...$filterHandlers): static
+    public function withAddedFilterHandlers(QueryBuilderFilterHandler ...$filterHandlers): static
     {
         $new = clone $this;
         /** @psalm-suppress ImpureMethodCall */
@@ -207,13 +206,11 @@ final class EntityReader implements DataReaderInterface
         return (string)($query instanceof Select ? $query->buildQuery() : $query);
     }
 
-    private function setFilterHandlers(FilterHandlerInterface ...$filterHandlers): void
+    private function setFilterHandlers(QueryBuilderFilterHandler ...$filterHandlers): void
     {
         $handlers = [];
         foreach ($filterHandlers as $filterHandler) {
-            if ($filterHandler instanceof QueryBuilderFilterHandler) {
-                $handlers[$filterHandler->getFilterClass()] = $filterHandler;
-            }
+            $handlers[$filterHandler->getFilterClass()] = $filterHandler;
         }
         $this->filterHandlers = array_merge($this->filterHandlers, $handlers);
     }

@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
 
 use RuntimeException;
-use Yiisoft\Data\Reader\FilterHandlerInterface;
 
 /**
  * @internal
  */
 final class LikeHandlerFactory
 {
-    public static function getLikeHandler(string $driverType): FilterHandlerInterface
+    public static function getLikeHandler(string $driverType): BaseLikeHandler
     {
         // default - ignored due to the complexity of testing and preventing splitting of databaseDriver argument.
         // @codeCoverageIgnoreStart

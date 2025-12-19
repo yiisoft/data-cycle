@@ -7,9 +7,8 @@ namespace Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
 use Stringable;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\Filter\LikeMode;
-use Yiisoft\Data\Reader\FilterHandlerInterface;
 
-abstract class BaseLikeHandler implements FilterHandlerInterface
+abstract class BaseLikeHandler
 {
     protected array $escapingReplacements = [
         '%' => '\%',

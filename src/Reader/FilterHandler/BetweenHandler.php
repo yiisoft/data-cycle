@@ -6,10 +6,9 @@ namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\Between;
-use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 
-final class BetweenHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
+final class BetweenHandler implements QueryBuilderFilterHandler
 {
     #[\Override]
     public function getFilterClass(): string
