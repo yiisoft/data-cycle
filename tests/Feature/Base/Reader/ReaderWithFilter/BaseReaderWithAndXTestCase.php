@@ -25,4 +25,22 @@ abstract class BaseReaderWithAndXTestCase extends \Yiisoft\Data\Tests\Common\Rea
             new AndX(new Equals('balance', '100.0'), new NotSupportedFilter(), new Equals('email', 'seed@beat')),
         );
     }
+
+    public function testFilterSupportSelectQuery(): void
+    {
+        $reader = (new EntityReader(
+            $this
+                ->select('user')
+                ->buildQuery()
+                ->columns('id', 'balance'),
+        ));
+
+        $reader = $reader->withFilter(new AndX(new Equals('balance', 100.0), new Equals('id', 3)));
+        $result = $reader->read();
+
+        $expectedResult = [
+            ['id' => 3, 'balance' => 100.0],
+        ];
+        $this->assertSame($expectedResult, $result);
+    }
 }

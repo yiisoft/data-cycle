@@ -23,4 +23,23 @@ abstract class BaseReaderWithOrXTestCase extends \Yiisoft\Data\Tests\Common\Read
         $this->expectExceptionMessage(sprintf('Filter "%s" is not supported.', NotSupportedFilter::class));
         $reader->withFilter(new OrX(new Equals('number', 2), new NotSupportedFilter(), new Equals('number', 3)));
     }
+
+    public function testFilterSupportSelectQuery(): void
+    {
+        $reader = (new EntityReader(
+            $this
+                ->select('user')
+                ->buildQuery()
+                ->columns('id', 'balance'),
+        ));
+
+        $reader = $reader->withFilter(new OrX(new Equals('balance', 100.0), new Equals('id', 2)));
+        $result = $reader->read();
+
+        $expectedResult = [
+            ['id' => 2, 'balance' => 1.0],
+            ['id' => 3, 'balance' => 100.0],
+        ];
+        $this->assertSame($expectedResult, $result);
+    }
 }
