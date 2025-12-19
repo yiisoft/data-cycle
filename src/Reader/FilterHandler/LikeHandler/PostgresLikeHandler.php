@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
 
-use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\FilterInterface;
 
-final class PostgresLikeHandler extends BaseLikeHandler implements QueryBuilderFilterHandler
+final class PostgresLikeHandler extends BaseLikeHandler
 {
     #[\Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array

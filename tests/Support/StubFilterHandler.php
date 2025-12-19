@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Yiisoft\Data\Cycle\Tests\Support;
 
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
-use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 
-final class StubFilterHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
+final class StubFilterHandler implements QueryBuilderFilterHandler
 {
     public function getFilterClass(): string
     {

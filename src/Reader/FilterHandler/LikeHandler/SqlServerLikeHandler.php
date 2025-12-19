@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
 
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterOptionException;
-use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\FilterInterface;
 
-final class SqlServerLikeHandler extends BaseLikeHandler implements QueryBuilderFilterHandler
+final class SqlServerLikeHandler extends BaseLikeHandler
 {
     public function __construct()
     {

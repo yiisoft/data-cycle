@@ -9,10 +9,9 @@ use Cycle\ORM\Select\QueryBuilder;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\AndX;
-use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 
-final class AndXHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
+final class AndXHandler implements QueryBuilderFilterHandler
 {
     #[\Override]
     public function getFilterClass(): string
