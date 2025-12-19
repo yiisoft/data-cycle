@@ -147,7 +147,6 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
-    #[\Override]
     public function withAddedFilterHandlers(QueryBuilderFilterHandler ...$filterHandlers): static
     {
         $new = clone $this;
