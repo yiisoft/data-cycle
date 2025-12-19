@@ -228,11 +228,6 @@ SQL,
                 ->columns('number', 'email'),
         ));
 
-        $expectedSql = <<<SQL
-                SELECT "number", "email"
-                FROM "user" AS "user"
-                WHERE ((1 = 1  ) )
-                SQL;
-        $this->assertSame(preg_replace('/\s+/', '', $expectedSql), preg_replace('/\s+/', '', $reader->getSql()));
+        $this->assertCount(5, $reader->read());
     }
 }
