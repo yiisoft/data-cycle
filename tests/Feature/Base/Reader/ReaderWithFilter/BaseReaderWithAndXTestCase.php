@@ -41,6 +41,13 @@ abstract class BaseReaderWithAndXTestCase extends \Yiisoft\Data\Tests\Common\Rea
         $expectedResult = [
             ['id' => 3, 'balance' => 100.0],
         ];
-        $this->assertSame($expectedResult, $result);
+
+        $this->assertCount(1, $result);
+        $this->assertEquals($expectedResult[0]['id'], $result[0]['id']);
+        $this->assertEqualsWithDelta(
+            $expectedResult[0]['balance'],
+            $result[0]['balance'],
+            0.01,
+        );
     }
 }

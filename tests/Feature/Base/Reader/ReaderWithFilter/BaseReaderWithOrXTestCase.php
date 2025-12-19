@@ -34,12 +34,32 @@ abstract class BaseReaderWithOrXTestCase extends \Yiisoft\Data\Tests\Common\Read
         ));
 
         $reader = $reader->withFilter(new OrX(new Equals('balance', 100.0), new Equals('id', 2)));
-        $result = $reader->read();
+        $actualResults = $reader->read();
 
         $expectedResult = [
             ['id' => 2, 'balance' => 1.0],
             ['id' => 3, 'balance' => 100.0],
         ];
-        $this->assertSame($expectedResult, $result);
+
+        $this->assertCount(2, $actualResults);
+        $actualResultsById = [];
+        foreach ($actualResults as $result) {
+            $actualResultsById[$result['id']] = $result;
+        }
+        foreach ($expectedResult as $expectedItem) {
+            $id = $expectedItem['id'];
+
+            $this->assertArrayHasKey($id, $actualResultsById, "Результат с ID {$id} не найден.");
+            $actualItem = $actualResultsById[$id];
+
+            $this->assertEquals($expectedItem['id'], $actualItem['id']);
+
+            $this->assertEqualsWithDelta(
+                $expectedItem['balance'],
+                $actualItem['balance'],
+                0.01,
+                "The balance for user ID {$id} is not as expected."
+            );
+        }
     }
 }

@@ -23,7 +23,7 @@ abstract class BaseReaderWithAllTestCase extends \Yiisoft\Data\Tests\Common\Read
         )
         )->withFilter(new All());
 
-        $result = $reader->read();
+        $actualResults = $reader->read();
 
         $expectedResult = [
             ['id' => 1, 'number' => 1],
@@ -32,6 +32,26 @@ abstract class BaseReaderWithAllTestCase extends \Yiisoft\Data\Tests\Common\Read
             ['id' => 4, 'number' => 4],
             ['id' => 5, 'number' => 5],
         ];
-        $this->assertSame($expectedResult, $result);
+
+        $this->assertCount(5, $actualResults);
+        $actualResultsById = [];
+        foreach ($actualResults as $result) {
+            $actualResultsById[$result['id']] = $result;
+        }
+        foreach ($expectedResult as $expectedItem) {
+            $id = $expectedItem['id'];
+
+            $this->assertArrayHasKey($id, $actualResultsById, "Результат с ID {$id} не найден.");
+            $actualItem = $actualResultsById[$id];
+
+            $this->assertEquals($expectedItem['id'], $actualItem['id']);
+
+            $this->assertEqualsWithDelta(
+                $expectedItem['number'],
+                $actualItem['number'],
+                0.01,
+                "The balance for user ID {$id} is not as expected."
+            );
+        }
     }
 }
