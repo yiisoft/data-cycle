@@ -14,7 +14,6 @@ use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler\LikeHandlerFactory;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Filter\All;
-use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
@@ -40,11 +39,14 @@ final class EntityReader implements DataReaderInterface
     private CachedCollection $itemsCache;
     private CachedCollection $oneItemCache;
     /**
-     * @psalm-var array<class-string, FilterHandlerInterface & QueryBuilderFilterHandler> $handlers
+     * @psalm-var array<class-string, QueryBuilderFilterHandler> $handlers
      */
     private array $filterHandlers = [];
 
-    public function __construct(Select|SelectQuery $query)
+    /**
+     * @param QueryBuilderFilterHandler[] $extraFilterHandlers
+     **/
+    public function __construct(Select|SelectQuery $query, array $extraFilterHandlers = [])
     {
         $this->query = clone $query;
         $this->countCache = new CachedCount($this->query);
@@ -70,6 +72,7 @@ final class EntityReader implements DataReaderInterface
             new FilterHandler\LessThanOrEqualHandler(),
             $likeHandler,
             new FilterHandler\NotHandler(),
+            ...$extraFilterHandlers,
         );
 
         $this->filter = new All();
@@ -145,22 +148,6 @@ final class EntityReader implements DataReaderInterface
         return $new;
     }
 
-    /**
-     * @psalm-mutation-free
-     */
-    #[\Override]
-    public function withAddedFilterHandlers(FilterHandlerInterface ...$filterHandlers): static
-    {
-        $new = clone $this;
-        /** @psalm-suppress ImpureMethodCall */
-        $new->setFilterHandlers(...$filterHandlers);
-        /** @psalm-suppress ImpureMethodCall */
-        $new->resetCountCache();
-        $new->itemsCache = new CachedCollection();
-        $new->oneItemCache = new CachedCollection();
-        return $new;
-    }
-
     #[\Override]
     public function count(): int
     {
@@ -207,13 +194,11 @@ final class EntityReader implements DataReaderInterface
         return (string)($query instanceof Select ? $query->buildQuery() : $query);
     }
 
-    private function setFilterHandlers(FilterHandlerInterface ...$filterHandlers): void
+    private function setFilterHandlers(QueryBuilderFilterHandler ...$filterHandlers): void
     {
         $handlers = [];
         foreach ($filterHandlers as $filterHandler) {
-            if ($filterHandler instanceof QueryBuilderFilterHandler) {
-                $handlers[$filterHandler->getFilterClass()] = $filterHandler;
-            }
+            $handlers[$filterHandler->getFilterClass()] = $filterHandler;
         }
         $this->filterHandlers = array_merge($this->filterHandlers, $handlers);
     }
@@ -238,7 +223,7 @@ final class EntityReader implements DataReaderInterface
 
     private function makeFilterClosure(FilterInterface $filter): Closure
     {
-        return function (QueryBuilder $select) use ($filter) {
+        return function (QueryBuilder|SelectQuery $select) use ($filter) {
             if (!array_key_exists($filter::class, $this->filterHandlers)) {
                 throw new NotSupportedFilterException($filter::class);
             }

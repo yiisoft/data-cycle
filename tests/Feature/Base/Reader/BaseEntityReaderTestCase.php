@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Yiisoft\Data\Cycle\Tests\Feature\Base\Reader;
 
 use Cycle\Database\Exception\StatementException;
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
@@ -17,6 +19,9 @@ use Yiisoft\Data\Cycle\Tests\Support\StubFilterHandler;
 use Yiisoft\Data\Reader\Filter\Equals;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Data\Tests\Common\FixtureTrait;
+
+use function iterator_to_array;
+use function preg_replace;
 
 abstract class BaseEntityReaderTestCase extends TestCase
 {
@@ -35,7 +40,7 @@ abstract class BaseEntityReaderTestCase extends TestCase
     {
         $reader = (new EntityReader($this->select('user')))->withLimit(3);
 
-        $ref = (new \ReflectionProperty($reader, 'itemsCache'));
+        $ref = (new ReflectionProperty($reader, 'itemsCache'));
 
         self::assertFalse($ref->getValue($reader)->isCollected());
         $reader->read();
@@ -49,15 +54,15 @@ abstract class BaseEntityReaderTestCase extends TestCase
     public function testGetIterator(): void
     {
         $reader = (new EntityReader($this->select('user')))->withLimit(1);
-        $this->assertFixtures([0], [\iterator_to_array($reader->getIterator())[0]]);
+        $this->assertFixtures([0], [iterator_to_array($reader->getIterator())[0]]);
 
-        $ref = (new \ReflectionProperty($reader, 'itemsCache'));
+        $ref = (new ReflectionProperty($reader, 'itemsCache'));
 
         $cache = new CachedCollection();
         $cache->setCollection([['foo' => 'bar']]);
         $ref->setValue($reader, $cache);
 
-        self::assertSame(['foo' => 'bar'], (array) \iterator_to_array($reader->getIterator())[0]);
+        self::assertSame(['foo' => 'bar'], (array) iterator_to_array($reader->getIterator())[0]);
     }
 
     public function testRead(): void
@@ -127,7 +132,7 @@ abstract class BaseEntityReaderTestCase extends TestCase
 
     public function testLimitException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         (new EntityReader($this->select('user')))->withLimit(-1);
     }
 
@@ -160,7 +165,7 @@ abstract class BaseEntityReaderTestCase extends TestCase
 
     public function testFilterHandlers(): void
     {
-        $baseReader = (new EntityReader($this->select('user')))->withAddedFilterHandlers(new StubFilterHandler());
+        $baseReader = (new EntityReader($this->select('user'), [new StubFilterHandler()]));
 
         $reader = $baseReader->withFilter(new Equals('number', 2));
         $this->assertFixtures([1], $reader->read());
@@ -202,7 +207,7 @@ SQL,
     public function testGetSql(string $expectedSql): void
     {
         $reader = (new EntityReader($this->select('user')))->withLimit(2)->withOffset(1);
-        $this->assertSame(\preg_replace('/\s+/', '', $expectedSql), \preg_replace('/\s+/', '', $reader->getSql()));
+        $this->assertSame(preg_replace('/\s+/', '', $expectedSql), preg_replace('/\s+/', '', $reader->getSql()));
     }
 
     public function testMakeFilterClosureException(): void
@@ -212,5 +217,17 @@ SQL,
         $this->expectException(NotSupportedFilterException::class);
         $this->expectExceptionMessage(sprintf('Filter "%s" is not supported.', NotSupportedFilter::class));
         $reader->withFilter(new NotSupportedFilter());
+    }
+
+    public function testMakeFilterClosureSupportSelectQuery(): void
+    {
+        $reader = (new EntityReader(
+            $this
+                ->select('user')
+                ->buildQuery()
+                ->columns('number', 'email'),
+        ));
+
+        $this->assertCount(5, $reader->read());
     }
 }

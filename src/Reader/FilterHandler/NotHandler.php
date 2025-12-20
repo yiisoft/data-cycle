@@ -18,10 +18,9 @@ use Yiisoft\Data\Reader\Filter\LessThanOrEqual;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\Filter\Not;
 use Yiisoft\Data\Reader\Filter\OrX;
-use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 
-final class NotHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
+final class NotHandler implements QueryBuilderFilterHandler
 {
     #[\Override]
     public function getFilterClass(): string

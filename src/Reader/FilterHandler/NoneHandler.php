@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
 use Cycle\Database\Injection\Expression;
+use Cycle\Database\Query\SelectQuery;
 use Cycle\ORM\Select\QueryBuilder;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\None;
-use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 
-final class NoneHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
+final class NoneHandler implements QueryBuilderFilterHandler
 {
     #[\Override]
     public function getFilterClass(): string
@@ -24,7 +24,7 @@ final class NoneHandler implements QueryBuilderFilterHandler, FilterHandlerInter
     {
         /** @var None $filter */
         return [
-            static function (QueryBuilder $select) {
+            static function (QueryBuilder|SelectQuery $select) {
                 $select->where(new Expression('1 = 0'));
             },
         ];

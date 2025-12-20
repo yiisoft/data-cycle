@@ -7,10 +7,9 @@ namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 use Cycle\Database\Injection\Parameter;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\In;
-use Yiisoft\Data\Reader\FilterHandlerInterface;
 use Yiisoft\Data\Reader\FilterInterface;
 
-final class InHandler implements QueryBuilderFilterHandler, FilterHandlerInterface
+final class InHandler implements QueryBuilderFilterHandler
 {
     #[\Override]
     public function getFilterClass(): string
