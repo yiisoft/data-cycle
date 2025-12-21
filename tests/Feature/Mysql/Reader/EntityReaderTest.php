@@ -8,7 +8,7 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\BaseEntityReaderTestCase;
 
 final class EntityReaderTest extends BaseEntityReaderTestCase
 {
-    public static $DRIVER = 'mysql';
+    public static ?string $DRIVER = 'mysql';
 
     public static function dataGetSql(): array
     {

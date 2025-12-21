@@ -9,5 +9,5 @@ BaseGreaterThanOrEqualHandlerTest;
 
 final class ReaderWithGreaterThanOrEqualTest extends BaseGreaterThanOrEqualHandlerTest
 {
-    public static $DRIVER = 'mssql';
+    public static ?string $DRIVER = 'mssql';
 }

@@ -8,7 +8,7 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\ReaderWithFilter\BaseReaderWith
 
 final class ReaderWithLikeTest extends BaseReaderWithLikeTestCase
 {
-    public static $DRIVER = 'mysql';
+    public static ?string $DRIVER = 'mysql';
 
     public static function dataWithReader(): array
     {

@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\ReaderWithFilter\BaseReaderWith
 
 final class ReaderWithEqualsNullTest extends BaseReaderWithEqualsNullTestCase
 {
-    public static $DRIVER = 'mssql';
+    public static ?string $DRIVER = 'mssql';
 }

@@ -10,7 +10,7 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\ReaderWithFilter\BaseReaderWith
 
 final class ReaderWithLikeTest extends BaseReaderWithLikeTestCase
 {
-    public static $DRIVER = 'mssql';
+    public static ?string $DRIVER = 'mssql';
 
     #[DataProvider('dataWithReader')]
     public function testWithReader(

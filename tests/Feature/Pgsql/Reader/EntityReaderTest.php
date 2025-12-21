@@ -8,5 +8,5 @@ use Yiisoft\Data\Cycle\Tests\Feature\Base\Reader\BaseEntityReaderTestCase;
 
 final class EntityReaderTest extends BaseEntityReaderTestCase
 {
-    public static $DRIVER = 'pgsql';
+    public static ?string $DRIVER = 'pgsql';
 }

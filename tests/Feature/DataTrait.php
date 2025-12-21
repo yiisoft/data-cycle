@@ -32,7 +32,7 @@ use Yiisoft\Data\Reader\DataReaderInterface;
 
 trait DataTrait
 {
-    public static $DRIVER = null;
+    public static ?string $DRIVER = null;
 
     // cache
     private ?ORMInterface $orm = null;
