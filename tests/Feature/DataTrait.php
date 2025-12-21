@@ -17,7 +17,6 @@ use Cycle\Database\Database;
 use Cycle\Database\DatabaseInterface;
 use Cycle\Database\DatabaseManager;
 use Cycle\Database\DatabaseProviderInterface;
-use Cycle\Database\Driver\Handler;
 use Cycle\Database\Driver\HandlerInterface;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\EntityManagerInterface;

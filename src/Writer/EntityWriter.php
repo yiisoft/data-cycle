@@ -13,8 +13,7 @@ final class EntityWriter implements DataWriterInterface
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager
-    )
-    {
+    ) {
     }
 
     /**
