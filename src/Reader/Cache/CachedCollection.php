@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\Cache;
 
+use Generator;
+
 final class CachedCollection
 {
     private ?iterable $collection = null;
@@ -26,7 +28,7 @@ final class CachedCollection
         return $this->collection;
     }
 
-    public function getGenerator(): \Generator
+    public function getGenerator(): Generator
     {
         if ($this->collection !== null) {
             yield from $this->collection;

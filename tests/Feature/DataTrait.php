@@ -18,6 +18,7 @@ use Cycle\Database\DatabaseInterface;
 use Cycle\Database\DatabaseManager;
 use Cycle\Database\DatabaseProviderInterface;
 use Cycle\Database\Driver\Handler;
+use Cycle\Database\Driver\HandlerInterface;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\EntityManagerInterface;
 use Cycle\ORM\Factory;
@@ -32,7 +33,7 @@ use Yiisoft\Data\Reader\DataReaderInterface;
 
 trait DataTrait
 {
-    public static $DRIVER = null;
+    public static ?string $DRIVER = null;
 
     // cache
     private ?ORMInterface $orm = null;
@@ -124,7 +125,7 @@ trait DataTrait
                 $schema->dropForeignKey($foreign->getColumns());
             }
 
-            $schema->save(Handler::DROP_FOREIGN_KEYS);
+            $schema->save(HandlerInterface::DROP_FOREIGN_KEYS);
         }
 
         foreach ($this->dbal->database()->getTables() as $table) {

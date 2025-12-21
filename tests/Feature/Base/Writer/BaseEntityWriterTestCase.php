@@ -10,6 +10,8 @@ use Yiisoft\Data\Cycle\Tests\Feature\DataTrait;
 use Yiisoft\Data\Cycle\Writer\EntityWriter;
 use Yiisoft\Data\Tests\Common\FixtureTrait;
 
+use function iterator_to_array;
+
 abstract class BaseEntityWriterTestCase extends TestCase
 {
     use DataTrait;
@@ -38,11 +40,11 @@ abstract class BaseEntityWriterTestCase extends TestCase
         $writer = new EntityWriter($this->createEntityManager());
         $reader = new EntityReader($this->select('user')->where('number', 'in', [1, 2, 3]));
         // Iterator doesn't use cache
-        $entities = \iterator_to_array($reader->getIterator());
+        $entities = iterator_to_array($reader->getIterator());
 
         $writer->delete($entities);
 
         $this->assertCount(3, $entities);
-        $this->assertEquals([], \iterator_to_array($reader->getIterator()));
+        $this->assertEquals([], iterator_to_array($reader->getIterator()));
     }
 }

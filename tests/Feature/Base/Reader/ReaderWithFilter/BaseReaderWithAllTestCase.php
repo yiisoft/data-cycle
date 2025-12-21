@@ -41,7 +41,7 @@ abstract class BaseReaderWithAllTestCase extends \Yiisoft\Data\Tests\Common\Read
         foreach ($expectedResult as $expectedItem) {
             $id = $expectedItem['id'];
 
-            $this->assertArrayHasKey($id, $actualResultsById, "Результат с ID {$id} не найден.");
+            $this->assertArrayHasKey($id, $actualResultsById, "Результат с ID $id не найден.");
             $actualItem = $actualResultsById[$id];
 
             $this->assertEquals($expectedItem['id'], $actualItem['id']);
@@ -50,7 +50,7 @@ abstract class BaseReaderWithAllTestCase extends \Yiisoft\Data\Tests\Common\Read
                 $expectedItem['number'],
                 $actualItem['number'],
                 0.01,
-                "The balance for user ID {$id} is not as expected."
+                "The balance for user ID $id is not as expected."
             );
         }
     }

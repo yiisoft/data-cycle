@@ -6,6 +6,7 @@ namespace Yiisoft\Data\Cycle\Tests\Unit\Reader;
 
 use Cycle\Database\Query\SelectQuery;
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Reader\Sort;
 
@@ -15,7 +16,7 @@ final class EntityReaderTest extends TestCase
     {
         $reader = new EntityReader($this->createMock(SelectQuery::class));
 
-        $ref = new \ReflectionMethod($reader, 'normalizeSortingCriteria');
+        $ref = new ReflectionMethod($reader, 'normalizeSortingCriteria');
 
         $this->assertSame(
             ['number' => 'ASC', 'name' => 'DESC', 'email' => 'ASC'],

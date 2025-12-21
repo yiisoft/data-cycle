@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
 
+use Override;
 use Stringable;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\Like;
@@ -17,7 +18,7 @@ abstract class BaseLikeHandler implements QueryBuilderFilterHandler
         '\\' => '\\\\',
     ];
 
-    #[\Override]
+    #[Override]
     public function getFilterClass(): string
     {
         return Like::class;

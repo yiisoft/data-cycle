@@ -10,6 +10,7 @@ use Cycle\ORM\Select;
 use Cycle\ORM\Select\QueryBuilder;
 use Generator;
 use InvalidArgumentException;
+use Override;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler\LikeHandlerFactory;
 use Yiisoft\Data\Reader\DataReaderInterface;
@@ -78,7 +79,7 @@ final class EntityReader implements DataReaderInterface
         $this->filter = new All();
     }
 
-    #[\Override]
+    #[Override]
     public function getSort(): ?Sort
     {
         return $this->sorting;
@@ -87,7 +88,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
-    #[\Override]
+    #[Override]
     public function withLimit(?int $limit): static
     {
         /** @psalm-suppress DocblockTypeContradiction */
@@ -105,7 +106,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
-    #[\Override]
+    #[Override]
     public function withOffset(int $offset): static
     {
         $new = clone $this;
@@ -119,7 +120,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
-    #[\Override]
+    #[Override]
     public function withSort(?Sort $sort): static
     {
         $new = clone $this;
@@ -134,7 +135,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * @psalm-mutation-free
      */
-    #[\Override]
+    #[Override]
     public function withFilter(FilterInterface $filter): static
     {
         $new = clone $this;
@@ -148,13 +149,13 @@ final class EntityReader implements DataReaderInterface
         return $new;
     }
 
-    #[\Override]
+    #[Override]
     public function count(): int
     {
         return $this->countCache->getCount();
     }
 
-    #[\Override]
+    #[Override]
     public function read(): iterable
     {
         if ($this->itemsCache->getCollection() === null) {
@@ -164,7 +165,7 @@ final class EntityReader implements DataReaderInterface
         return $this->itemsCache->getCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function readOne(): null|array|object
     {
         if (!$this->oneItemCache->isCollected()) {
@@ -182,7 +183,7 @@ final class EntityReader implements DataReaderInterface
     /**
      * Get Iterator without caching
      */
-    #[\Override]
+    #[Override]
     public function getIterator(): Generator
     {
         yield from $this->itemsCache->getCollection() ?? $this->buildSelectQuery()->getIterator();
@@ -255,19 +256,19 @@ final class EntityReader implements DataReaderInterface
         return $criteria;
     }
 
-    #[\Override]
+    #[Override]
     public function getFilter(): FilterInterface
     {
         return $this->filter;
     }
 
-    #[\Override]
+    #[Override]
     public function getLimit(): ?int
     {
         return $this->limit;
     }
 
-    #[\Override]
+    #[Override]
     public function getOffset(): int
     {
         return $this->offset;

@@ -7,19 +7,20 @@ namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 use Cycle\Database\Injection\Expression;
 use Cycle\Database\Query\SelectQuery;
 use Cycle\ORM\Select\QueryBuilder;
+use Override;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\All;
 use Yiisoft\Data\Reader\FilterInterface;
 
 final class AllHandler implements QueryBuilderFilterHandler
 {
-    #[\Override]
+    #[Override]
     public function getFilterClass(): string
     {
         return All::class;
     }
 
-    #[\Override]
+    #[Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var All $filter */
