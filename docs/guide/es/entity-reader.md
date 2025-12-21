@@ -1,8 +1,8 @@
-# Clase EntityReader
+# EntityReader
 
 `EntityReader` es una herramienta útil para transferir de forma segura las solicitudes de selección del repositorio en tiempo de ejecución del usuario.
 
-Una solicitud de selección se refiere a una instancia de una de las clases: ``CycleORM\Select`` o ``Spiral\Database\Query\SelectQuery``.
+Una solicitud de selección se refiere a una instancia de una de las clases: `\Cycle\ORM\Select` o `\Cycle\Database\Query\SelectQuery`.
 
 Lo que hay que saber sobre `EntityReader`:
 
@@ -33,6 +33,9 @@ class ArticleRepository extends \Cycle\ORM\Select\Repository
     }
 }
 ```
+
+Utiliza los filtros del paquete [yiisoft/data](https://github.com/yiisoft/data) o cualquier otro, habiendo escrito previamente
+los manejadores (procesadores) apropiados para ellos.
 
 Ahora podemos utilizar `EntityReader` para la paginación como el siguiente ejemplo:
 
@@ -112,8 +115,8 @@ foreach ($lastPublicReader->read() as $article) {
 }
 ```
 
-La ordenación a través de `EntityReader` no sustituye la ordenación en la consulta inicial, sino que le añade algo más.
-Si necesitas establecer la ordenación por defecto en un método del repositorio, pero quieres poder cambiarla en un controlador, puedes puede hacerlo de la siguiente manera:
+La ordenación a través de `EntityReader` no sustituye la ordenación en la consulta inicial, sino que la complementa.
+Si necesitas establecer la ordenación por defecto en un método del repositorio, pero quieres poder cambiarla en un controlador, puedes hacerlo de la siguiente manera:
 
 ```php
 use Yiisoft\Data\Cycle\Data\Reader\EntityReader;

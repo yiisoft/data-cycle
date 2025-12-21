@@ -1,3 +1,4 @@
 # Yii Data Cycle
 
-- [Класс EntityReader](entity-reader.md)
+- [EntityReader](entity-reader.md)
+- [EntityWriter](entity-writer.md)

@@ -1,4 +1,4 @@
-# Classe EntityReader
+# EntityReader
 
 `EntityReader` permite passar com segurança consultas de seleção do repositório para o tempo de execução do usuário.
 Por consulta selecionada, assumimos uma instância de `\Cycle\ORM\Select` ou `\Cycle\Database\Query\SelectQuery`.
