@@ -19,12 +19,12 @@ integrations of Cycle ORM with Yii framework see [Yii Cycle](https://github.com/
 
 Detailed build statuses:
 
-| RDBMS                | Status                                                                                                                                                                  |
-|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| SQLite               | [![SQLite status](https://github.com/yiisoft/data-cycle/workflows/sqlite/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Asqlite)             |
-| MySQL                | [![MYSQL status](https://github.com/yiisoft/data-cycle/workflows/mysql/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Amysql)                |
-| PostgreSQL           | [![PostgreSQL status](https://github.com/yiisoft/data-cycle/workflows/pgsql/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Apgsql)           |
-| Microsoft SQL Server | [![Microsoft SQL Server status](https://github.com/yiisoft/data-cycle/workflows/mssql/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Amssql) |
+| RDBMS                | Status                                                                                                                                                                                            |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| SQLite               | [![SQLite status](https://github.com/yiisoft/data-cycle/actions/workflows/sqlite.yml/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Asqlite)                           |
+| MySQL                | [![MySQL status](https://github.com/yiisoft/data-cycle/actions/workflows/mysql.yml/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Amysql)                |
+| PostgreSQL           | [![PostgreSQL status](https://github.com/yiisoft/data-cycle/actions/workflows/pgsql.yml/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Apgsql)           |
+| Microsoft SQL Server | [![Microsoft SQL Server status](https://github.com/yiisoft/data-cycle/actions/workflows/mssql.yml/badge.svg)](https://github.com/yiisoft/data-cycle/actions?query=workflow%3Amssql) |
 
 ## Requirements
 
