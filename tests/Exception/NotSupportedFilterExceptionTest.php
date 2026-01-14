@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Reader\Filter\All;
 
+use function sprintf;
+
 final class NotSupportedFilterExceptionTest extends TestCase
 {
     public function testBase(): void

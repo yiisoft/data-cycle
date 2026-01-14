@@ -22,6 +22,8 @@ use Yiisoft\Data\Tests\Common\FixtureTrait;
 
 use function iterator_to_array;
 use function preg_replace;
+use function count;
+use function sprintf;
 
 abstract class BaseEntityReaderTestCase extends TestCase
 {

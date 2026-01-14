@@ -50,7 +50,7 @@ abstract class BaseReaderWithAllTestCase extends \Yiisoft\Data\Tests\Common\Read
                 $expectedItem['number'],
                 $actualItem['number'],
                 0.01,
-                "The balance for user ID {$id} is not as expected."
+                "The balance for user ID {$id} is not as expected.",
             );
         }
     }
