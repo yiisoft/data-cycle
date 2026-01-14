@@ -10,16 +10,17 @@ use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\OrX;
 use Yiisoft\Data\Reader\FilterInterface;
+use Override;
 
 final class OrXHandler implements QueryBuilderFilterHandler
 {
-    #[\Override]
+    #[Override]
     public function getFilterClass(): string
     {
         return OrX::class;
     }
 
-    #[\Override]
+    #[Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var OrX $filter */

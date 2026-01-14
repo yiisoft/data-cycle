@@ -8,6 +8,7 @@ use Stringable;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\Filter\LikeMode;
+use Override;
 
 abstract class BaseLikeHandler implements QueryBuilderFilterHandler
 {
@@ -17,7 +18,7 @@ abstract class BaseLikeHandler implements QueryBuilderFilterHandler
         '\\' => '\\\\',
     ];
 
-    #[\Override]
+    #[Override]
     public function getFilterClass(): string
     {
         return Like::class;
@@ -25,7 +26,7 @@ abstract class BaseLikeHandler implements QueryBuilderFilterHandler
 
     protected function prepareValue(string|Stringable $value, LikeMode $mode): string
     {
-        $value = strtr((string)$value, $this->escapingReplacements);
+        $value = strtr((string) $value, $this->escapingReplacements);
         return match ($mode) {
             LikeMode::Contains => '%' . $value . '%',
             LikeMode::StartsWith => $value . '%',

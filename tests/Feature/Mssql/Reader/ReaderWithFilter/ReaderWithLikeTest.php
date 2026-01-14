@@ -16,7 +16,7 @@ final class ReaderWithLikeTest extends BaseReaderWithLikeTestCase
     public function testWithReader(
         string $field,
         mixed $value,
-        bool|null $caseSensitive,
+        ?bool $caseSensitive,
         array $expectedFixtureIndexes,
     ): void {
         if ($caseSensitive === true) {

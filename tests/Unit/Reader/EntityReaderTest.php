@@ -8,6 +8,10 @@ use Cycle\Database\Query\SelectQuery;
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Reader\Sort;
+use ReflectionMethod;
+
+use const SORT_ASC;
+use const SORT_DESC;
 
 final class EntityReaderTest extends TestCase
 {
@@ -15,11 +19,11 @@ final class EntityReaderTest extends TestCase
     {
         $reader = new EntityReader($this->createMock(SelectQuery::class));
 
-        $ref = new \ReflectionMethod($reader, 'normalizeSortingCriteria');
+        $ref = new ReflectionMethod($reader, 'normalizeSortingCriteria');
 
         $this->assertSame(
             ['number' => 'ASC', 'name' => 'DESC', 'email' => 'ASC'],
-            $ref->invoke($reader, ['number' => 'ASC', 'name' => SORT_DESC, 'email' => SORT_ASC])
+            $ref->invoke($reader, ['number' => 'ASC', 'name' => SORT_DESC, 'email' => SORT_ASC]),
         );
     }
 

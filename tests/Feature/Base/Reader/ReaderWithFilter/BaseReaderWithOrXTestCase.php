@@ -11,6 +11,8 @@ use Yiisoft\Data\Cycle\Tests\Support\NotSupportedFilter;
 use Yiisoft\Data\Reader\Filter\Equals;
 use Yiisoft\Data\Reader\Filter\OrX;
 
+use function sprintf;
+
 abstract class BaseReaderWithOrXTestCase extends \Yiisoft\Data\Tests\Common\Reader\ReaderWithFilter\BaseReaderWithOrXTestCase
 {
     use DataTrait;
@@ -58,7 +60,7 @@ abstract class BaseReaderWithOrXTestCase extends \Yiisoft\Data\Tests\Common\Read
                 $expectedItem['balance'],
                 $actualItem['balance'],
                 0.01,
-                "The balance for user ID {$id} is not as expected."
+                "The balance for user ID {$id} is not as expected.",
             );
         }
     }

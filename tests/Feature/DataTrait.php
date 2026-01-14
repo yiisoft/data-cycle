@@ -30,6 +30,8 @@ use Cycle\ORM\Select;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Reader\DataReaderInterface;
 
+use function is_object;
+
 trait DataTrait
 {
     public static ?string $DRIVER = null;
@@ -53,6 +55,103 @@ trait DataTrait
         $this->dropDatabase();
         $this->orm = null;
         $this->dbal = null;
+    }
+
+    protected function dropDatabase(): void
+    {
+        foreach ($this->dbal->database()->getTables() as $table) {
+            $schema = $table->getSchema();
+
+            foreach ($schema->getForeignKeys() as $foreign) {
+                $schema->dropForeignKey($foreign->getColumns());
+            }
+
+            $schema->save(Handler::DROP_FOREIGN_KEYS);
+        }
+
+        foreach ($this->dbal->database()->getTables() as $table) {
+            $schema = $table->getSchema();
+            $schema->declareDropped();
+            $schema->save();
+        }
+    }
+
+    protected function fillFixtures(): void
+    {
+        /** @var Database $db */
+        $db = $this->dbal->database();
+        if ($db->hasTable('user')) {
+            return;
+        }
+
+        $user = $db->table('user')->getSchema();
+        $user->column('id')->primary();
+        $user->column('number')->integer();
+        $user->column('email')->string()->nullable(false);
+        $user->column('balance')->float()->nullable(false)->defaultValue(0.0);
+        $user->column('born_at')->date()->nullable();
+        $user->save();
+
+        $fixtures = $this->getFixtures();
+        foreach ($fixtures as $index => $fixture) {
+            $fixtures[$index]['balance'] = (string) $fixtures[$index]['balance'];
+        }
+
+        $db
+            ->insert('user')
+            ->columns(['number', 'email', 'balance', 'born_at'])
+            ->values($fixtures)
+            ->run();
+    }
+
+    protected function select(string $role): Select
+    {
+        return new Select($this->getOrm(), $role);
+    }
+
+    protected function getOrm(): ORMInterface
+    {
+        return $this->orm;
+    }
+
+    protected function getDatabase(): DatabaseInterface
+    {
+        return $this->dbal->database();
+    }
+
+    protected function createEntityManager(): EntityManagerInterface
+    {
+        return new EntityManager($this->orm);
+    }
+
+    protected function getReader(): DataReaderInterface
+    {
+        return new EntityReader($this->select('user'));
+    }
+
+    protected function assertFixtures(array $expectedFixtureIndexes, array $actualFixtures): void
+    {
+        $processedActualFixtures = [];
+        foreach ($actualFixtures as $fixture) {
+            if (is_object($fixture)) {
+                $fixture = json_decode(json_encode($fixture), associative: true);
+            }
+
+            unset($fixture['id']);
+            $fixture['number'] = (int) $fixture['number'];
+            $fixture['balance'] = (float) $fixture['balance'];
+
+            $processedActualFixtures[$fixture['number'] - 1] = $fixture;
+        }
+
+        $expectedFixtures = [];
+        foreach ($expectedFixtureIndexes as $index) {
+            $expectedFixture = $this->getFixture($index);
+            $expectedFixture['born_at'] = json_decode(json_encode($expectedFixture['born_at']), associative: true);
+            $expectedFixtures[$index] = $expectedFixture;
+        }
+
+        $this->assertSame($expectedFixtures, $processedActualFixtures);
     }
 
     private function createDbal(): DatabaseProviderInterface
@@ -115,71 +214,9 @@ trait DataTrait
         return new DatabaseManager(new DatabaseConfig(['databases' => $databases, 'connections' => $connections]));
     }
 
-    protected function dropDatabase(): void
-    {
-        foreach ($this->dbal->database()->getTables() as $table) {
-            $schema = $table->getSchema();
-
-            foreach ($schema->getForeignKeys() as $foreign) {
-                $schema->dropForeignKey($foreign->getColumns());
-            }
-
-            $schema->save(Handler::DROP_FOREIGN_KEYS);
-        }
-
-        foreach ($this->dbal->database()->getTables() as $table) {
-            $schema = $table->getSchema();
-            $schema->declareDropped();
-            $schema->save();
-        }
-    }
-
-    protected function fillFixtures(): void
-    {
-        /** @var Database $db */
-        $db = $this->dbal->database();
-        if ($db->hasTable('user')) {
-            return;
-        }
-
-        $user = $db->table('user')->getSchema();
-        $user->column('id')->primary();
-        $user->column('number')->integer();
-        $user->column('email')->string()->nullable(false);
-        $user->column('balance')->float()->nullable(false)->defaultValue(0.0);
-        $user->column('born_at')->date()->nullable();
-        $user->save();
-
-        $fixtures = $this->getFixtures();
-        foreach ($fixtures as $index => $fixture) {
-            $fixtures[$index]['balance'] = (string) $fixtures[$index]['balance'];
-        }
-
-        $db
-            ->insert('user')
-            ->columns(['number', 'email', 'balance', 'born_at'])
-            ->values($fixtures)
-            ->run();
-    }
-
-    protected function select(string $role): Select
-    {
-        return new Select($this->getOrm(), $role);
-    }
-
-    protected function getOrm(): ORMInterface
-    {
-        return $this->orm;
-    }
-
     private function createOrm(): ORMInterface
     {
         return new ORM(factory: new Factory($this->dbal), schema: $this->createSchema());
-    }
-
-    protected function getDatabase(): DatabaseInterface
-    {
-        return $this->dbal->database();
     }
 
     /**
@@ -210,40 +247,5 @@ trait DataTrait
                 SchemaInterface::RELATIONS => [],
             ],
         ]);
-    }
-
-    protected function createEntityManager(): EntityManagerInterface
-    {
-        return new EntityManager($this->orm);
-    }
-
-    protected function getReader(): DataReaderInterface
-    {
-        return new EntityReader($this->select('user'));
-    }
-
-    protected function assertFixtures(array $expectedFixtureIndexes, array $actualFixtures): void
-    {
-        $processedActualFixtures = [];
-        foreach ($actualFixtures as $fixture) {
-            if (is_object($fixture)) {
-                $fixture = json_decode(json_encode($fixture), associative: true);
-            }
-
-            unset($fixture['id']);
-            $fixture['number'] = (int) $fixture['number'];
-            $fixture['balance'] = (float) $fixture['balance'];
-
-            $processedActualFixtures[$fixture['number'] - 1] = $fixture;
-        }
-
-        $expectedFixtures = [];
-        foreach ($expectedFixtureIndexes as $index) {
-            $expectedFixture = $this->getFixture($index);
-            $expectedFixture['born_at'] = json_decode(json_encode($expectedFixture['born_at']), associative: true);
-            $expectedFixtures[$index] = $expectedFixture;
-        }
-
-        $this->assertSame($expectedFixtures, $processedActualFixtures);
     }
 }

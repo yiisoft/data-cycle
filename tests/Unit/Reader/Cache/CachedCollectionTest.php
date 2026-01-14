@@ -6,12 +6,14 @@ namespace Yiisoft\Data\Cycle\Tests\Unit\Reader\Cache;
 
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
+use ArrayIterator;
+use Generator;
 
 final class CachedCollectionTest extends TestCase
 {
     public function testCollection(): void
     {
-        $collection = new \ArrayIterator(['foo']);
+        $collection = new ArrayIterator(['foo']);
 
         $cachedCollection = new CachedCollection();
 
@@ -28,20 +30,20 @@ final class CachedCollectionTest extends TestCase
 
         $this->assertFalse($cachedCollection->isCollected());
 
-        $cachedCollection->setCollection(new \ArrayIterator());
+        $cachedCollection->setCollection(new ArrayIterator());
 
         $this->assertTrue($cachedCollection->isCollected());
     }
 
     public function testGetGenerator(): void
     {
-        $collection = new \ArrayIterator(['foo']);
+        $collection = new ArrayIterator(['foo']);
 
         $cachedCollection = new CachedCollection();
 
         $cachedCollection->setCollection($collection);
 
-        $this->assertInstanceOf(\Generator::class, $cachedCollection->getGenerator());
+        $this->assertInstanceOf(Generator::class, $cachedCollection->getGenerator());
         $this->assertSame(['foo'], iterator_to_array($cachedCollection->getGenerator()));
     }
 }

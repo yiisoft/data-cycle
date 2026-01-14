@@ -10,6 +10,8 @@ use Yiisoft\Data\Cycle\Tests\Feature\DataTrait;
 use Yiisoft\Data\Cycle\Tests\Support\NotSupportedFilter;
 use Yiisoft\Data\Reader\Filter\Not;
 
+use function sprintf;
+
 abstract class BaseReaderWithNotTestCase extends \Yiisoft\Data\Tests\Common\Reader\ReaderWithFilter\BaseReaderWithNotTestCase
 {
     use DataTrait;

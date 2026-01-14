@@ -6,10 +6,11 @@ namespace Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
 
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\FilterInterface;
+use Override;
 
 final class MysqlLikeHandler extends BaseLikeHandler
 {
-    #[\Override]
+    #[Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Like $filter */

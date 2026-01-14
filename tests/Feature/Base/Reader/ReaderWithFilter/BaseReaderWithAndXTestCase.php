@@ -11,6 +11,8 @@ use Yiisoft\Data\Cycle\Tests\Support\NotSupportedFilter;
 use Yiisoft\Data\Reader\Filter\AndX;
 use Yiisoft\Data\Reader\Filter\Equals;
 
+use function sprintf;
+
 abstract class BaseReaderWithAndXTestCase extends \Yiisoft\Data\Tests\Common\Reader\ReaderWithFilter\BaseReaderWithAndXTestCase
 {
     use DataTrait;
