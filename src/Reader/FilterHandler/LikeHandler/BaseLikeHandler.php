@@ -29,9 +29,9 @@ abstract class BaseLikeHandler implements QueryBuilderFilterHandler
         $value = strtr((string) $value, $this->escapingReplacements);
 
         return match ($mode) {
-            LikeMode::Contains   => '%'.$value.'%',
-            LikeMode::StartsWith => $value.'%',
-            LikeMode::EndsWith   => '%'.$value,
+            LikeMode::Contains   => '%' . $value . '%',
+            LikeMode::StartsWith => $value . '%',
+            LikeMode::EndsWith   => '%' . $value,
         };
     }
 }
