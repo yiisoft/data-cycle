@@ -62,13 +62,13 @@ final class NotHandler implements QueryBuilderFilterHandler
         return match ($filter::class) {
             AndX::class => new OrX(
                 ...array_map(
-                    static fn (FilterInterface $subFilter): FilterInterface => $handler->convertFilter($subFilter),
+                    static fn(FilterInterface $subFilter): FilterInterface => $handler->convertFilter($subFilter),
                     $filter->filters,
                 ),
             ),
             OrX::class => new AndX(
                 ...array_map(
-                    static fn (FilterInterface $subFilter): FilterInterface => $handler->convertFilter($subFilter),
+                    static fn(FilterInterface $subFilter): FilterInterface => $handler->convertFilter($subFilter),
                     $filter->filters,
                 ),
             ),
