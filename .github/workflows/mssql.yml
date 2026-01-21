@@ -30,18 +30,20 @@ jobs:
           - 8.1
           - 8.2
           - 8.3
-          - 8.4 
-        # - 8.5 # Wait for pdo_sqlsrv 5.13+ or equivalent
+          - 8.4
         mssql:
           - server: 2017-latest
             odbc-version: 17
             flag: ""
+            tools-path: "/opt/mssql-tools"
           - server: 2019-latest
             odbc-version: 18
             flag: "-C"
+            tools-path: "/opt/mssql-tools18"
           - server: 2022-latest
             odbc-version: 18
             flag: "-C"
+            tools-path: "/opt/mssql-tools18"
     services:
       mssql:
         image: mcr.microsoft.com/mssql/server:${{ matrix.mssql.server }}
@@ -51,7 +53,7 @@ jobs:
           MSSQL_PID: Developer
         ports:
           - 1433:1433
-        options: --name=mssql --health-cmd="/opt/mssql-tools${{ matrix.mssql.odbc-version }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'SELECT 1'" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --name=mssql --health-cmd="${{ matrix.mssql.tools-path }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'SELECT 1'" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Install ODBC driver.
         run: |
@@ -59,9 +61,9 @@ jobs:
           sudo apt-get update
           sudo ACCEPT_EULA=Y apt-get install -y msodbcsql${{ matrix.mssql.odbc-version }}
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Create MS SQL Database
-        run: docker exec -i mssql /opt/mssql-tools${{ matrix.mssql.odbc-version }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'CREATE DATABASE yiitest'
+        run: docker exec -i mssql ${{ matrix.mssql.tools-path }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'CREATE DATABASE yiitest'
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
         with:
