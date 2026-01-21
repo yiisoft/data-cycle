@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
 
+use Override;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterOptionException;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\FilterInterface;
-use Override;
 
 final class SqlServerLikeHandler extends BaseLikeHandler
 {
@@ -20,7 +20,6 @@ final class SqlServerLikeHandler extends BaseLikeHandler
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Like $filter */
-
         if ($filter->caseSensitive === true) {
             throw new NotSupportedFilterOptionException(optionName: 'caseSensitive', driverType: 'SQLServer');
         }

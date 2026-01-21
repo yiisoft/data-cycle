@@ -10,15 +10,15 @@ use Cycle\ORM\Select;
 use Cycle\ORM\Select\QueryBuilder;
 use Generator;
 use InvalidArgumentException;
+use Override;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
+use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
+use Yiisoft\Data\Cycle\Reader\Cache\CachedCount;
 use Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler\LikeHandlerFactory;
 use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Data\Reader\Filter\All;
 use Yiisoft\Data\Reader\FilterInterface;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
-use Yiisoft\Data\Cycle\Reader\Cache\CachedCount;
-use Override;
 
 use function array_key_exists;
 use function is_int;
@@ -105,6 +105,7 @@ final class EntityReader implements DataReaderInterface
             $new->limit = $limit;
             $new->itemsCache = new CachedCollection();
         }
+
         return $new;
     }
 
@@ -119,6 +120,7 @@ final class EntityReader implements DataReaderInterface
             $new->offset = $offset;
             $new->itemsCache = new CachedCollection();
         }
+
         return $new;
     }
 
@@ -134,6 +136,7 @@ final class EntityReader implements DataReaderInterface
             $new->itemsCache = new CachedCollection();
             $new->oneItemCache = new CachedCollection();
         }
+
         return $new;
     }
 
@@ -151,6 +154,7 @@ final class EntityReader implements DataReaderInterface
             /** @psalm-suppress ImpureMethodCall */
             $new->resetCountCache();
         }
+
         return $new;
     }
 
@@ -167,6 +171,7 @@ final class EntityReader implements DataReaderInterface
             $query = $this->buildSelectQuery();
             $this->itemsCache->setCollection($query->fetchAll());
         }
+
         return $this->itemsCache->getCollection();
     }
 
@@ -186,7 +191,7 @@ final class EntityReader implements DataReaderInterface
     }
 
     /**
-     * Get Iterator without caching
+     * Get Iterator without caching.
      */
     #[Override]
     public function getIterator(): Generator
@@ -197,6 +202,7 @@ final class EntityReader implements DataReaderInterface
     public function getSql(): string
     {
         $query = $this->buildSelectQuery();
+
         return (string) ($query instanceof Select ? $query->buildQuery() : $query);
     }
 
@@ -270,7 +276,7 @@ final class EntityReader implements DataReaderInterface
             if (is_int($direction)) {
                 $direction = match ($direction) {
                     SORT_DESC => 'DESC',
-                    default => 'ASC',
+                    default   => 'ASC',
                 };
             }
             $criteria[$field] = $direction;

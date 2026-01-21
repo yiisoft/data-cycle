@@ -14,7 +14,7 @@ final class EntityReaderTest extends BaseEntityReaderTestCase
     {
         return [
             'base' => [
-                <<<SQL
+                <<<'SQL'
                 SELECT * FROM (
                     SELECT
                         [user].[id] AS [c0],

@@ -158,7 +158,7 @@ trait DataTrait
     {
         $databases = [
             'default' => ['connection' => static::$DRIVER ?? 'sqlite'],
-            'sqlite' => ['connection' => 'sqlite'],
+            'sqlite'  => ['connection' => 'sqlite'],
         ];
         $connections = [
             'sqlite' => new SQLiteDriverConfig(
@@ -220,27 +220,27 @@ trait DataTrait
     }
 
     /**
-     * Cycle ORM Schema
+     * Cycle ORM Schema.
      */
     private function createSchema(): SchemaInterface
     {
         return new Schema([
             'user' => [
-                SchemaInterface::MAPPER => StdMapper::class,
-                SchemaInterface::DATABASE => 'default',
-                SchemaInterface::TABLE => 'user',
+                SchemaInterface::MAPPER      => StdMapper::class,
+                SchemaInterface::DATABASE    => 'default',
+                SchemaInterface::TABLE       => 'user',
                 SchemaInterface::PRIMARY_KEY => 'id',
-                SchemaInterface::COLUMNS => [
+                SchemaInterface::COLUMNS     => [
                     // property => column
-                    'id' => 'id',
-                    'number' => 'number',
-                    'email' => 'email',
+                    'id'      => 'id',
+                    'number'  => 'number',
+                    'email'   => 'email',
                     'balance' => 'balance',
                     'born_at' => 'born_at',
                 ],
                 SchemaInterface::TYPECAST => [
-                    'id' => 'int',
-                    'number' => 'int',
+                    'id'      => 'int',
+                    'number'  => 'int',
                     'balance' => 'float',
                     'born_at' => 'datetime',
                 ],

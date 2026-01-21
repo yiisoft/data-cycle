@@ -20,9 +20,9 @@ use Yiisoft\Data\Reader\Filter\Equals;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Data\Tests\Common\FixtureTrait;
 
+use function count;
 use function iterator_to_array;
 use function preg_replace;
-use function count;
 use function sprintf;
 
 abstract class BaseEntityReaderTestCase extends TestCase
@@ -189,7 +189,7 @@ abstract class BaseEntityReaderTestCase extends TestCase
     {
         return [
             'base' => [
-                <<<SQL
+                <<<'SQL'
                 SELECT
                     "user"."id" AS "c0",
                     "user"."number" AS "c1",
