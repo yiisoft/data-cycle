@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
 
+use Override;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\FilterInterface;
-use Override;
 
 final class MysqlLikeHandler extends BaseLikeHandler
 {
@@ -14,7 +14,6 @@ final class MysqlLikeHandler extends BaseLikeHandler
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Like $filter */
-
         if ($filter->caseSensitive !== true) {
             return [$filter->field, 'like', $this->prepareValue($filter->value, $filter->mode)];
         }

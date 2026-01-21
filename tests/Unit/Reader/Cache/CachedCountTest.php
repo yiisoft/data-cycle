@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Unit\Reader\Cache;
 
+use Countable;
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Data\Cycle\Reader\Cache\CachedCount;
-use Countable;
 
 final class CachedCountTest extends TestCase
 {

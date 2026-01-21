@@ -6,9 +6,9 @@ namespace Yiisoft\Data\Cycle\Tests\Unit\Reader;
 
 use Cycle\Database\Query\SelectQuery;
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
 use Yiisoft\Data\Cycle\Reader\EntityReader;
 use Yiisoft\Data\Reader\Sort;
-use ReflectionMethod;
 
 use const SORT_ASC;
 use const SORT_DESC;

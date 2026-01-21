@@ -13,10 +13,13 @@ final class CachedCount
      */
     private ?int $count = null;
 
-    public function __construct(private ?Countable $collection) {}
+    public function __construct(private ?Countable $collection)
+    {
+    }
 
     /**
      * @psalm-internal Yiisoft\Data\Cycle\Reader
+     *
      * @psalm-return non-negative-int
      */
     public function getCount(): int
@@ -31,10 +34,12 @@ final class CachedCount
     {
         /**
          * @psalm-suppress PossiblyNullReference
+         *
          * @psalm-var non-negative-int
          */
         $this->count = $this->collection->count();
         $this->collection = null;
+
         return $this->count;
     }
 }

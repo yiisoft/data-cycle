@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Tests\Unit\Reader\Cache;
 
-use PHPUnit\Framework\TestCase;
-use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
 use ArrayIterator;
 use Generator;
+use PHPUnit\Framework\TestCase;
+use Yiisoft\Data\Cycle\Reader\Cache\CachedCollection;
 
 final class CachedCollectionTest extends TestCase
 {
