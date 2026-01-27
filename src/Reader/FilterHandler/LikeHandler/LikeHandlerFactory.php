@@ -17,11 +17,11 @@ final class LikeHandlerFactory
         // default - ignored due to the complexity of testing and preventing splitting of databaseDriver argument.
         // @codeCoverageIgnoreStart
         return match ($driverType) {
-            'SQLite'    => new SqliteLikeHandler(),
-            'MySQL'     => new MysqlLikeHandler(),
-            'Postgres'  => new PostgresLikeHandler(),
+            'SQLite' => new SqliteLikeHandler(),
+            'MySQL' => new MysqlLikeHandler(),
+            'Postgres' => new PostgresLikeHandler(),
             'SQLServer' => new SqlServerLikeHandler(),
-            default     => throw new RuntimeException("$driverType database driver is not supported."),
+            default => throw new RuntimeException("$driverType database driver is not supported."),
         };
         // @codeCoverageIgnoreEnd
     }

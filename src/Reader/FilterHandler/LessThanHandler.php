@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
-use Override;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\LessThan;
 use Yiisoft\Data\Reader\FilterInterface;
+use Override;
 
 final class LessThanHandler implements QueryBuilderFilterHandler
 {

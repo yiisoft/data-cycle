@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 
-use Override;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\AndX;
@@ -20,6 +19,7 @@ use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\Filter\Not;
 use Yiisoft\Data\Reader\Filter\OrX;
 use Yiisoft\Data\Reader\FilterInterface;
+use Override;
 
 final class NotHandler implements QueryBuilderFilterHandler
 {
@@ -33,6 +33,7 @@ final class NotHandler implements QueryBuilderFilterHandler
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Not $filter */
+
         $convertedFilter = $this->convertFilter($filter->filter);
         $handledFilter = $convertedFilter instanceof Not ? $convertedFilter->filter : $convertedFilter;
         $handler = $handlers[$handledFilter::class] ?? null;
@@ -48,7 +49,7 @@ final class NotHandler implements QueryBuilderFilterHandler
         $operator = $where[1];
         $where[1] = match ($operator) {
             'between', 'in', 'like' => "not $operator",
-            '='     => '!=',
+            '=' => '!=',
             default => $operator,
         };
 
@@ -72,13 +73,13 @@ final class NotHandler implements QueryBuilderFilterHandler
                     $filter->filters,
                 ),
             ),
-            GreaterThan::class        => new LessThanOrEqual($filter->field, $filter->value),
+            GreaterThan::class => new LessThanOrEqual($filter->field, $filter->value),
             GreaterThanOrEqual::class => new LessThan($filter->field, $filter->value),
-            LessThan::class           => new GreaterThanOrEqual($filter->field, $filter->value),
-            LessThanOrEqual::class    => new GreaterThan($filter->field, $filter->value),
+            LessThan::class => new GreaterThanOrEqual($filter->field, $filter->value),
+            LessThanOrEqual::class => new GreaterThan($filter->field, $filter->value),
             Between::class, Equals::class, EqualsNull::class, In::class, Like::class => new Not($filter),
             Not::class => $this->convertNot($filter, $notCount),
-            default    => $filter,
+            default => $filter,
         };
     }
 
