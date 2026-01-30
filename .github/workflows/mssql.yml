@@ -6,7 +6,6 @@ on:
       - '.github/workflows/mssql.yml'
       - 'composer.json'
       - 'phpunit.xml.dist'
-
   push:
     branches: ['master']
     paths:
@@ -15,18 +14,16 @@ on:
       - '.github/workflows/mssql.yml'
       - 'composer.json'
       - 'phpunit.xml.dist'
-
 name: mssql
-
 jobs:
   tests:
+    permissions:
+      contents: read
+      pull-requests: write
     name: PHP ${{ matrix.php }}-mssql-${{ matrix.mssql.server }}
-
     env:
       extensions: pdo, pdo_sqlsrv-5.12
-
     runs-on: ${{ matrix.mssql.os || 'ubuntu-latest' }}
-
     strategy:
       matrix:
         php:
@@ -35,23 +32,19 @@ jobs:
           - 8.3
           - 8.4
           - 8.5
-
         mssql:
+          - server: 2017-latest
+            odbc-version: 18
+            flag: "-C"
+            tools-path: "/opt/mssql-tools18"
+          - server: 2019-latest
+            odbc-version: 18
+            flag: "-C"
+            tools-path: "/opt/mssql-tools18"
           - server: 2022-latest
             odbc-version: 18
             flag: "-C"
-        include:
-          - php: 8.3
-            mssql:
-              server: 2017-latest
-              odbc-version: 18
-              flag: "-C"
-          - php: 8.3
-            mssql:
-              server: 2019-latest
-              odbc-version: 18
-              flag: "-C"
-
+            tools-path: "/opt/mssql-tools18"
     services:
       mssql:
         image: mcr.microsoft.com/mssql/server:${{ matrix.mssql.server }}
@@ -61,20 +54,18 @@ jobs:
           MSSQL_PID: Developer
         ports:
           - 1433:1433
-        options: --name=mssql --health-cmd="/opt/mssql-tools${{ matrix.mssql.odbc-version }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'SELECT 1'" --health-interval=10s --health-timeout=5s --health-retries=3
-
+        options: --name=mssql --health-cmd="${{ matrix.mssql.tools-path }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'SELECT 1'" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Install ODBC driver.
         run: |
-          sudo curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+          curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/microsoft-prod.gpg > /dev/null
+          curl -fsSL https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+          sudo apt-get update
           sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
-
       - name: Checkout
         uses: actions/checkout@v6
-
       - name: Create MS SQL Database
-        run: docker exec -i mssql /opt/mssql-tools${{ matrix.mssql.odbc-version }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'CREATE DATABASE yiitest'
-
+        run: docker exec -i mssql ${{ matrix.mssql.tools-path }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'CREATE DATABASE yiitest'
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
         with:
@@ -83,10 +74,8 @@ jobs:
           ini-values: date.timezone='UTC'
           coverage: pcov
           tools: composer:v2, pecl
-
       - name: Determine composer cache directory
         run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
-
       - name: Cache dependencies installed with composer
         uses: actions/cache@v4
         with:
@@ -94,13 +83,10 @@ jobs:
           key: php${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: |
             php${{ matrix.php }}-composer-
-
       - name: Update composer
         run: composer self-update
-
       - name: Install dependencies with composer
         run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
-
       - name: Run tests with phpunit
         run: vendor/bin/phpunit --testsuite=Mssql --coverage-clover=coverage.xml --colors=always
         env:
@@ -110,7 +96,6 @@ jobs:
           CYCLE_MSSQL_PORT: 1433
           CYCLE_MSSQL_USER: SA
           CYCLE_MSSQL_PASSWORD: YourStrong!Passw0rd
-
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
