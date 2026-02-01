@@ -32,20 +32,28 @@ jobs:
           - 8.3
           - 8.4
           - 8.5
+
         mssql:
-          - server: 2017-latest
-            odbc-version: 17
-            flag: ""
-            tools-path: "/opt/mssql-tools"
-            os: ubuntu-22.04
-          - server: 2019-latest
-            odbc-version: 18
-            flag: "-C"
-            tools-path: "/opt/mssql-tools18"
           - server: 2022-latest
             odbc-version: 18
             flag: "-C"
             tools-path: "/opt/mssql-tools18"
+
+        include:
+          - php: 8.3
+            mssql:
+              server: 2017-latest
+              odbc-version: 17
+              flag: ""
+              tools-path: "/opt/mssql-tools"
+              os: ubuntu-22.04
+          - php: 8.3
+            mssql:
+              server: 2019-latest
+              odbc-version: 18
+              flag: "-C"    
+              tools-path: "/opt/mssql-tools18"
+
     services:
       mssql:
         image: mcr.microsoft.com/mssql/server:${{ matrix.mssql.server }}
@@ -127,7 +135,7 @@ jobs:
           CYCLE_MSSQL_PORT: 1433
           CYCLE_MSSQL_USER: SA
           CYCLE_MSSQL_PASSWORD: YourStrong!Passw0rd
-      
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
