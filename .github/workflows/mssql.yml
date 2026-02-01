@@ -37,6 +37,7 @@ jobs:
             odbc-version: 17
             flag: ""
             tools-path: "/opt/mssql-tools"
+            os: ubuntu-20.04
           - server: 2019-latest
             odbc-version: 18
             flag: "-C"
