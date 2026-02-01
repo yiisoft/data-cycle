@@ -61,11 +61,27 @@ jobs:
           curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/microsoft-prod.gpg > /dev/null
           curl -fsSL https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
           sudo apt-get update
-          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18 || sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql${{ matrix.mssql.odbc-version }}
+      
+      - name: Verify ODBC driver installation
+        run: |
+          echo "=== Installed ODBC Drivers ==="
+          odbcinst -q -d
+          echo ""
+          echo "=== Expected Driver: ODBC Driver ${{ matrix.mssql.odbc-version }} for SQL Server ==="
+          if odbcinst -q -d -n "ODBC Driver ${{ matrix.mssql.odbc-version }} for SQL Server"; then
+            echo "✓ Correct driver version installed!"
+          else
+            echo "✗ Expected driver not found!"
+            exit 1
+          fi
+      
       - name: Checkout
         uses: actions/checkout@v6
+      
       - name: Create MS SQL Database
         run: docker exec -i mssql ${{ matrix.mssql.tools-path }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'CREATE DATABASE yiitest'
+      
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
         with:
@@ -74,8 +90,10 @@ jobs:
           ini-values: date.timezone='UTC'
           coverage: pcov
           tools: composer:v2, pecl
+      
       - name: Determine composer cache directory
         run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
+      
       - name: Cache dependencies installed with composer
         uses: actions/cache@v4
         with:
@@ -83,10 +101,13 @@ jobs:
           key: php${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: |
             php${{ matrix.php }}-composer-
+      
       - name: Update composer
         run: composer self-update
+      
       - name: Install dependencies with composer
         run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
+      
       - name: Run tests with phpunit
         run: vendor/bin/phpunit --testsuite=Mssql --coverage-clover=coverage.xml --colors=always
         env:
@@ -96,6 +117,7 @@ jobs:
           CYCLE_MSSQL_PORT: 1433
           CYCLE_MSSQL_USER: SA
           CYCLE_MSSQL_PASSWORD: YourStrong!Passw0rd
+      
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
