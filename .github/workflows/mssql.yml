@@ -65,19 +65,13 @@ jobs:
           - 1433:1433
         options: --name=mssql --health-cmd="${{ matrix.mssql.tools-path }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'SELECT 1'" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
-      - name: Show Ubuntu version
-        run: |
-          echo "=== Ubuntu Version ==="
-          lsb_release -a
-          echo ""
-      
       - name: Install ODBC driver.
         run: |
           curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/microsoft-prod.gpg > /dev/null
           curl -fsSL https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
           sudo apt-get update
           sudo ACCEPT_EULA=Y apt-get install -y msodbcsql${{ matrix.mssql.odbc-version }}
-      
+
       - name: Verify ODBC driver installation
         run: |
           echo "=== Installed ODBC Drivers ==="
