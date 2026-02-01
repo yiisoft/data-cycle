@@ -37,7 +37,7 @@ jobs:
             odbc-version: 17
             flag: ""
             tools-path: "/opt/mssql-tools"
-            os: ubuntu-20.04
+            os: ubuntu-22.04
           - server: 2019-latest
             odbc-version: 18
             flag: "-C"
@@ -57,6 +57,12 @@ jobs:
           - 1433:1433
         options: --name=mssql --health-cmd="${{ matrix.mssql.tools-path }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'SELECT 1'" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
+      - name: Show Ubuntu version
+        run: |
+          echo "=== Ubuntu Version ==="
+          lsb_release -a
+          echo ""
+      
       - name: Install ODBC driver.
         run: |
           curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/microsoft-prod.gpg > /dev/null
@@ -76,6 +82,9 @@ jobs:
             echo "✗ Expected driver not found!"
             exit 1
           fi
+          echo ""
+          echo "=== ODBC Driver Package Info ==="
+          dpkg -l | grep msodbcsql
       
       - name: Checkout
         uses: actions/checkout@v6
