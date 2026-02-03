@@ -6,7 +6,6 @@ on:
       - '.github/workflows/mssql.yml'
       - 'composer.json'
       - 'phpunit.xml.dist'
-
   push:
     branches: ['master']
     paths:
@@ -15,18 +14,16 @@ on:
       - '.github/workflows/mssql.yml'
       - 'composer.json'
       - 'phpunit.xml.dist'
-
 name: mssql
-
 jobs:
   tests:
+    permissions:
+      contents: read
+      pull-requests: write
     name: PHP ${{ matrix.php }}-mssql-${{ matrix.mssql.server }}
-
     env:
       extensions: pdo, pdo_sqlsrv-5.12
-
     runs-on: ${{ matrix.mssql.os || 'ubuntu-latest' }}
-
     strategy:
       matrix:
         php:
@@ -40,17 +37,22 @@ jobs:
           - server: 2022-latest
             odbc-version: 18
             flag: "-C"
+            tools-path: "/opt/mssql-tools18"
 
         include:
           - php: 8.3
             mssql:
               server: 2017-latest
-              os: ubuntu-20.04
+              odbc-version: 17
+              flag: ""
+              tools-path: "/opt/mssql-tools"
+              os: ubuntu-22.04
           - php: 8.3
             mssql:
               server: 2019-latest
               odbc-version: 18
-              flag: "-C"
+              flag: "-C"    
+              tools-path: "/opt/mssql-tools18"
 
     services:
       mssql:
@@ -61,19 +63,36 @@ jobs:
           MSSQL_PID: Developer
         ports:
           - 1433:1433
-        options: --name=mssql --health-cmd="/opt/mssql-tools${{ matrix.mssql.odbc-version }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'SELECT 1'" --health-interval=10s --health-timeout=5s --health-retries=3
-
+        options: --name=mssql --health-cmd="${{ matrix.mssql.tools-path }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'SELECT 1'" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Install ODBC driver.
         run: |
-          sudo curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
-          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
+          curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/microsoft-prod.gpg > /dev/null
+          curl -fsSL https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+          sudo apt-get update
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql${{ matrix.mssql.odbc-version }}
+
+      - name: Verify ODBC driver installation
+        run: |
+          echo "=== Installed ODBC Drivers ==="
+          odbcinst -q -d
+          echo ""
+          echo "=== Expected Driver: ODBC Driver ${{ matrix.mssql.odbc-version }} for SQL Server ==="
+          if odbcinst -q -d -n "ODBC Driver ${{ matrix.mssql.odbc-version }} for SQL Server"; then
+            echo "✓ Correct driver version installed!"
+          else
+            echo "✗ Expected driver not found!"
+            exit 1
+          fi
+          echo ""
+          echo "=== ODBC Driver Package Info ==="
+          dpkg -l | grep msodbcsql
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Create MS SQL Database
-        run: docker exec -i mssql /opt/mssql-tools${{ matrix.mssql.odbc-version }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'CREATE DATABASE yiitest'
+        run: docker exec -i mssql ${{ matrix.mssql.tools-path }}/bin/sqlcmd ${{ matrix.mssql.flag }} -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'CREATE DATABASE yiitest'
 
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
