@@ -1,12 +1,11 @@
-name: static analysis
+name: backwards compatibility
 
 on:
   pull_request:
     paths: &paths
       - 'src/**'
-      - 'psalm.xml'
       - 'composer.json'
-      - '.github/workflows/static.yml'
+      - '.github/workflows/bc.yml'
   push:
     branches: ['master']
     paths: *paths
@@ -19,10 +18,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  psalm:
-    uses: yiisoft/actions/.github/workflows/psalm.yml@master
+  roave_bc_check:
+    uses: yiisoft/actions/.github/workflows/bc.yml@master
     with:
       os: >-
         ['ubuntu-latest']
       php: >-
-        ['8.1', '8.2', '8.3', '8.4', '8.5']
+        ['8.5']
