@@ -1,6 +1,8 @@
+name: mssql
+
 on:
   pull_request:
-    paths:
+    paths: &paths
       - 'src/**'
       - 'tests/**'
       - '.github/workflows/mssql.yml'
@@ -8,20 +10,15 @@ on:
       - 'phpunit.xml.dist'
   push:
     branches: ['master']
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - '.github/workflows/mssql.yml'
-      - 'composer.json'
-      - 'phpunit.xml.dist'
-name: mssql
+    paths: *paths
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
 jobs:
   tests:
     permissions:
