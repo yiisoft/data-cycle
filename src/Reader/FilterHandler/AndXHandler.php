@@ -10,17 +10,14 @@ use Yiisoft\Data\Cycle\Exception\NotSupportedFilterException;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\AndX;
 use Yiisoft\Data\Reader\FilterInterface;
-use Override;
 
 final class AndXHandler implements QueryBuilderFilterHandler
 {
-    #[Override]
     public function getFilterClass(): string
     {
         return AndX::class;
     }
 
-    #[Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var AndX $filter */

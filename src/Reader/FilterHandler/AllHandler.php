@@ -10,17 +10,14 @@ use Cycle\ORM\Select\QueryBuilder;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\All;
 use Yiisoft\Data\Reader\FilterInterface;
-use Override;
 
 final class AllHandler implements QueryBuilderFilterHandler
 {
-    #[Override]
     public function getFilterClass(): string
     {
         return All::class;
     }
 
-    #[Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var All $filter */
