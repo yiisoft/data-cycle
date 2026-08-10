@@ -7,7 +7,6 @@ namespace Yiisoft\Data\Cycle\Reader\FilterHandler\LikeHandler;
 use Yiisoft\Data\Cycle\Exception\NotSupportedFilterOptionException;
 use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\FilterInterface;
-use Override;
 
 final class SqlServerLikeHandler extends BaseLikeHandler
 {
@@ -16,7 +15,6 @@ final class SqlServerLikeHandler extends BaseLikeHandler
         unset($this->escapingReplacements['\\']);
     }
 
-    #[Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Like $filter */

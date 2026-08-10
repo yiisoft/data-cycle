@@ -7,7 +7,6 @@ namespace Yiisoft\Data\Cycle\Writer;
 use Cycle\ORM\EntityManagerInterface;
 use Throwable;
 use Yiisoft\Data\Writer\DataWriterInterface;
-use Override;
 
 final class EntityWriter implements DataWriterInterface
 {
@@ -16,7 +15,6 @@ final class EntityWriter implements DataWriterInterface
     /**
      * @throws Throwable
      */
-    #[Override]
     public function write(iterable $items): void
     {
         foreach ($items as $entity) {
@@ -25,7 +23,6 @@ final class EntityWriter implements DataWriterInterface
         $this->entityManager->run();
     }
 
-    #[Override]
     public function delete(iterable $items): void
     {
         foreach ($items as $entity) {

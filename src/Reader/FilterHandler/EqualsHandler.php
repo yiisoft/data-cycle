@@ -7,17 +7,14 @@ namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\Equals;
 use Yiisoft\Data\Reader\FilterInterface;
-use Override;
 
 final class EqualsHandler implements QueryBuilderFilterHandler
 {
-    #[Override]
     public function getFilterClass(): string
     {
         return Equals::class;
     }
 
-    #[Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Equals $filter */

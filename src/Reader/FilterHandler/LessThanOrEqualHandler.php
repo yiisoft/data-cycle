@@ -7,17 +7,14 @@ namespace Yiisoft\Data\Cycle\Reader\FilterHandler;
 use Yiisoft\Data\Cycle\Reader\QueryBuilderFilterHandler;
 use Yiisoft\Data\Reader\Filter\LessThanOrEqual;
 use Yiisoft\Data\Reader\FilterInterface;
-use Override;
 
 final class LessThanOrEqualHandler implements QueryBuilderFilterHandler
 {
-    #[Override]
     public function getFilterClass(): string
     {
         return LessThanOrEqual::class;
     }
 
-    #[Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var LessThanOrEqual $filter */

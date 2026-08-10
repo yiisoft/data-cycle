@@ -19,17 +19,14 @@ use Yiisoft\Data\Reader\Filter\Like;
 use Yiisoft\Data\Reader\Filter\Not;
 use Yiisoft\Data\Reader\Filter\OrX;
 use Yiisoft\Data\Reader\FilterInterface;
-use Override;
 
 final class NotHandler implements QueryBuilderFilterHandler
 {
-    #[Override]
     public function getFilterClass(): string
     {
         return Not::class;
     }
 
-    #[Override]
     public function getAsWhereArguments(FilterInterface $filter, array $handlers): array
     {
         /** @var Not $filter */
