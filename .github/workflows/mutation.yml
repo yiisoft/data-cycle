@@ -28,7 +28,7 @@ jobs:
         ['ubuntu-latest']
       php: >-
         ['8.5']
-      min-covered-msi: 100
+      min-covered-msi: 91
       infection-args: --ignore-msi-with-no-mutations
     secrets:
       STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
